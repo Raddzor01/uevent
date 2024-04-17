@@ -1,0 +1,26 @@
+.container {
+  min-height: 100vh;
+}
+
+.form {
+  max-width: 500px;
+  width: 100%;
+}
+
+.submitButton {
+  width: 100%;
+}
+
+.customButton {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  color: white;
+  font-size: 16px;
+  text-decoration: underline;
+  transition: color 0.3s ease-in-out;
+}
+
+.customButton:hover {
+  color: #00f7ff;
+}
