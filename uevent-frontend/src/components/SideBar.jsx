@@ -1,9 +1,47 @@
-import React from "react";
+import React from 'react';
+import { Form } from 'react-bootstrap';
+import styles from '../styles/SideBar.module.css';
 
-import styles from "../styles/SideBar.module.css";
+const SideBar = ({ onFilterChange, onSortChange }) => {
+    const handleFilterChange = (event) => {
+        // onFilterChange(event.target.value);
+    };
 
-const SideBar = () => {
-  return <aside className={`${styles.sidebar}`}>Sidebar</aside>;
+    const handleSortChange = (event) => {
+        // onSortChange(event.target.value);
+    };
+
+    return (
+        <aside className={`p-4 ${styles.sidebar}`}>
+            <h2>Filter and Sort</h2>
+            <Form.Group className="mb-3">
+                <Form.Label>Format:</Form.Label>
+                <Form.Control as="select" onChange={handleFilterChange}>
+                    <option value="">All</option>
+                    <option value="conference">Conference</option>
+                    <option value="lecture">Lecture</option>
+                    <option value="workshop">Workshop</option>
+                    <option value="fest">Festival</option>
+                </Form.Control>
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Theme:</Form.Label>
+                <Form.Control as="select" onChange={handleFilterChange}>
+                    <option value="">All</option>
+                    <option value="business">Business</option>
+                    <option value="politics">Politics</option>
+                    <option value="psychology">Psychology</option>
+                </Form.Control>
+            </Form.Group>
+            <Form.Group className="mb-3">
+                <Form.Label>Sort by Date:</Form.Label>
+                <Form.Control as="select" onChange={handleSortChange}>
+                    <option value="asc">Oldest first</option>
+                    <option value="desc">Newest first</option>
+                </Form.Control>
+            </Form.Group>
+        </aside>
+    );
 };
 
 export default SideBar;

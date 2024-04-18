@@ -1,23 +1,23 @@
 body {
-  background-color: #212529;
+    background-color: #212529;
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #222;
+    background: #222;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ffffff;
+    background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+    background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: #ffffff;
+    background: #ffffff;
 }
