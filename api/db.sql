@@ -39,9 +39,13 @@ CREATE TABLE IF NOT EXISTS events(
                             longitude DECIMAL(7, 5) NOT NULL,
                             picture VARCHAR(255) NOT NULL DEFAULT '/avatars/default_event_avatar.png',
                             company_id INTEGER NOT NULL,
+                            format_id INTEGER NOT NULL,
+                            theme_id INTEGER NOT NULL,
 
 
-                            FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE
+                            FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                            FOREIGN KEY (format_id) REFERENCES formats(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                            FOREIGN KEY (theme_id) REFERENCES themes(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS promo_codes(
@@ -73,4 +77,14 @@ CREATE TABLE IF NOT EXISTS user_events(
 
                             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
                             FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS formats(
+                            id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                            name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS themes(
+                            id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                            name VARCHAR(255) NOT NULL
 );
