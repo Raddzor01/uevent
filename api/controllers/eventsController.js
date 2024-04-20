@@ -1,237 +1,92 @@
 import Event from "../models/Event.js";
 import TokenService from "../utils/tokenService.js";
-import Calendar from "../models/Calendar.js";
+import Company from "../models/Company.js";
 import nodemailer from "nodemailer";
 import config from "../config.json" assert { type: "json" };
 import User from "../models/User.js";
+import {ClientError} from "../middleware/error.js";
 
 export default class eventsController {
-  static async getAllCalendarEvents(req, res) {
-    try {
-      const { calendarId } = req.query;
+    static async getAllCompanyEvents(req, res) {
+        const companyId = Number(req.params.id);
 
-      const token = req.cookies.token;
-      const { userId } = await TokenService.getData(token);
+        const eventsTable = new Event();
 
-      const eventsTable = new Event();
+        const events = await eventsTable.getAllCompanyEvents(companyId);
 
-      const calendarsTable = new Calendar();
-      if (!(await calendarsTable.checkPermission(calendarId, userId))) {
-        res.status(403).send("Permission denied");
-        return;
-      }
-
-      const events = await eventsTable.getAllCalendarEvents(calendarId);
-
-      res.status(200).json({
-        msg: "Success",
-        eventsArray: events,
-      });
-    } catch (err) {
-      console.error(err);
+        res.status(200).json({
+            eventsArray: events,
+        });
     }
-  }
 
-  static async createEvent(req, res) {
-    try {
-      const { calendarId, name, content, start, end, type, color } = req.body;
+    static async createEvent(req, res) {
+        const { name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id } = req.body;
 
-      const token = req.cookies.token;
-      const { userId } = await TokenService.getData(token);
+        if(price !== 0) {
+            // some payment check shit
+        }
 
-      const calendarsTable = new Calendar();
-      const eventsTable = new Event();
+        const token = req.cookies.token;
+        const { userId } = await TokenService.getData(token);
 
-      if (!(await calendarsTable.checkPermission(calendarId, userId))) {
-        res.status(403).send("Permission denied");
-        return;
-      }
+        const companiesTable = new Company();
+        const eventsTable = new Event();
 
-      const eventId = await eventsTable.create(
-        name,
-        content,
-        start,
-        end,
-        type,
-        color ? color : "#fff"
-      );
+        if (!(await companiesTable.checkPermission(company_id, userId)))
+            throw new ClientError('Forbidden action', 403);
 
-      await eventsTable.saveCalendarEvent(eventId, calendarId);
+        const eventId = await eventsTable.create(name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id);
 
-      res.status(200).json({
-        msg: "Success",
-        eventId: eventId,
-      });
-    } catch (err) {
-      console.error(err);
+        res.status(200).json({ eventId: eventId });
+
     }
-  }
 
-  static async updateEvent(req, res) {
-    try {
-      const { eventId } = req.params;
-      const {
-        calendarId,
-        newName,
-        newContent,
-        newStart,
-        newEnd,
-        newType,
-        newColor,
-      } = req.body;
+    static async updateEvent(req, res) {
+        const eventId = Number(req.params.id);
+        const { name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id } = req.body;
 
-      const token = req.cookies.token;
-      const { userId } = await TokenService.getData(token);
+        const token = req.cookies.token;
+        const { userId } = await TokenService.getData(token);
 
-      const calendarsTable = new Calendar();
-      const eventsTable = new Event();
+        const companiesTable = new Company();
+        const eventsTable = new Event();
 
-      if (!(await calendarsTable.checkPermission(calendarId, userId))) {
-        res.status(403).send("Permission denied");
-        return;
-      }
+        if (!(await companiesTable.checkPermission(company_id, userId)))
+            throw new ClientError('Forbidden action', 403);
 
-      if (newName) await eventsTable.update(eventId, "name", newName);
+        if (name) await eventsTable.update(eventId, "name", name);
+        if (description) await eventsTable.update(eventId, "description", description);
+        if (date) await eventsTable.update(eventId, "date", date);
+        if (price) await eventsTable.update(eventId, "price", price);
+        if (tickets_available) await eventsTable.update(eventId, "tickets_available", tickets_available);
+        if (latitude) await eventsTable.update(eventId, "latitude", latitude);
+        if (longitude) await eventsTable.update(eventId, "longitude", longitude);
+        if (company_id) await eventsTable.update(eventId, "company_id", company_id);
+        if (format_id) await eventsTable.update(eventId, "format_id", format_id);
+        if (theme_id) await eventsTable.update(eventId, "theme_id", theme_id);
 
-      if (newContent) await eventsTable.update(eventId, "content", newContent);
-
-      if (newStart) await eventsTable.update(eventId, "start", newStart);
-
-      if (newEnd) await eventsTable.update(eventId, "end", newEnd);
-
-      if (newType) await eventsTable.update(eventId, "type", newType);
-
-      if (newColor) await eventsTable.update(eventId, "color", newColor);
-
-      res.status(200).json({ msg: "Success" });
-    } catch (err) {
-      console.error(err);
+        res.status(201).send();
     }
-  }
 
-  static async getEvent(req, res) {
-    try {
-      const { eventId } = req.params;
-      const { calendarId } = req.body;
+    static async getEvent(req, res) {
+        const eventId = Number(req.params.id);
 
-      const token = req.cookies.token;
-      const { userId } = await TokenService.getData(token);
+        const eventsTable = new Event();
 
-      const calendarsTable = new Calendar();
-      const eventsTable = new Event();
+        const event = await eventsTable.read(eventId);
 
-      if (!(await calendarsTable.checkPermission(calendarId, userId))) {
-        res.status(403).send("Permission denied");
-        return;
-      }
-
-      const event = await eventsTable.read(eventId);
-
-      res.status(200).json({
-        msg: "Success",
-        event: event,
-      });
-    } catch (err) {
-      console.error(err);
+        res.status(200).json({
+            event: event,
+        });
     }
-  }
 
-  static async deleteEvent(req, res) {
-    try {
-      const { eventId, calendarId } = req.params;
+    static async deleteEvent(req, res) {
+        const eventId = Number(req.params.id);
 
-      const token = req.cookies.token;
-      const { userId } = await TokenService.getData(token);
+        const eventsTable = new Event();
 
-      const calendarsTable = new Calendar();
-      const eventsTable = new Event();
+        await eventsTable.delete(eventId);
+        res.status(204).send();
 
-      if (!(await calendarsTable.checkPermission(calendarId, userId))) {
-        res.status(403).send("Permission denied");
-        return;
-      }
-
-      await eventsTable.delete(eventId);
-      res.status(200).json({ msg: "Success" });
-    } catch (err) {
-      console.error(err);
     }
-  }
-
-  static async shareEvent(req, res) {
-    try {
-      const { eventId, email } = req.body;
-      const userTable = new User();
-
-      if (!(await userTable.checkExists("email", email))) {
-        res.send("User don't exists!");
-        return;
-      }
-
-      const token = await TokenService.generate({ eventId });
-
-      const transporter = nodemailer.createTransport(config.nodemailer);
-      const url = `http://127.0.0.1:3000/api/events/share/${token}`;
-      await transporter.sendMail({
-        from: "raddzor.101@gmail.com",
-        to: email,
-        subject: "Invitation on event",
-        html: `<a href="${url}">Please click on this text to accept invitation on event.</a>`,
-      });
-
-      res.status(200).send();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  static async confirmEvent(req, res) {
-    try {
-      const { token } = req.params;
-      const { calendarId } = req.body;
-
-      const data = await TokenService.getData(token);
-      if (!data || !data.eventId) {
-        res.send("The confirm token is invalid.");
-        return;
-      }
-      const { eventId } = data;
-
-      const eventsTable = new Event();
-
-      await eventsTable.saveCalendarEvent(eventId, calendarId, "guest");
-
-      res.status(200).send();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  static async kickUser(req, res) {
-    try {
-      const { eventId } = req.params;
-      const { guestId, calendarId } = req.params;
-
-      const token = req.cookies.token;
-      const { userId } = await TokenService.getData(token);
-
-      const calendarsTable = new Calendar();
-      const eventsTable = new Event();
-
-      if (
-        !(await calendarsTable.checkPermission(calendarId, userId)) ||
-        !(await eventsTable.checkPermission(calendarId, eventId)) ||
-        userId === guestId
-      ) {
-        res.status(403).send("Permission denied");
-        return;
-      }
-
-      await eventsTable.removeEventFromCalendar(calendarId, eventId);
-
-      res.status(200).send();
-    } catch (err) {
-      console.error(err);
-    }
-  }
 }

@@ -25,4 +25,16 @@ export default class Model {
         const query = `DELETE FROM ${this.table} WHERE id = ?; `;
         await dbService.makeRequest(query, [id]);
     }
+
+    async checkFor(name, value) {
+        const query = `SELECT * FROM ${this.table} WHERE ${name} = '${value}'; `;
+        const result = await dbService.makeRequest(query);
+        return !!result[0].length;
+    }
+
+    async getAll() {
+        const query = `SELECT * FROM ${this.table}; `;
+        const result = await dbService.makeRequest(query);
+        return result[0];
+    }
 }

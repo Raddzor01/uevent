@@ -7,23 +7,19 @@ export default class TokenService {
     }
 
     static async check(req, res, next) {
-        try {
-            const token = req.cookies.token;
-            if (!token) {
-                res.status(401).end();
-                throw new Error("Unauthorized");
-            }
-            jsonwebtoken.verify(token, config.jswt.secretKey, (err, decoded) => {
-                if (err) {
-                    res.status(401).clearCookie('token').redirect('/');
-                    throw err;
-                }
-                req.user = decoded;
-            });
-            next();
-        } catch (err) {
-            console.error(err);
+        const token = req.cookies.token;
+        if (!token) {
+            res.status(401).end();
+            throw new Error("Unauthorized");
         }
+        jsonwebtoken.verify(token, config.jswt.secretKey, (err, decoded) => {
+            if (err) {
+                res.status(401).clearCookie('token').redirect('/');
+                throw err;
+            }
+            req.user = decoded;
+        });
+        next();
     }
 
     static async getData(token) {

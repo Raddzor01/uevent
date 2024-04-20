@@ -2,23 +2,16 @@ import Model from "./Model.js";
 import dbService from "../utils/dbService.js";
 
 export default class Event extends Model {
-  constructor() {
-    super("events");
-  }
+    constructor() {
+        super("events");
+    }
 
-  async create(name, content, start, end, type, color = "fff") {
-    const query = `INSERT INTO events(name, content, start, end, type, color) VALUES(?, ?, ?, ?, ?, ?);`;
-    const res = await dbService.makeRequest(query, [
-      name,
-      content,
-      start,
-      end,
-      type,
-      color,
-    ]);
+    async create(name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id) {
+        const query = `INSERT INTO events(name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+        const res = await dbService.makeRequest(query, [name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id]);
 
-    return res[0].insertId;
-  }
+        return res[0].insertId;
+    }
 
     async saveCalendarEvent(eventId, calendarId, role = "admin") {
         const query = `INSERT INTO calendarevents(eventId, calendarId, role) VALUES(?, ?, ?);`;
@@ -36,16 +29,16 @@ export default class Event extends Model {
         const query = `SELECT role FROM calendarevents WHERE calendarId = ? AND eventId = ?; `;
         const rows = await dbService.makeRequest(query, [calendarId, eventId]);
 
-    return rows.length > 0 && rows[0].role === "admin";
-  }
+        return rows.length > 0 && rows[0].role === "admin";
+    }
 
-  async getAllCalendarEvents(calendarId) {
-    const query = `SELECT * FROM events 
-                            INNER JOIN calendarEvents ON events.id = calendarevents.eventId
-                            WHERE calendarevents.calendarId = ?`;
-    const rows = await dbService.makeRequest(query, [calendarId]);
-    return rows[0];
-  }
+    async getAllCompanyEvents(companyId) {
+        const query = `SELECT * FROM events 
+                            INNER JOIN companies ON events.company_id = companies.id
+                            WHERE company_id = ?`;
+        const rows = await dbService.makeRequest(query, [companyId]);
+        return rows[0];
+    }
 
     async removeEventFromCalendar(calendarId, eventId) {
         const query = `DELETE FROM calendarevents WHERE calendarId = ? AND eventId = ?; `;

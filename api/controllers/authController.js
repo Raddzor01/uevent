@@ -8,7 +8,6 @@ import dbService from "../utils/dbService.js";
 
 export default class authController {
   static async login(req, res) {
-    try {
       if (req.cookies.token) {
         jsonwebtoken.verify(req.cookies.token, config.jswt.secretKey, (err) => {
           if (err) res.clearCookie("token").status(401).end();
@@ -42,14 +41,9 @@ export default class authController {
           },
         });
       }
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Server error");
-    }
   }
 
   static async registration(req, res) {
-    try {
       const data = req.body;
 
       if (!data.login || !data.password || !data.email || !data.full_name) {
@@ -58,12 +52,12 @@ export default class authController {
       }
 
       const userTable = new User();
-      if (await userTable.checkExists("login", data.login)) {
+      if (await userTable.checkFor("login", data.login)) {
         res.status(409).send("User exists");
         return;
       }
 
-      if (await userTable.checkExists("email", data.email)) {
+      if (await userTable.checkFor("email", data.email)) {
         res.status(409).send("Email in use");
         return;
       }
@@ -85,14 +79,9 @@ export default class authController {
         html: `Please click this email to confirm your email: <a href="http://127.0.0.1:8000/confirm-email/${token}">Click here</a>`,
       });
       res.status(200).send("Successful registration");
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Server error");
-    }
   }
 
   static async logout(req, res) {
-    try {
       if (req.cookies.token) {
         let id;
         jsonwebtoken.verify(req.cookies.token, "securepass", (err, decoded) => {
@@ -103,14 +92,9 @@ export default class authController {
         res.clearCookie("token");
       }
       res.status(200).send("Successful logout");
-    } catch (err) {
-      console.error(err);
-      res.status(500).end();
-    }
   }
 
   static async password_reset(req, res) {
-    try {
       const token = await TokenService.generate({ email: req.body.email });
       const transporter = nodemailer.createTransport(config.nodemailer);
       const url = `http://127.0.0.1:8000/password-reset/${token}`;
@@ -121,14 +105,9 @@ export default class authController {
         html: `<a href="${url}">Please click on this text to confirm your password reset.</a>`,
       });
       res.status(200).send("Success");
-    } catch (err) {
-      console.log(err);
-      res.status(500).end();
-    }
   }
 
   static async set_new_password(req, res) {
-    try {
       const token = req.params.confirmToken;
       let email;
       await TokenService.getData(token).then((value) => (email = value.email));
@@ -139,9 +118,5 @@ export default class authController {
       await dbService.makeRequest(sql);
 
       res.status(200).send("Success");
-    } catch (err) {
-      console.error(err);
-      res.status(500).end();
-    }
   }
 }

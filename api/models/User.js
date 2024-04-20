@@ -21,6 +21,7 @@ export default class User extends Model {
         this.email = data[0][0].email;
         this.picture_path = data[0][0].picture_path;
         this.full_name = data[0][0].full_name;
+        return data[0][0];
     }
 
     async loginDataCheck(login, password) {
@@ -31,13 +32,6 @@ export default class User extends Model {
         if (result[0].length)
             return result[0][0].id;
         return -1;
-    }
-
-    async checkExists(name, value) {
-        const query = `SELECT * FROM ${this.table} WHERE ${name} = '${value}'; `;
-        const result = await dbService.makeRequest(query);
-        console.log(result[0]);
-        return !!result[0].length;
     }
 
 }

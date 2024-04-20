@@ -3,6 +3,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
 import router from "./routes/router.js";
+import {errorMiddleware} from "./middleware/error.js";
 
 const port = 8000;
 const app = express();
@@ -21,7 +22,8 @@ app.use(
 );
 
 app.use("/api", router);
+app.use(errorMiddleware);
 
 app.listen(port, () => {
   console.log(`Server started at http://127.0.0.1:${port}`);
-});
+}).on('error', (err) => console.error(err.message));
