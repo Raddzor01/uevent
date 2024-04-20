@@ -1,5 +1,4 @@
 import AuthService from '../../services/authService.js';
-import Cookies from 'js-cookie';
 
 export const login = (login, password) => async (dispatch) => {
     try {
@@ -7,6 +6,7 @@ export const login = (login, password) => async (dispatch) => {
         dispatch({ type: 'SET_USER', payload: response.data.user });
         dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
     } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
         console.error('Login failed', error);
     }
 };
@@ -18,6 +18,7 @@ export const registration =
             dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
         } catch (error) {
             dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+            console.error('Register failed', error);
         }
     };
 
@@ -26,7 +27,9 @@ export const logout = () => async (dispatch) => {
         await AuthService.logout();
         localStorage.removeItem('token');
         dispatch({ type: 'SET_USER', payload: null });
+        dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
     } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
         console.error('Logout error', error);
     }
 };

@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/Footer.module.css';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { logout } from '../store/actions/auth';
 import CreateCompanyForm from './CreateCompanyForm';
 
-const Footer = ({ login, user, logout }) => {
+const Footer = () => {
+    const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
-
+    const user = useSelector((state) => state.auth.user);
     const handleOpenModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
-
-    // const user = {
-    //     username: 'TestUser',
-    //     avatarUrl: 'http://i.playground.ru/i/pix/863084/image.jpg',
-    // };
+    const handleLogout = () => dispatch(logout());
 
     return (
         <footer className={`${styles.footer}`}>
@@ -65,17 +64,17 @@ const Footer = ({ login, user, logout }) => {
                         {user ? (
                             <div className={`${styles.userInfo} text-end`}>
                                 <p className={`${styles.text} mb-0`}>
-                                    {user.username}
+                                    {user.login}
                                 </p>
                                 <img
-                                    src={user.avatarUrl}
-                                    alt={`${user.username}'s Avatar`}
+                                    src={`https://i.kym-cdn.com/photos/images/original/001/265/762/87f.jpg`}
+                                    alt={`${user.login}'s Avatar`}
                                     className={`${styles.avatar} ms-2`}
                                 />
                                 <Button
                                     variant="secondary"
                                     size="sm"
-                                    onClick={logout}
+                                    onClick={handleLogout}
                                 >
                                     Log Out
                                 </Button>
@@ -86,7 +85,6 @@ const Footer = ({ login, user, logout }) => {
                                     variant="primary"
                                     className={styles.button}
                                     size="sm"
-                                    onClick={login}
                                 >
                                     Log In
                                 </Button>
