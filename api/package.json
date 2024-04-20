@@ -1,0 +1,32 @@
+{
+  "name": "uevent-api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Api for service to search or create events.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raddzor01/uevent.git"
+  },
+  "author": "D. Harin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raddzor01/uevent/issues"
+  },
+  "homepage": "https://github.com/Raddzor01/uevent#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.9.4",
+    "nodemailer": "^6.9.13",
+    "nodemon": "^3.1.0"
+  }
+}
