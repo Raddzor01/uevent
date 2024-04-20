@@ -72,8 +72,6 @@ const EventForm = () => {
                             className={styles.input}
                         />
                     </Form.Group>
-
-                    {/* Event Photo */}
                     <Form.Group className="mb-3" controlId="eventPhoto">
                         <Form.Label className={styles.label}>
                             Event Photo

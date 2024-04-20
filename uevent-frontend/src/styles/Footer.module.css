@@ -64,3 +64,30 @@
     transform: translateY(-2px);
     transition: transform 0.3s ease;
 }
+
+.createCompany {
+    background-color: #343a40;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.1s ease;
+}
+
+.createCompany:hover {
+    background-color: #00fff2;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #00c0b9 !important;
+}

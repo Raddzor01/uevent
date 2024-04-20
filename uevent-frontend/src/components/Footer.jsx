@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/Footer.module.css';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-
 import { Link } from 'react-router-dom';
+import CreateCompanyForm from './CreateCompanyForm';
 
-const Footer = ({ login, logout }) => {
-    const user = {
-        username: 'TestUser',
-        avatarUrl: 'http://i.playground.ru/i/pix/863084/image.jpg',
-    };
+const Footer = ({ login, user, logout }) => {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
+
+    // const user = {
+    //     username: 'TestUser',
+    //     avatarUrl: 'http://i.playground.ru/i/pix/863084/image.jpg',
+    // };
 
     return (
         <footer className={`${styles.footer}`}>
@@ -35,9 +40,26 @@ const Footer = ({ login, logout }) => {
                             </p>
                         </div>
                     </Col>
+                    <Col xs={12} md={2} className={`text-center`}>
+                        <div>
+                            <Button
+                                variant="info"
+                                size="sm"
+                                className={` ${styles.createCompany}`}
+                                onClick={handleOpenModal}
+                            >
+                                Do you want to create a company?
+                            </Button>
+                        </div>
+                        <CreateCompanyForm
+                            show={showModal}
+                            handleClose={handleCloseModal}
+                        />
+                    </Col>
+
                     <Col
                         xs={12}
-                        md={3}
+                        md={1}
                         className="text-center text-md-end mt-3 mt-md-0"
                     >
                         {user ? (
@@ -59,9 +81,16 @@ const Footer = ({ login, logout }) => {
                                 </Button>
                             </div>
                         ) : (
-                            <Button variant="primary" size="sm" onClick={login}>
-                                Log In
-                            </Button>
+                            <Link to="/login">
+                                <Button
+                                    variant="primary"
+                                    className={styles.button}
+                                    size="sm"
+                                    onClick={login}
+                                >
+                                    Log In
+                                </Button>
+                            </Link>
                         )}
                     </Col>
                 </Row>

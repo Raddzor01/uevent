@@ -63,3 +63,16 @@ h2::before {
     background-color: #333;
     margin-right: 10px;
 }
+
+.button {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #00c0b9 !important;
+}
