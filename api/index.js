@@ -10,8 +10,8 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(fileUpload({}));
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload({}));
 app.use(
   cors({
     origin: "http://127.0.0.1:3000",

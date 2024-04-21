@@ -5,7 +5,6 @@ import events from "./eventsRouter.js";
 import users from "./usersRouter.js";
 import themes from "./themesRouter.js";
 import formats from "./formatsRouter.js";
-import TokenService from "../utils/tokenService.js";
 
 const router = express.Router();
 

@@ -1,25 +1,21 @@
 import express from "express";
-
 import controller from "../controllers/companiesController.js";
 import {checkUserCompanyRights} from "../middleware/permissions-check.js";
-
-const boundary = (fn) => async (req, res, next) => {
-    try {
-        await fn(req, res, next);
-    } catch (err) {
-        next(err);
-    }
-};
+import TokenService from "../utils/tokenService.js";
+import {boundary} from "../middleware/error.js";
 
 const router = express.Router();
 
-// router.get('/', boundary(controller.getAllUserCalendars));
+router.get('/', boundary(controller.getAllCompanies));
+router.get('/:id', boundary(controller.getCompany));
+
+router.use(TokenService.authCheck);
+
 router.post('/', boundary(controller.createCompany));
-router.get('/:id', boundary(controller.getCalendar));
 router.delete('/:id', checkUserCompanyRights, boundary(controller.deleteCompany));
 router.put('/:id', checkUserCompanyRights, boundary(controller.updateCompany));
-// router.post('/:calendarId/add', boundary(controller.addUserToCalendar));
-// router.delete('/:calendarId/delete', boundary(controller.deleteUserFromCalendar));
+router.post('/:id/avatar', checkUserCompanyRights, boundary(controller.updateCompanyPhoto));
+router.delete('/:id/avatar', checkUserCompanyRights, boundary(controller.deleteCompanyPhoto));
 
 
 export default router;

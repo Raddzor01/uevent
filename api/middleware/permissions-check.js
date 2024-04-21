@@ -1,9 +1,10 @@
 import TokenService from "../utils/tokenService.js";
 import Company from "../models/Company.js";
+import Event from "../models/Event.js";
 import {ClientError} from "./error.js";
 
 const checkUserCompanyRights = async (req, res, next) => {
-    const companyId = req.body.companyId || Number(req.params.id);
+    const companyId = req.body.company_id || Number(req.params.id);
 
     const token = req.cookies.token;
     const { userId } = await TokenService.getData(token);
@@ -17,4 +18,22 @@ const checkUserCompanyRights = async (req, res, next) => {
     next();
 };
 
-export {checkUserCompanyRights};
+const checkUserEventRights = async (req, res, next) => {
+    const eventId = req.body.event_id || Number(req.params.id);
+
+    const token = req.cookies.token;
+    const { userId } = await TokenService.getData(token);
+
+    const eventsTable = new Event();
+    const companiesTable = new Company();
+    const event = await eventsTable.read(eventId);
+
+    if(!event) return next(new ClientError('The company is not found.', 404));
+
+    const company = await companiesTable.read(event.company_id);
+
+    if(company.user_id !== userId) return next(new ClientError('Forbidden action', 403));
+
+    next();
+};
+export {checkUserCompanyRights, checkUserEventRights};

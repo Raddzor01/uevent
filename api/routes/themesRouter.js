@@ -1,24 +1,18 @@
 import express from "express";
 
 import controller from "../controllers/themesController.js";
-
-const boundary = (fn) => async (req, res, next) => {
-    try {
-        await fn(req, res, next);
-    } catch (err) {
-        next(err);
-    }
-};
+import TokenService from "../utils/tokenService.js";
+import {boundary} from "../middleware/error.js";
 
 const router = express.Router();
 
 router.get('/', boundary(controller.getAllThemes));
-router.post('/', boundary(controller.createTheme));
-// router.get('/:id', boundary(controller.getCalendar));
-// router.delete('/:id', checkUserCompanyRights, boundary(controller.deleteCompany));
-// router.put('/:id', checkUserCompanyRights, boundary(controller.updateCompany));
-// router.post('/:calendarId/add', boundary(controller.addUserToCalendar));
-// router.delete('/:calendarId/delete', boundary(controller.deleteUserFromCalendar));
+router.get('/:id', boundary(controller.getTheme));
 
+
+
+router.post('/', boundary(controller.createTheme));
+router.put('/:id', boundary(controller.updateTheme));
+router.delete('/:id', boundary(controller.deleteTheme));
 
 export default router;
