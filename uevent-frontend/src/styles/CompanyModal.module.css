@@ -1,0 +1,75 @@
+/* CompanyModal.module.css */
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.modalContent {
+    background-color: #343a40;
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.modalContent:hover {
+    transform: translateY(-5px);
+}
+
+.modalTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    width: 100%;
+    color: aqua;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.modalText {
+    color: #cccccc;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.modalHeader {
+    border-color: aqua !important;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: #292929 !important;
+    color: #00eeff;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 12px 24px;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.button:hover {
+    background-color: #008b8b !important;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid aqua;
+}

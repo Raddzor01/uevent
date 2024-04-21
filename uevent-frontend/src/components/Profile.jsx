@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fetchUserProfile } from '../store/actions/user';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Footer from './Footer';
+import CompanyModal from './CompanyModal';
+import { getCompanies } from '../store/actions/company';
+
 import styles from '../styles/Profile.module.css';
 
 const Profile = () => {
     const dispatch = useDispatch();
-    const [user, setUser] = useState(null);
-    const { id } = useParams();
-    useEffect(() => {
-        const fetchData = async () => {
-            const userData = await fetchUserProfile(dispatch, id);
-            setUser(userData);
-        };
+    const [selectedCompany, setSelectedCompany] = useState(null);
+    const user = useSelector((state) => state.auth.user);
+    const companies = useSelector((state) => state.company.companies);
 
-        fetchData();
-    }, [dispatch, id]);
+    const openCompanyModal = (company) => {
+        setSelectedCompany(company);
+    };
+
+    const closeCompanyModal = () => {
+        setSelectedCompany(null);
+    };
+
+    useEffect(() => {
+        dispatch(getCompanies());
+    }, [dispatch]);
 
     if (!user) {
         return <div>Loading...</div>;
@@ -60,6 +66,48 @@ const Profile = () => {
                     </Row>
                 </Container>
             </div>
+            <Container fluid className={styles.company_container}>
+                <h2 className={styles.heading}>Companies</h2>
+                <Row className="justify-content-center">
+                    {companies.map((company) => (
+                        <Col
+                            sm={6}
+                            md={4}
+                            lg={3}
+                            key={company.id}
+                            className={styles.col}
+                        >
+                            <Card
+                                className={`mb-4 ${styles.companyCard}`}
+                                onClick={() => openCompanyModal(company)}
+                            >
+                                <Card.Body>
+                                    <div className={styles.companyInfo}>
+                                        <img
+                                            src={`https://www.rmpsrl.net/wp-content/uploads/2017/02/CP_logo_black-2.jpg`}
+                                            alt="Company Logo"
+                                            className={styles.companyLogo}
+                                        />
+                                        <div>
+                                            <h5 className={styles.companyName}>
+                                                {company.name}
+                                            </h5>
+                                            <p className={styles.companyEmail}>
+                                                {company.email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+                <CompanyModal
+                    company={selectedCompany}
+                    show={!!selectedCompany}
+                    handleClose={closeCompanyModal}
+                />
+            </Container>
         </div>
     );
 };

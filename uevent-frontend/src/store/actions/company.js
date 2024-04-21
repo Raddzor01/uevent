@@ -25,7 +25,10 @@ export const getCompany = (id) => async (dispatch) => {
 export const getCompanies = () => async (dispatch) => {
     try {
         const response = await CompanyService.getAll();
-        dispatch({ type: 'SET_COMPANIES', payload: response.data });
+        dispatch({
+            type: 'SET_COMPANIES',
+            payload: response.data.calendarsArray,
+        });
         dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: 'Error' });

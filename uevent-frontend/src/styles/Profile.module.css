@@ -63,3 +63,44 @@
     object-fit: cover;
     border: 1px solid aqua;
 }
+
+.company_container {
+    padding: 40px 20px;
+}
+
+.heading {
+    text-align: center;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+}
+
+.companyCard {
+    background-color: #333333;
+    color: #ffffff;
+    border: none;
+}
+
+.companyInfo {
+    display: flex;
+    align-items: center;
+}
+
+.companyLogo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.companyName {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+}
+
+.companyEmail {
+    margin: 0;
+    font-size: 0.9rem;
+}
