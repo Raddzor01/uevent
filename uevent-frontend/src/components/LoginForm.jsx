@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Form, Button, Container } from 'react-bootstrap';
+import { registration, login } from '../store/actions/auth';
+import { useNavigate } from 'react-router-dom';
 
 import styles from '../styles/LoginForm.module.css';
 
 const LoginForm = () => {
-    const [login, setLogin] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [name, setLogin] = useState('');
     const [email, setEmail] = useState('');
+    const [full_name, setFullName] = useState('');
     const [password, setPassword] = useState('');
     const [isLoginForm, setIsLoginForm] = useState(true);
 
     const handleLogin = (e) => {
         e.preventDefault();
+        dispatch(login(name, password));
+        navigate('/');
+    };
+
+    const handleRegister = (e) => {
+        e.preventDefault();
+        dispatch(registration(email, password, name, full_name));
     };
 
     const handleToggleForm = () => {
@@ -23,7 +36,7 @@ const LoginForm = () => {
             className={`d-flex justify-content-center align-items-center ${styles.container}`}
         >
             <Form
-                onSubmit={isLoginForm ? handleLogin : null}
+                onSubmit={isLoginForm ? handleLogin : handleRegister}
                 className={`bg-dark p-4 rounded-lg shadow-lg text-light ${styles.form}`}
             >
                 <h2 className="mb-4 text-center">
@@ -36,7 +49,7 @@ const LoginForm = () => {
                     <Form.Control
                         type="text"
                         placeholder="Enter login"
-                        value={login}
+                        value={name}
                         onChange={(e) => setLogin(e.target.value)}
                         className="bg-dark text-light mb-3"
                     />
@@ -51,6 +64,19 @@ const LoginForm = () => {
                             placeholder="Enter email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            className="bg-dark text-light mb-3"
+                        />
+                    </Form.Group>
+                )}
+
+                {!isLoginForm && (
+                    <Form.Group controlId="formBasicFullName">
+                        <Form.Label>Full Name</Form.Label>
+                        <Form.Control
+                            type="full_name"
+                            placeholder="Enter your full name"
+                            value={full_name}
+                            onChange={(e) => setFullName(e.target.value)}
                             className="bg-dark text-light mb-3"
                         />
                     </Form.Group>

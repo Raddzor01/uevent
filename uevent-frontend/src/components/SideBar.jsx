@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import styles from '../styles/SideBar.module.css';
 
 const SideBar = ({ onFilterChange, onSortChange }) => {
@@ -40,6 +41,11 @@ const SideBar = ({ onFilterChange, onSortChange }) => {
                     <option value="desc">Newest first</option>
                 </Form.Control>
             </Form.Group>
+            <Link to="/eventform">
+                <Button variant="primary" className={styles.button}>
+                    Create Event
+                </Button>
+            </Link>
         </aside>
     );
 };
