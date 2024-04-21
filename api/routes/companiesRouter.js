@@ -6,7 +6,7 @@ import {boundary} from "../middleware/error.js";
 
 const router = express.Router();
 
-router.get('/', boundary(controller.getAllCompanies));
+router.get('/', boundary(controller.getCompanies));
 router.get('/:id', boundary(controller.getCompany));
 
 router.use(TokenService.authCheck);

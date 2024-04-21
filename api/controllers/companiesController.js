@@ -3,14 +3,20 @@ import {ClientError} from "../middleware/error.js";
 
 export default class companiesController {
 
-    static async getAllCompanies(req, res) {
-        const userId = req.user.userId;
+    static async getCompanies(req, res) {
+        const userId = req.query.userId;
 
-        const calendarTable = new Company();
-        const rows = await calendarTable.getAllUserCalendars(userId);
+        const companiesTable = new Company();
 
+        let calendarsArray;
+        if(userId)
+            calendarsArray = await companiesTable.getAllUserCompanies(userId);
+        else
+            calendarsArray = await companiesTable.getAll();
+
+        console.log(calendarsArray);
         res.status(200).json({
-            calendarsArray: rows[0],
+            calendarsArray,
         });
     }
 
