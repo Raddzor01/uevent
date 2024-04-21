@@ -1,12 +1,15 @@
 const initialState = {
-    companies: null,
+    events: null,
+    event: null,
     message: null,
 };
 
-const companyReducer = (state = initialState, action) => {
+const eventReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_COMPANIES':
-            return { ...state, companies: action.payload };
+        case 'SET_EVENTS':
+            return { ...state, events: action.payload };
+        case 'SET_EVENT':
+            return { ...state, event: action.payload };
         case 'SET_MESSAGE':
             return { ...state, message: action.payload };
         case 'CLEAR_MESSAGE':
@@ -16,4 +19,4 @@ const companyReducer = (state = initialState, action) => {
     }
 };
 
-export default companyReducer;
+export default eventReducer;
