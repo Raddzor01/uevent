@@ -24,6 +24,8 @@ app.use(
 app.use("/api", router);
 app.use(errorMiddleware);
 
+app.use(express.static("public/pics"));
+
 app.listen(port, () => {
   console.log(`Server started at http://127.0.0.1:${port}`);
 }).on('error', (err) => console.error(err.message));
