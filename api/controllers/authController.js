@@ -25,7 +25,7 @@ export default class authController {
           return;
         }
 
-        await newUser.read(userId);
+        const userInfo = await newUser.read(userId);
         const token = await TokenService.generate({
           userId: newUser.id,
           login: newUser.login,
@@ -34,11 +34,11 @@ export default class authController {
         res.cookie("token", token);
 
         res.json({
-          msg: "Success",
-          user: {
-            user_id: newUser.id,
-            login: newUser.login,
-          },
+            id: userId,
+            login: userInfo.login,
+            full_name: userInfo.full_name,
+            email: userInfo.email,
+            picture: userInfo.picture
         });
       }
   }
