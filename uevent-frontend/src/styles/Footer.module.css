@@ -31,13 +31,25 @@
     color: #ffffff;
 }
 
+.userInfo {
+    text-decoration: none;
+}
+
 .userInfo .text {
     font-size: 24px;
     margin: 0;
     font-family: 'Roboto', sans-serif;
     letter-spacing: 2px;
-    color: #7be8fc;
+    color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.userInfo:hover .text {
+    color: #00f7ff;
+}
+
+.userInfo:active .text {
+    transform: translateY(1px);
 }
 
 .avatar {
@@ -80,11 +92,9 @@
 }
 
 .button {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    border: none !important;
-    padding: 10px 20px !important;
-    cursor: pointer !important;
+    background-color: #343a40;
+    color: #ffffff;
+    border: 1px solid aqua;
     transition: background-color 0.3s;
 }
 

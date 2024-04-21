@@ -39,7 +39,7 @@ const Footer = () => {
                             </p>
                         </div>
                     </Col>
-                    <Col xs={12} md={2} className={`text-center`}>
+                    <Col xs={12} md={1} className={`text-center`}>
                         <div>
                             <Button
                                 variant="info"
@@ -58,14 +58,19 @@ const Footer = () => {
 
                     <Col
                         xs={12}
-                        md={1}
+                        md={2}
                         className="text-center text-md-end mt-3 mt-md-0"
                     >
                         {user ? (
-                            <div className={`${styles.userInfo} text-end`}>
-                                <p className={`${styles.text} mb-0`}>
-                                    {user.login}
-                                </p>
+                            <div>
+                                <Link
+                                    to={`/profile/${user.id}`}
+                                    className={`${styles.userInfo} text-end`}
+                                >
+                                    <p className={`${styles.text} mb-0`}>
+                                        {user.login}
+                                    </p>
+                                </Link>
                                 <img
                                     src={`https://i.kym-cdn.com/photos/images/original/001/265/762/87f.jpg`}
                                     alt={`${user.login}'s Avatar`}
@@ -73,6 +78,7 @@ const Footer = () => {
                                 />
                                 <Button
                                     variant="secondary"
+                                    className={styles.button}
                                     size="sm"
                                     onClick={handleLogout}
                                 >
