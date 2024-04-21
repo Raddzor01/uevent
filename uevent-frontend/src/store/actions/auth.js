@@ -3,7 +3,7 @@ import AuthService from '../../services/authService.js';
 export const login = (login, password) => async (dispatch) => {
     try {
         const response = await AuthService.login(login, password);
-        dispatch({ type: 'SET_USER', payload: response.data.user });
+        dispatch({ type: 'SET_USER', payload: response.data });
         dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: 'Error' });

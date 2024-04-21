@@ -65,11 +65,10 @@ h2::before {
 }
 
 .button {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    border: none !important;
-    padding: 10px 20px !important;
-    cursor: pointer !important;
+    width: 100%;
+    background-color: #343a40;
+    color: #ffffff;
+    border: 1px solid aqua;
     transition: background-color 0.3s;
 }
 
