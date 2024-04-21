@@ -1,37 +1,38 @@
 import Company from "../models/Company.js";
-import TokenService from "../utils/tokenService.js";
 import {ClientError} from "../middleware/error.js";
 
 export default class companiesController {
 
-    static async getAllCompanies(req, res) {
-        const token = req.cookies.token;
-        const { userId } = await TokenService.getData(token);
+    static async getCompanies(req, res) {
+        const userId = req.query.userId;
 
-        const calendarTable = new Company();
-        const rows = await calendarTable.getAllUserCalendars(userId);
+        const companiesTable = new Company();
 
+        let calendarsArray;
+        if(userId)
+            calendarsArray = await companiesTable.getAllUserCompanies(userId);
+        else
+            calendarsArray = await companiesTable.getAll();
+
+        console.log(calendarsArray);
         res.status(200).json({
-            calendarsArray: rows[0],
+            calendarsArray,
         });
     }
 
-    static async getCalendar(req, res) {
+    static async getCompany(req, res) {
         const companyId = Number(req.params.id);
 
         const calendarsTable = new Company();
 
         const calendar = await calendarsTable.read(companyId);
 
-        res.status(200).json({
-        calendar: calendar,
-        });
+        res.status(200).json({calendar});
     }
 
     static async createCompany(req, res) {
         const { name, email, latitude, longitude } = req.body;
-        const token = req.cookies.token;
-        const { userId } = await TokenService.getData(token);
+        const userId = req.user.userId;
 
         const companiesTable = new Company();
 
@@ -85,4 +86,35 @@ export default class companiesController {
 
         res.status(201).send();
     }
+
+    static async updateCompanyPhoto(req, res) {
+
+        if (!req.files)
+            throw new ClientError('Please provide a valid file', 400);
+
+        const companyId = Number(req.params.id);
+
+        const fileExtension = req.files.photo.name.split('.').pop();
+        if(fileExtension !== "png" && fileExtension !== "jpg")
+            throw new ClientError('Please provide a valid file', 400);
+
+        const companiesTable = new Company();
+
+        const fileName = 'IMG_' + Date.now() + '.' + fileExtension;
+        await req.files.photo.mv("public/pics/" + fileName);
+        await companiesTable.update(companyId, "picture_path", fileName);
+
+        res.status(200).send();
+    }
+
+    static async deleteCompanyPhoto(req, res) {
+        const companyId = Number(req.params.id);
+
+        const companiesTable = new Company();
+
+        await companiesTable.update(companyId, "picture_path", "default_company_avatar.png");
+
+        res.status(204).send();
+    }
+
 }

@@ -1,25 +1,30 @@
 import jsonwebtoken from "jsonwebtoken";
 import config from "../config.json" assert { type: 'json' };
+import {ClientError} from "../middleware/error.js";
 export default class TokenService {
 
     static async generate(payload) {
         return jsonwebtoken.sign(payload, config.jswt.secretKey, {expiresIn: config.jswt.tokenLife});
     }
 
-    static async check(req, res, next) {
-        const token = req.cookies.token;
-        if (!token) {
-            res.status(401).end();
-            throw new Error("Unauthorized");
-        }
-        jsonwebtoken.verify(token, config.jswt.secretKey, (err, decoded) => {
-            if (err) {
-                res.status(401).clearCookie('token').redirect('/');
-                throw err;
+    static async authCheck(req, res, next) {
+        try {
+            const token = req.cookies.token;
+            if (!token) {
+                new ClientError('The access token is invalid or has expired.', 401);
             }
-            req.user = decoded;
-        });
-        next();
+
+            jsonwebtoken.verify(token, config.jswt.secretKey, (err, decoded) => {
+                if (err)
+                    throw new ClientError('The access token is invalid or has expired.', 401);
+
+                req.user = decoded;
+            });
+
+            next();
+        } catch (err) {
+            return next(err);
+        }
     }
 
     static async getData(token) {

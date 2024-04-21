@@ -2,9 +2,9 @@ import Model from "./Model.js";
 import dbService from "../utils/dbService.js";
 
 export default class Company extends Model {
-  constructor() {
-    super("companies");
-  }
+    constructor() {
+        super("companies");
+    }
 
   async create(name, email, latitude, longitude, user_id) {
     const query = `INSERT INTO companies(name, email, latitude, longitude, user_id) VALUES(?, ?, ?, ?, ?);`;
@@ -31,10 +31,9 @@ export default class Company extends Model {
     return rows.length > 0;
   }
 
-  async getAllUserCalendars(userId) {
-    const query = `SELECT * FROM calendars 
-                            INNER JOIN userCalendars ON calendars.id = userCalendars.calendarId
-                            WHERE usercalendars.userId = ?`;
-    return await dbService.makeRequest(query, [userId]);
+  async getAllUserCompanies(userId) {
+    const query = `SELECT * FROM companies WHERE user_id = ?`;
+    const companiesArray = await dbService.makeRequest(query, [userId]);
+    return companiesArray[0];
   }
 }

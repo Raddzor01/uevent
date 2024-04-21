@@ -14,4 +14,13 @@ const errorMiddleware = (error, req, res, next) => {
     });
 };
 
-export {errorMiddleware};
+const boundary = (fn) => async (req, res, next) => {
+    try {
+        await fn(req, res, next);
+    } catch (err) {
+        next(err);
+    }
+};
+
+
+export {errorMiddleware, boundary};

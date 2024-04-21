@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users(
                             password VARCHAR(255) NOT NULL,
                             full_name VARCHAR(255) NOT NULL,
                             email VARCHAR(255) NOT NULL UNIQUE,
-                            picture VARCHAR(255) NOT NULL DEFAULT '/avatars/default_avatar.png',
+                            picture VARCHAR(255) NOT NULL DEFAULT 'default_avatar.png',
                             is_confirmed BOOLEAN NOT NULL DEFAULT false
 );
 
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS companies(
                             email VARCHAR(255) NOT NULL UNIQUE,
                             latitude DECIMAL(7, 5) NOT NULL,
                             longitude DECIMAL(7, 5) NOT NULL,
-                            picture_path VARCHAR(255) NOT NULL DEFAULT '/avatars/default_company_avatar.png',
+                            picture_path VARCHAR(255) NOT NULL DEFAULT 'default_company_avatar.png',
                             user_id INTEGER NOT NULL,
 
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS events(
                             tickets_available INTEGER NOT NULL,
                             latitude DECIMAL(7, 5) NOT NULL,
                             longitude DECIMAL(7, 5) NOT NULL,
-                            picture VARCHAR(255) NOT NULL DEFAULT '/avatars/default_event_avatar.png',
+                            picture VARCHAR(255) NOT NULL DEFAULT 'default_event_avatar.png',
                             company_id INTEGER NOT NULL,
                             format_id INTEGER NOT NULL,
                             theme_id INTEGER NOT NULL,
