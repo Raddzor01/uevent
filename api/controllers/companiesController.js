@@ -1,5 +1,6 @@
 import Company from "../models/Company.js";
 import {ClientError} from "../middleware/error.js";
+import stripe from "../utils/stripeService.js";
 
 export default class companiesController {
 
@@ -115,6 +116,33 @@ export default class companiesController {
         await companiesTable.update(companyId, "picture_path", "default_company_avatar.png");
 
         res.status(204).send();
+    }
+
+    static async createStripeAccount(req, res) {
+        const companyId = Number(req.params.id);
+
+        const companiesTable = new Company();
+
+        const company = companiesTable.read(companyId);
+
+        if(!company.stripe_id) {
+            const stripeAccount = await stripe.accounts.create({
+               type: 'express',
+               default_currency: 'usd'
+            });
+            await companiesTable.update(companyId, "stripe_id", stripeAccount.id);
+            company.stripe_id = stripeAccount.id;
+        }
+
+        const accountLink = await stripe.accountLinks.create({
+            account: company.stripe_id,
+            refresh_url: "http://127.0.0.1:3000",
+            return_url: "http://127.0.0.1:3000",
+            type: 'account_onboarding',
+        });
+
+        res.status(200).json({ account_url: accountLink.url})
+
     }
 
 }
