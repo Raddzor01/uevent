@@ -17,8 +17,8 @@ export default class CompanyService {
         }
     }
 
-    static async delete(id) {
-        return $api.delete(`companies/${id}`);
+    static async delete(companyId) {
+        return $api.delete(`companies/${companyId}`);
     }
 
     static async update(id, name, email, latitude, longitude) {
@@ -30,3 +30,8 @@ export default class CompanyService {
         });
     }
 }
+
+export const getCompanyName = (companyId, companies) => {
+    const company = companies.find((company) => company.id === companyId);
+    return company ? company.name : 'Unknown';
+};

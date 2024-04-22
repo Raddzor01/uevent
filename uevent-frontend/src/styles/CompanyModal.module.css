@@ -31,8 +31,10 @@
     font-size: 1rem;
 }
 
-.modalHeader {
-    border-color: aqua !important;
+.modalHeader,
+.modalFooter {
+    color: #cccccc;
+    border: 0;
 }
 
 .buttonContainer {
@@ -51,10 +53,9 @@
     background-color: #292929 !important;
     color: #00eeff;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: bold;
-    margin: 3px;
-    cursor: pointer;
+    margin: 10px;
     transition: background-color 0.3s ease;
     text-transform: uppercase;
 }
@@ -69,4 +70,37 @@
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid aqua;
+}
+
+.eventsContainer {
+    color: #eee;
+    border: 1px solid aqua;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.eventsHeader {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #00ffff;
+}
+
+.eventsList {
+    list-style: none;
+    padding: 0;
+}
+
+.eventItem {
+    background-color: #333;
+    padding: 1rem;
+    color: #00ffff;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.eventItem:hover {
+    background-color: #444;
 }

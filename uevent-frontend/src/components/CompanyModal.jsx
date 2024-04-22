@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEventsForCompany } from '../store/actions/events';
+import { deleteCompany } from '../store/actions/company';
 import { Link } from 'react-router-dom';
 
 import styles from '../styles/CompanyModal.module.css';
 
 const CompanyModal = ({ company, show, handleClose }) => {
+    const dispatch = useDispatch();
+    const events = useSelector((state) => state.company.events);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const handleOpenDeleteModal = () => setShowDeleteModal(true);
+    const handleCloseDeleteModal = () => setShowDeleteModal(false);
+    useEffect(() => {
+        if (company && company.id) {
+            dispatch(getEventsForCompany(company.id));
+        }
+    }, [dispatch, company]);
     if (!company) {
         return null;
     }
+    const handleDeleteCompany = (eventId) => {
+        dispatch(deleteCompany(eventId));
+        handleCloseDeleteModal();
+    };
     return (
         <Modal
             show={show}
@@ -36,7 +53,11 @@ const CompanyModal = ({ company, show, handleClose }) => {
                         <Button variant="primary" className={styles.button}>
                             Update
                         </Button>
-                        <Button variant="danger" className={styles.button}>
+                        <Button
+                            variant="danger"
+                            className={styles.button}
+                            onClick={handleOpenDeleteModal}
+                        >
                             Delete
                         </Button>
                         <Button variant="success" className={styles.button}>
@@ -53,6 +74,19 @@ const CompanyModal = ({ company, show, handleClose }) => {
                         </Link>
                     </div>
                 </div>
+                <div className={styles.eventsContainer}>
+                    <h3 className={styles.eventsHeader}>Events</h3>
+                    <ul className={styles.eventsList}>
+                        {events.eventsArray.map((event, index) => (
+                            <li
+                                key={event.id || index}
+                                className={styles.eventItem}
+                            >
+                                {event.name}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </Modal.Body>
             <Modal.Footer className="bg-dark text-white border-0">
                 <Button
@@ -63,6 +97,39 @@ const CompanyModal = ({ company, show, handleClose }) => {
                     Close
                 </Button>
             </Modal.Footer>
+            <Modal
+                show={showDeleteModal}
+                onHide={handleCloseDeleteModal}
+                centered
+                className={`bg-dark `}
+            >
+                <Modal.Header
+                    closeButton
+                    className={`bg-dark ${styles.modalHeader}`}
+                >
+                    <Modal.Title>Delete Event Confirmation</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={`bg-dark ${styles.modalText}`}>
+                    Are you sure you want to delete this event? This action
+                    cannot be undone.
+                </Modal.Body>
+                <Modal.Footer className={`bg-dark ${styles.modalFooter}`}>
+                    <Button
+                        variant="secondary"
+                        onClick={handleCloseDeleteModal}
+                        className={styles.button}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="danger"
+                        onClick={() => handleDeleteCompany(company.id)}
+                        className={styles.button}
+                    >
+                        Delete Company
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Modal>
     );
 };

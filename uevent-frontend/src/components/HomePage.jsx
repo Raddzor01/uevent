@@ -6,6 +6,8 @@ import EventList from './EventList';
 import { useDispatch } from 'react-redux';
 import { getFormats } from '../store/actions/format';
 import { getThemes } from '../store/actions/theme';
+import { getEvents } from '../store/actions/events';
+import { getCompanies } from '../store/actions/company';
 
 import styles from '../styles/HomePage.module.css';
 
@@ -14,6 +16,8 @@ const HomePage = () => {
     useEffect(() => {
         dispatch(getFormats());
         dispatch(getThemes());
+        dispatch(getEvents());
+        dispatch(getCompanies());
     }, [dispatch]);
     return (
         <div>

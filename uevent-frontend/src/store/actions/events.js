@@ -56,8 +56,20 @@ export const getEvents = () => async (dispatch) => {
     }
 };
 
+export const getEventsForCompany = (id) => async (dispatch) => {
+    try {
+        const response = await EventService.getAll(id);
+        dispatch({ type: 'SET_COMPANIES_EVENTS', payload: response.data });
+        dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+        console.error('Getting events failed', error);
+    }
+};
+
 export const deleteEvent = (id) => async (dispatch) => {
     try {
+        console.log(id);
         await EventService.delete(id);
         dispatch({ type: 'SET_EVENT', payload: null });
         dispatch({ type: 'SET_MESSAGE', payload: 'Success' });

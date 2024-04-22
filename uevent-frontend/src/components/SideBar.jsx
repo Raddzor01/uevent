@@ -7,6 +7,10 @@ const SideBar = ({ onFilterChange, onSortChange }) => {
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
 
+    if (!formats || !themes) {
+        return <div>loading</div>;
+    }
+
     const handleFilterChange = (event) => {
         // onFilterChange(event.target.value);
     };

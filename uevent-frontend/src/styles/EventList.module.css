@@ -1,28 +1,99 @@
-.container {
-    flex-grow: 1;
+.eventContainer {
+    margin-top: 30px;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
 }
 
-.event {
-    border: 2px solid #00b7ff;
-    border-radius: 10px;
-    background-color: #343a40;
-    padding: 0;
-    transition:
-        background-color 0.3s ease,
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+.eventCol {
+    margin-bottom: 50px;
 }
 
-.event:hover {
-    cursor: pointer;
-    background-color: #444;
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 1;
+.link {
+    transition: transform 0.3s ease-in-out;
+    display: block;
+}
+
+.link:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card {
+    border: 1px solid aqua;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.title {
+    font-size: 2.8rem;
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin-bottom: 15px;
+}
+
+.description {
+    font-size: 1.6rem;
+    color: #ffffff;
+    margin-bottom: 30px;
+    line-height: 2;
+    font-family: 'Roboto', sans-serif;
+}
+
+.details {
+    margin-top: 40px;
+}
+
+.detail {
+    margin-bottom: 25px;
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+}
+
+.label {
+    font-weight: bold;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
 }
 
 .image {
-    max-height: 300px;
-    border-radius: 5px;
-    margin-top: 10px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.content {
+    padding: 30px;
+    background-color: #212529;
+    border-radius: 20px;
+    box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-in-out;
+}
+
+.content:hover {
+    transform: translateY(-10px);
+}
+
+.date {
+    font-size: 1.3rem;
+    color: #ccc;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 30px;
+}
+
+.divider {
+    border: 0;
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+    margin: 30px 0;
 }

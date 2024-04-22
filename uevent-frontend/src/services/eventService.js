@@ -31,12 +31,16 @@ export default class EventService {
         return $api.get(`events/${id}`);
     }
 
-    static async getAll() {
-        return $api.get('events/');
+    static async getAll(companyId) {
+        if (companyId) {
+            return $api.get(`events/?companyId=${companyId}`);
+        } else {
+            return $api.get('events/');
+        }
     }
 
-    static async delete(id) {
-        return $api.delete(`events/${id}`);
+    static async delete(eventId) {
+        return $api.delete(`events/${eventId}`);
     }
 
     static async update(

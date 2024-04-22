@@ -1,47 +1,65 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Card, Container, Button } from 'react-bootstrap';
-
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getEvent } from '../store/actions/events';
+import { getFormat } from '../services/formatService';
+import { getTheme } from '../services/themeService';
+import { getCompanyName } from '../services/companyService';
 import Footer from './Footer';
 
 import styles from '../styles/EventPage.module.css';
 
-const testEvent = {
-    id: '1',
-    name: 'Test Event',
-    description: 'This is a test event for demonstration purposes.',
-    price: 20,
-    organiser: 'Test Events Co.',
-    date: '2024-12-31',
-    previewPhoto:
-        'https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666361504_9-mykaleidoscope-ru-p-peizazhi-prirodi-krasivo-9.jpg',
-};
-
-const getEventData = async (eventId) => {
-    if (eventId === '1') {
-        return testEvent;
-    } else {
-        return null;
-    }
-};
-
 const EventPage = () => {
-    const [eventData, setEventData] = useState(null);
-
+    const dispatch = useDispatch();
+    const { eventId } = useParams();
+    const companies = useSelector((state) => state.company.companies);
+    const event = useSelector((state) => state.event.event.event);
+    const themes = useSelector((state) => state.theme.themes);
+    const formats = useSelector((state) => state.format.formats);
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await getEventData('1');
-            setEventData(data);
+        dispatch(getEvent(eventId));
+    }, [dispatch, eventId]);
+
+    const formatDate = (dateString) => {
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
         };
+        return new Date(dateString).toLocaleString('en-US', options);
+    };
 
-        fetchData();
-    }, []);
+    const handleUpdateEvent = (updatedEventData) => {
+        // dispatch(updateEvent(eventId, updatedEventData))
+        //     .then(() => {
+        //         setEditMode(false); // Exit edit mode after successful update
+        //         // Optionally display a success message here
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error updating event:', error);
+        //         // Handle update error (e.g., display an error message to the user)
+        //     });
+    };
 
-    if (!eventData) {
+    const handleDeleteEvent = () => {
+        // dispatch(deleteEvent(eventId))
+        //     .then(() => {
+        //         navigate('/events'); // Redirect to events list after deletion
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error deleting event:', error);
+        //         // Handle delete error (e.g., display an error message to the user)
+        //     });
+    };
+
+    if (!event) {
         return <div>Loading...</div>;
     }
 
-    const { name, description, price, organiser, date, previewPhoto } =
-        eventData;
+    console.log(event);
 
     return (
         <div>
@@ -50,52 +68,91 @@ const EventPage = () => {
                 <Card className={`${styles.card} border-0`}>
                     <Card.Img
                         variant="top"
-                        src={previewPhoto}
+                        src={`https://206329.selcdn.ru/BHAGs-media/upload/activity_banners/e2a1cca6-f9d9-42ed-be13-3f0415b25514.jpg`}
                         className={`${styles.image} rounded-top`}
                     />
                     <Card.Body>
                         <Card.Title
                             className={`mb-4 text-center ${styles.title}`}
                         >
-                            {name}
+                            {event.name}
                         </Card.Title>
                         <Card.Text
                             className={`mb-3 text-center ${styles.description}`}
                         >
-                            {description}
+                            {event.description}
                         </Card.Text>
-                        <div
-                            className={`d-flex justify-content-around ${styles.infoContainer}`}
-                        >
-                            <div className={`mb-4 text-center ${styles.info}`}>
-                                <strong className={styles.infoLabel}>
-                                    Price:
-                                </strong>{' '}
+                        <div className={styles.infoContainer}>
+                            <div className={styles.info}>
+                                <span className={styles.infoLabel}>Price:</span>
                                 <span className={styles.infoText}>
-                                    ${price}
+                                    ${event.price}
                                 </span>
                             </div>
-                            <div className={`mb-4 text-center ${styles.info}`}>
-                                <strong className={styles.infoLabel}>
+                            <div className={styles.info}>
+                                <span className={styles.infoLabel}>
+                                    Format:
+                                </span>
+                                <span className={styles.infoText}>
+                                    {getFormat(event.format_id, formats)}
+                                </span>
+                            </div>
+                            <div className={styles.info}>
+                                <span className={styles.infoLabel}>Theme:</span>
+                                <span className={styles.infoText}>
+                                    {getTheme(event.theme_id, themes)}
+                                </span>
+                            </div>
+                            <div className={styles.info}>
+                                <span className={styles.infoLabel}>
+                                    Tickets Available:
+                                </span>
+                                <span className={styles.infoText}>
+                                    {event.tickets_available}
+                                </span>
+                            </div>
+                            <div className={styles.info}>
+                                <span className={styles.infoLabel}>
                                     Organiser:
-                                </strong>{' '}
+                                </span>
                                 <span className={styles.infoText}>
-                                    {organiser}
+                                    {getCompanyName(
+                                        event.company_id,
+                                        companies,
+                                    )}
                                 </span>
                             </div>
-                            <div className={`mb-4 text-center ${styles.info}`}>
-                                <strong className={styles.infoLabel}>
-                                    Date:
-                                </strong>{' '}
-                                <span className={styles.infoText}>{date}</span>
+                            <div className={styles.info}>
+                                <span className={styles.infoLabel}>Date:</span>
+                                <span className={styles.infoText}>
+                                    {formatDate(event.date)}
+                                </span>
                             </div>
                         </div>
+
                         <div className="text-center">
                             <Button
                                 variant="primary"
                                 className={`mt-4 ${styles.buyButton} w-100`}
                             >
                                 Buy Ticket
+                            </Button>
+                        </div>
+
+                        <div className="text-center mb-3">
+                            <Button
+                                variant="primary"
+                                className={`mt-2 ${styles.button} w-50 smallButton`} // Add `smallButton` class
+                                onClick={() => handleUpdateEvent()}
+                            >
+                                Update Event
+                            </Button>
+                            <Button
+                                variant="danger"
+                                className={`mt-2 ${styles.button} w-50`}
+                                onClick={handleDeleteEvent}
+                            >
+                                Delete Event
                             </Button>
                         </div>
                     </Card.Body>

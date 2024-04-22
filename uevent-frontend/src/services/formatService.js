@@ -5,3 +5,8 @@ export default class FormatService {
         return $api.get('formats/');
     }
 }
+
+export const getFormat = (formatId, formats) => {
+    const format = formats.find((format) => format.id === formatId);
+    return format ? format.name : 'Without';
+};

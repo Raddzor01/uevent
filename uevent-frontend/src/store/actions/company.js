@@ -25,7 +25,6 @@ export const getCompany = (id) => async (dispatch) => {
 export const getCompanies = () => async (dispatch) => {
     try {
         const response = await CompanyService.getAll();
-        console.log(response.data.calendarsArray);
         dispatch({
             type: 'SET_COMPANIES',
             payload: response.data.calendarsArray,
@@ -40,7 +39,6 @@ export const getCompanies = () => async (dispatch) => {
 export const getUserCompanies = (userId) => async (dispatch) => {
     try {
         const response = await CompanyService.getAll(userId);
-        console.log(response);
         dispatch({
             type: 'SET_USER_COMPANIES',
             payload: response.data.calendarsArray,
