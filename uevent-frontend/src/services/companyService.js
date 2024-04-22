@@ -9,8 +9,12 @@ export default class CompanyService {
         return $api.get(`companies/${id}`);
     }
 
-    static async getAll() {
-        return $api.get('companies/');
+    static async getAll(userId) {
+        if (userId) {
+            return $api.get(`companies/${userId}`);
+        } else {
+            return $api.get('companies/');
+        }
     }
 
     static async delete(id) {

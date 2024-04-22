@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Footer from './Footer';
 import CompanyModal from './CompanyModal';
-import { getCompanies } from '../store/actions/company';
+import { getUserCompanies } from '../store/actions/company';
 
 import styles from '../styles/Profile.module.css';
 
@@ -11,7 +11,7 @@ const Profile = () => {
     const dispatch = useDispatch();
     const [selectedCompany, setSelectedCompany] = useState(null);
     const user = useSelector((state) => state.auth.user);
-    const companies = useSelector((state) => state.company.companies);
+    const companies = useSelector((state) => state.company.user_companies);
 
     const openCompanyModal = (company) => {
         setSelectedCompany(company);
@@ -22,10 +22,10 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        dispatch(getCompanies());
+        dispatch(getUserCompanies());
     }, [dispatch]);
 
-    if (!user) {
+    if (!user || !companies) {
         return <div>Loading...</div>;
     }
 
