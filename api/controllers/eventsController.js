@@ -7,16 +7,18 @@ import Formats from "../models/Formats.js";
 import Themes from "../models/Themes.js";
 
 export default class eventsController {
-    static async getAllCompanyEvents(req, res) {
-        const companyId = Number(req.params.id);
+    static async getEvents(req, res) {
+        const companyId = req.query.companyId;
 
         const eventsTable = new Event();
 
-        const events = await eventsTable.getAllCompanyEvents(companyId);
+        let eventsArray;
+        if(companyId)
+            eventsArray = await eventsTable.getAllCompanyEvents(companyId);
+        else
+            eventsArray = await eventsTable.getAll();
 
-        res.status(200).json({
-            eventsArray: events,
-        });
+        res.status(200).json({eventsArray});
     }
 
     static async createEvent(req, res) {

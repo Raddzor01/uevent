@@ -29,7 +29,7 @@ export default class formatsController {
 
         const formatsTable = new Formats();
 
-        if(!await formatsTable.checkFor("name", name))
+        if(await formatsTable.checkFor("name", name))
             throw new ClientError(`Format already exists`, 400);
 
         const formatId = await formatsTable.create(name);

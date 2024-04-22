@@ -28,7 +28,7 @@ export default class themesController {
 
         const themesTable = new Themes();
 
-        if(!await themesTable.checkFor("name", name))
+        if(await themesTable.checkFor("name", name))
             throw new ClientError(`Theme already exists`, 400);
 
         const themeId = await themesTable.create(name);
