@@ -37,7 +37,7 @@ export const createEvent =
 export const getEvent = (id) => async (dispatch) => {
     try {
         const response = await EventService.get(id);
-        dispatch({ type: 'SET_EVENT', payload: response.data });
+        dispatch({ type: 'SET_EVENT', payload: response.data.event });
         dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
