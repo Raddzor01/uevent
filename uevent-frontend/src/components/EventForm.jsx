@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import Footer from './Footer';
+
+import { createEvent } from '../store/actions/events';
+
 import styles from '../styles/EventForm.module.css';
 
 const EventForm = () => {
+    const dispatch = useDispatch();
+    const companies = useSelector((state) => state.company.companies);
+    const themes = useSelector((state) => state.theme.themes);
+    const formats = useSelector((state) => state.format.formats);
     const [eventName, setEventName] = useState('');
     const [eventDescription, setEventDescription] = useState('');
     const [eventDateTime, setEventDateTime] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [company, setCompany] = useState('');
+    const [format, setFormat] = useState('');
+    const [theme, setTheme] = useState('');
     const [eventPhoto, setEventPhoto] = useState(null);
+    const [availableTickets, setAvailableTickets] = useState('');
     const [ticketPrice, setTicketPrice] = useState('');
     const [notificationChecked, setNotificationChecked] = useState(false);
     const [visibilityOption, setVisibilityOption] = useState('public');
@@ -15,7 +29,20 @@ const EventForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form submitted!');
+        dispatch(
+            createEvent(
+                eventName,
+                eventDescription,
+                eventDateTime,
+                ticketPrice,
+                availableTickets,
+                latitude,
+                longitude,
+                company,
+                format,
+                theme,
+            ),
+        );
     };
 
     const handleFileChange = (e) => {
@@ -24,7 +51,6 @@ const EventForm = () => {
 
     return (
         <div>
-            {' '}
             <Footer />
             <div className={`container ${styles.darkTheme}`}>
                 <h2>Create New Event</h2>
@@ -60,6 +86,87 @@ const EventForm = () => {
                         />
                     </Form.Group>
 
+                    <Form.Group className="mb-3" controlId="latitude">
+                        <Form.Label className={styles.label}>
+                            Latitude
+                        </Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter latitude"
+                            value={latitude}
+                            onChange={(e) => setLatitude(e.target.value)}
+                            required
+                            className={styles.input}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="longitude">
+                        <Form.Label className={styles.label}>
+                            Longitude
+                        </Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter longitude"
+                            value={longitude}
+                            onChange={(e) => setLongitude(e.target.value)}
+                            required
+                            className={styles.input}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="company">
+                        <Form.Label className={styles.label}>
+                            Company
+                        </Form.Label>
+                        <Form.Select
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
+                            required
+                            className={styles.input}
+                        >
+                            <option value="">Select Company</option>
+                            {companies.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                    {company.name}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="format">
+                        <Form.Label className={styles.label}>Format</Form.Label>
+                        <Form.Select
+                            value={format}
+                            onChange={(e) => setFormat(e.target.value)}
+                            required
+                            className={styles.input}
+                        >
+                            <option value="">Select Format</option>
+                            {formats.map((format) => (
+                                <option key={format.id} value={format.id}>
+                                    {format.name}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="theme">
+                        <Form.Label className={styles.label}>Theme</Form.Label>
+                        <Form.Select
+                            value={theme}
+                            onChange={(e) => setTheme(e.target.value)}
+                            required
+                            className={styles.input}
+                        >
+                            <option value="">Select Theme</option>
+                            {themes.map((theme) => (
+                                <option key={theme.id} value={theme.id}>
+                                    {theme.name}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+
                     <Form.Group className="mb-3" controlId="eventDateTime">
                         <Form.Label className={styles.label}>
                             Event Date and Time
@@ -90,6 +197,22 @@ const EventForm = () => {
                                 style={{ maxWidth: '100%', maxHeight: '200px' }}
                             />
                         )}
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="availableTickets">
+                        <Form.Label className={styles.label}>
+                            Available Tickets
+                        </Form.Label>
+                        <Form.Control
+                            type="number"
+                            placeholder="Enter number of available tickets"
+                            value={availableTickets}
+                            onChange={(e) =>
+                                setAvailableTickets(e.target.value)
+                            }
+                            required
+                            className={styles.input}
+                        />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="ticketPrice">

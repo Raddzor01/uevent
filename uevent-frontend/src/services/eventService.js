@@ -40,6 +40,7 @@ export default class EventService {
     }
 
     static async update(
+        id,
         name,
         description,
         date,

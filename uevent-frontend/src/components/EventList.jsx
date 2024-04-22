@@ -1,87 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Card, Col, Row, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Pagination from './Pagination';
+import { getEvents } from '../store/actions/events';
 import styles from '../styles/EventList.module.css';
 
-const events = [
-    {
-        id: 1,
-        name: 'Conference on Technology',
-        description: 'A conference discussing the latest trends in technology.',
-        price: 50,
-        previewPhoto:
-            'https://idfeurasia.com/static/c654db393b0fbf717e7154b1769507ae/screenshot_4.jpg',
-        organiser: 'Tech Events Co.',
-        date: '2024-05-15',
-    },
-    {
-        id: 1,
-        name: 'Conference on Technology',
-        description: 'A conference discussing the latest trends in technology.',
-        price: 50,
-        previewPhoto:
-            'https://idfeurasia.com/static/c654db393b0fbf717e7154b1769507ae/screenshot_4.jpg',
-        organiser: 'Tech Events Co.',
-        date: '2024-05-15',
-    },
-    {
-        id: 1,
-        name: 'Conference on Technology',
-        description: 'A conference discussing the latest trends in technology.',
-        price: 50,
-        previewPhoto:
-            'https://idfeurasia.com/static/c654db393b0fbf717e7154b1769507ae/screenshot_4.jpg',
-        organiser: 'Tech Events Co.',
-        date: '2024-05-15',
-    },
-    {
-        id: 1,
-        name: 'Conference on Technology',
-        description: 'A conference discussing the latest trends in technology.',
-        price: 50,
-        previewPhoto:
-            'https://idfeurasia.com/static/c654db393b0fbf717e7154b1769507ae/screenshot_4.jpg',
-        organiser: 'Tech Events Co.',
-        date: '2024-05-15',
-    },
-    {
-        id: 1,
-        name: 'Conference on Technology',
-        description: 'A conference discussing the latest trends in technology.',
-        price: 50,
-        previewPhoto:
-            'https://idfeurasia.com/static/c654db393b0fbf717e7154b1769507ae/screenshot_4.jpg',
-        organiser: 'Tech Events Co.',
-        date: '2024-05-15',
-    },
-    {
-        id: 1,
-        name: 'Music Festival',
-        description: 'A weekend full of live music performances.',
-        price: 100,
-        previewPhoto:
-            'https://idfeurasia.com/static/c654db393b0fbf717e7154b1769507ae/screenshot_4.jpg',
-        organiser: 'Music Events LLC',
-        date: '2024-06-20',
-    },
-    {
-        id: 1,
-        name: 'Music Festival',
-        description: 'A weekend full of live music performances.',
-        price: 100,
-        previewPhoto:
-            'https://idfeurasia.com/static/c654db393b0fbf717e7154b1769507ae/screenshot_4.jpg',
-        organiser: 'Music Events LLC',
-        date: '2024-06-20',
-    },
-];
-
 const EventList = () => {
-    // Pagination
+    const dispatch = useDispatch();
+    const events = useSelector((state) => state.event.events);
+    useEffect(() => {
+        dispatch(getEvents());
+    }, [dispatch]);
+
+
     const eventsPerPage = 6;
     const totalPages = Math.ceil(events.length / eventsPerPage);
     const [currentPage, setCurrentPage] = useState(1);
+
+    if (!Array.isArray(events)) {
+        return <div>Loading</div>;
+    }
 
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
@@ -89,6 +28,9 @@ const EventList = () => {
 
     const nextPage = () => setCurrentPage(currentPage + 1);
     const prevPage = () => setCurrentPage(currentPage - 1);
+
+
+    console.log(events);
 
     return (
         <Container fluid>

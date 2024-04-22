@@ -13,7 +13,7 @@
     width: 250px;
     height: 400px;
     border-radius: 10px;
-    background-color: #292929;
+    background-color: #212529;
     border: 1px solid aqua;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s;
@@ -37,17 +37,13 @@
 
 .button {
     position: absolute;
-    margin: auto;
     padding: 12px 24px;
-    right: 0;
     bottom: 0;
-    left: 0;
-    background-color: #292929;
+    background-color: #212529;
     color: #00eeff;
     border: none;
     font-size: 1.2rem;
     font-weight: bold;
-    cursor: pointer;
     transition: background-color 0.3s ease;
     text-transform: uppercase;
 }
@@ -73,14 +69,13 @@
 }
 
 .col {
-    display: flex;
-    justify-content: center;
+    width: 300px;
 }
 
 .companyCard {
-    background-color: #333333;
+    background-color: #212529;
+    border: 1px solid aqua;
     color: #ffffff;
-    border: none;
 }
 
 .companyInfo {

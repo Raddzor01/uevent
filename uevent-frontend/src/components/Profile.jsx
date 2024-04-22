@@ -68,7 +68,7 @@ const Profile = () => {
             </div>
             <Container fluid className={styles.company_container}>
                 <h2 className={styles.heading}>Companies</h2>
-                <Row className="justify-content-center">
+                <Row className="justify-content-center noGutters">
                     {companies.map((company) => (
                         <Col
                             sm={6}
