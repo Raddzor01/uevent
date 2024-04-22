@@ -6,7 +6,7 @@ import {checkUserCompanyRights, checkUserEventRights} from "../middleware/permis
 
 const router = express.Router();
 
-router.get("/", boundary(controller.getAllCompanyEvents));
+router.get("/", boundary(controller.getEvents));
 router.get("/:id", boundary(controller.getEvent));
 
 router.use(TokenService.authCheck);
