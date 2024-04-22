@@ -19,5 +19,12 @@
       "user": "raddzor.101@gmail.com",
       "pass": "hsjs zakc hilz ltyw"
     }
+  },
+  "stripe": {
+    "api_key": "sk_test_51P8KXzGbQPdkvFGDrUMEhL5xihzs7LL1f9BtSv9vg8C3tsH4eA8PhC5InvcdqeXTOhoEAeAaT0IESDbeAmDSRh6z00XXrhbdov",
+    "webhook_key": "whsec_ca7389db230045da748168587eada7bcae23a5ac8d30c4d86184c2227df1c0a7",
+    "config": {
+      "apiVersion": "2024-04-10"
+    }
   }
 }

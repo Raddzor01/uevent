@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS companies(
                             longitude DECIMAL(7, 5) NOT NULL,
                             picture_path VARCHAR(255) NOT NULL DEFAULT 'default_company_avatar.png',
                             user_id INTEGER NOT NULL,
+                            stripe_id VARCHAR(255) NULL,
 
 
                             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE

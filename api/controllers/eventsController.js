@@ -47,7 +47,7 @@ export default class eventsController {
 
         const eventId = await eventsTable.create(name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id);
 
-        res.status(200).json({ eventId: eventId });
+        res.status(200).json({ eventId });
 
     }
 
