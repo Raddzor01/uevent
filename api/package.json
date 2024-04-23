@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Raddzor01/uevent#readme",
   "dependencies": {
+    "argon2": "^0.40.1",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
