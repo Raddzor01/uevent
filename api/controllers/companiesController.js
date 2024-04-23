@@ -15,7 +15,6 @@ export default class companiesController {
         else
             calendarsArray = await companiesTable.getAll();
 
-        console.log(calendarsArray);
         res.status(200).json({
             calendarsArray,
         });
