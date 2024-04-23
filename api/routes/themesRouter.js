@@ -1,7 +1,6 @@
 import express from "express";
 
 import controller from "../controllers/themesController.js";
-import TokenService from "../utils/tokenService.js";
 import {boundary} from "../middleware/error.js";
 
 const router = express.Router();

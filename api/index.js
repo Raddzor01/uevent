@@ -4,7 +4,7 @@ import fileUpload from "express-fileupload";
 import cookieParser from "cookie-parser";
 import router from "./routes/router.js";
 import {errorMiddleware} from "./middleware/error.js";
-import config from './config.json' assert { type: 'json' };
+import { stripeWebhook } from './utils/stripeService.js';
 
 const app = express();
 
@@ -13,17 +13,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload({}));
 app.use(cors({
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: [process.env.CLIENT_URL],
     credentials: true,
     methods: "GET, POST, PUT, PATCH, DELETE",
     allowedHeaders: "Content-Type, Authorization, Set-Cookie",
 }));
 
+app.use("/webhook", express.raw({ type: 'application/json' }), stripeWebhook);
 app.use("/api", router);
 app.use(errorMiddleware);
 
 app.use(express.static("public/pics"));
 
-app.listen(config.port, () => {
-  console.log(`Server started at https://${config.server_ip}:${config.port}`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`Server started at ${process.env.SERVER_URL}`);
 }).on('error', (err) => console.error(err.message));

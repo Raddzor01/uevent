@@ -1,7 +1,8 @@
 import Model from "./Model.js";
 import dbService from "../utils/dbService.js";
 
-export default class Event extends Model {
+class Event extends Model {
+
     constructor() {
         super("events");
     }
@@ -26,3 +27,6 @@ export default class Event extends Model {
     }
 
 }
+
+const eventsTable = new Event();
+export { eventsTable }

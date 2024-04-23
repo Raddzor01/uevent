@@ -1,10 +1,10 @@
 import jsonwebtoken from "jsonwebtoken";
-import config from "../config.json" assert { type: 'json' };
-import {ClientError} from "../middleware/error.js";
+import { ClientError } from "../middleware/error.js";
+
 export default class TokenService {
 
     static async generate(payload) {
-        return jsonwebtoken.sign(payload, config.jswt.secretKey, {expiresIn: config.jswt.tokenLife});
+        return jsonwebtoken.sign(payload, process.env.JSWT_KEY, {expiresIn: process.env.JSWT_LIFE});
     }
 
     static async authCheck(req, res, next) {
@@ -14,7 +14,7 @@ export default class TokenService {
                 new ClientError('The access token is invalid or has expired.', 401);
             }
 
-            jsonwebtoken.verify(token, config.jswt.secretKey, (err, decoded) => {
+            jsonwebtoken.verify(token, process.env.JSWT_KEY, (err, decoded) => {
                 if (err)
                     throw new ClientError('The access token is invalid or has expired.', 401);
 
@@ -31,9 +31,9 @@ export default class TokenService {
         let data;
         if (!token)
             return false;
-        jsonwebtoken.verify(token, config.jswt.secretKey, (err, decoded) => {
+        jsonwebtoken.verify(token, process.env.JSWT_KEY, (err, decoded) => {
             if (err)
-                return false;
+                throw new ClientError('The access token is invalid or has expired.', 401);
 
             data = decoded;
         });

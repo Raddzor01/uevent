@@ -1,19 +1,16 @@
-import Themes from "../models/Themes.js";
-import {ClientError} from "../middleware/error.js";
+import { themesTable } from '../models/Themes.js';
+import { ClientError } from "../middleware/error.js";
 
 export default class themesController {
 
     static async getAllThemes(req, res) {
-        const themesTable = new Themes();
-
         const themes = await themesTable.getAll();
+
         res.status(200).json({themes});
     }
 
     static async getTheme(req, res) {
         const themeId = Number(req.params.id);
-
-        const themesTable = new Themes();
 
         const theme = await themesTable.read(themeId);
 
@@ -25,8 +22,6 @@ export default class themesController {
 
     static async createTheme(req, res) {
         const { name } = req.body;
-
-        const themesTable = new Themes();
 
         if(await themesTable.checkFor("name", name))
             throw new ClientError(`Theme already exists`, 400);
@@ -40,8 +35,6 @@ export default class themesController {
         const themeId = Number(req.params.id);
         const { name } = req.body;
 
-        const themesTable = new Themes();
-
         if(!await themesTable.checkFor("name", name))
             throw new ClientError(`Theme already exists`, 400);
 
@@ -52,8 +45,6 @@ export default class themesController {
 
     static async deleteTheme(req, res) {
         const themeId = Number(req.params.id);
-
-        const themesTable = new Themes();
 
         await themesTable.delete(themeId);
 

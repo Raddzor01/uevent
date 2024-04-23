@@ -1,5 +1,4 @@
 import mysql from 'mysql2';
-import config from '../config.json' assert { type: 'json' };
 
 export default class dbService {
     static async makeRequest(sql, values = null) {
@@ -11,7 +10,12 @@ export default class dbService {
     }
 
     static async connectToDatabase() {
-        const db = mysql.createConnection(config.db);
+        const db = mysql.createConnection({
+            host: process.env.DATABASE_HOST,
+            user: process.env.DATABASE_USER,
+            database: process.env.DATABASE_NAME,
+            password: process.env.DATABASE_PASSWORD
+        });
         db.connect((err) => {
             if (err) return console.error("Error: " + err.message);
         });

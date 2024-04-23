@@ -1,7 +1,6 @@
 import Model from "./Model.js";
 import dbService from "../utils/dbService.js";
-
-export default class Formats extends Model {
+class Formats extends Model {
     constructor() {
         super("formats");
     }
@@ -12,6 +11,7 @@ export default class Formats extends Model {
 
         return res[0].insertId;
     }
-
-    async
 }
+
+const formatsTable = new Formats();
+export { formatsTable };

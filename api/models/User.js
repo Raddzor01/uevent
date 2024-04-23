@@ -1,7 +1,7 @@
 import Model from "./Model.js";
 import dbService from "../utils/dbService.js";
 
-export default class User extends Model {
+class User extends Model {
     constructor() {
         super("users");
     }
@@ -15,23 +15,25 @@ export default class User extends Model {
 
     async read(id) {
         const data = await super.read(id);
-        this.id = data[0][0].id;
-        this.login = data[0][0].login;
-        this.password = data[0][0].password;
-        this.email = data[0][0].email;
-        this.picture_path = data[0][0].picture_path;
-        this.full_name = data[0][0].full_name;
         return data[0][0];
     }
 
-    async loginDataCheck(login, password) {
-        const sql = 'SELECT * FROM users WHERE login=? AND password=?;';
+    readByLogin = async(login) => {
+        const sql = 'SELECT * FROM users WHERE login= ?; ';
 
-        let result = await dbService.makeRequest(sql, [login, password]);
+        const result = await dbService.makeRequest(sql, [login]);
 
-        if (result[0].length)
-            return result[0][0].id;
+        if (result[0][0])
+            return result[0][0];
         return -1;
     }
 
+    updatePasswordByEmail = async(email, password) => {
+        const sql = `UPDATE users SET password = ? WHERE email = ? ; `;
+
+        await dbService.makeRequest(sql, [password, email]);
+    }
 }
+
+const usersTable = new User();
+export { usersTable };

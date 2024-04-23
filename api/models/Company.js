@@ -1,7 +1,7 @@
 import Model from "./Model.js";
 import dbService from "../utils/dbService.js";
 
-export default class Company extends Model {
+class Company extends Model {
     constructor() {
         super("companies");
     }
@@ -37,3 +37,6 @@ export default class Company extends Model {
     return companiesArray[0];
   }
 }
+
+const companiesTable = new Company();
+export { companiesTable };

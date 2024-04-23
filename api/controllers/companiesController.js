@@ -1,13 +1,11 @@
-import Company from "../models/Company.js";
-import {ClientError} from "../middleware/error.js";
+import { companiesTable } from '../models/Company.js';
+import { ClientError } from "../middleware/error.js";
 import stripe from "../utils/stripeService.js";
 
 export default class companiesController {
 
     static async getCompanies(req, res) {
         const userId = req.query.userId;
-
-        const companiesTable = new Company();
 
         let calendarsArray;
         if(userId)
@@ -23,18 +21,14 @@ export default class companiesController {
     static async getCompany(req, res) {
         const companyId = Number(req.params.id);
 
-        const calendarsTable = new Company();
+        const company = await companiesTable.read(companyId);
 
-        const calendar = await calendarsTable.read(companyId);
-
-        res.status(200).json({calendar});
+        res.status(200).json({company});
     }
 
     static async createCompany(req, res) {
         const { name, email, latitude, longitude } = req.body;
         const userId = req.user.userId;
-
-        const companiesTable = new Company();
 
         if (await companiesTable.checkFor("name", name))
             throw new ClientError("Company exists", 409);
@@ -52,18 +46,14 @@ export default class companiesController {
     static async deleteCompany(req, res) {
         const companyId = Number(req.params.id);
 
-        const companiesTable = new Company();
-
         await companiesTable.delete(companyId);
 
-        res.status(204).send();
+        res.sendStatus(204);
     }
 
     static async updateCompany(req, res) {
         const companyId = Number(req.params.id);
         const { name, email, latitude, longitude } = req.body;
-
-        const companiesTable = new Company();
 
         if (name) {
             if (await companiesTable.checkFor("name", name))
@@ -84,7 +74,7 @@ export default class companiesController {
             await companiesTable.update(companyId, "longitude", longitude);
         }
 
-        res.status(201).send();
+        res.sendStatus(201);
     }
 
     static async updateCompanyPhoto(req, res) {
@@ -98,29 +88,23 @@ export default class companiesController {
         if(fileExtension !== "png" && fileExtension !== "jpg")
             throw new ClientError('Please provide a valid file', 400);
 
-        const companiesTable = new Company();
-
         const fileName = 'IMG_' + Date.now() + '.' + fileExtension;
         await req.files.photo.mv("public/pics/" + fileName);
         await companiesTable.update(companyId, "picture_path", fileName);
 
-        res.status(200).send();
+        res.sendStatus(200);
     }
 
     static async deleteCompanyPhoto(req, res) {
         const companyId = Number(req.params.id);
 
-        const companiesTable = new Company();
-
         await companiesTable.update(companyId, "picture_path", "default_company_avatar.png");
 
-        res.status(204).send();
+        res.sendStatus(204);
     }
 
     static async createStripeAccount(req, res) {
         const companyId = Number(req.params.id);
-
-        const companiesTable = new Company();
 
         const company = companiesTable.read(companyId);
 
@@ -135,13 +119,12 @@ export default class companiesController {
 
         const accountLink = await stripe.accountLinks.create({
             account: company.stripe_id,
-            refresh_url: "http://127.0.0.1:3000",
-            return_url: "http://127.0.0.1:3000",
+            refresh_url: process.env.CLIENT_URL,
+            return_url: process.env.CLIENT_URL,
             type: 'account_onboarding',
         });
 
         res.status(200).json({ account_url: accountLink.url})
 
     }
-
 }

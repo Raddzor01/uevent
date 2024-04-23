@@ -1,7 +1,7 @@
 import Model from "./Model.js";
 import dbService from "../utils/dbService.js";
 
-export default class Themes extends Model {
+class Themes extends Model {
     constructor() {
         super("themes");
     }
@@ -13,3 +13,6 @@ export default class Themes extends Model {
         return res[0].insertId;
     }
 }
+
+const themesTable = new Themes();
+export { themesTable };
