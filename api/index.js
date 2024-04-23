@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload({}));
 app.use(cors({
-    origin: ["localhost:3000", "127.0.0.1:3000"],
+    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
     credentials: true,
     methods: "GET, POST, PUT, PATCH, DELETE",
     allowedHeaders: "Content-Type, Authorization, Set-Cookie",
