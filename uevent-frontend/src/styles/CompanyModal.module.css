@@ -8,10 +8,6 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.modalContent:hover {
-    transform: translateY(-5px);
-}
-
 .modalTitle {
     font-size: 2.5rem;
     font-weight: bold;
@@ -41,6 +37,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: -50px;
 }
 
 .buttonRow {
@@ -51,11 +48,11 @@
 
 .button {
     background-color: #292929 !important;
-    color: #00eeff;
+    color: #ffffff;
     border: none;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: bold;
-    margin: 10px;
+    margin: 5px;
     transition: background-color 0.3s ease;
     text-transform: uppercase;
 }
@@ -86,21 +83,47 @@
     color: #00ffff;
 }
 
+.eventsContainer {
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.eventsHeader {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+ul {
+    list-style: none;
+}
+
 .eventsList {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .eventItem {
-    background-color: #333;
+    border: 1px solid #07eaf1;
     padding: 1rem;
-    color: #00ffff;
-    margin-bottom: 1rem;
-    border-radius: 4px;
-    transition: background-color 0.2s ease-in-out;
     cursor: pointer;
+    padding-left: 20px;
+    margin-left: -20px;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.eventItem:hover {
-    background-color: #444;
+.eventInfo {
+    flex: 1;
+}
+
+.eventName {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.eventLink {
+    text-decoration: none;
+    color: #ffffff;
 }

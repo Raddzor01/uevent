@@ -11,11 +11,11 @@ const CreateCompanyForm = ({ show, handleClose }) => {
     const [email, setEmail] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
-    // const [picture, setPicture] = useState(null);
 
     const handleSave = () => {
         dispatch(createCompany(name, email, latitude, longitude));
         handleClose();
+        window.location.reload();
     };
 
     return (
@@ -73,26 +73,6 @@ const CreateCompanyForm = ({ show, handleClose }) => {
                             onChange={(e) => setLongitude(e.target.value)}
                         />
                     </div>
-                    {/* <div className="mb-3">
-                        <label htmlFor="picture" className="form-label">
-                            Picture:
-                        </label>
-                        <input
-                            type="file"
-                            className="form-control bg-dark text-white"
-                            id="picture"
-                            onChange={(e) => setPicture(e.target.files[0])}
-                        />
-                    </div> */}
-                    {/* {picture && (
-                        <div className="mb-3">
-                            <img
-                                src={URL.createObjectURL(picture)}
-                                alt="Preview"
-                                className="img-fluid mt-2"
-                            />
-                        </div>
-                    )} */}
                 </form>
             </Modal.Body>
             <Modal.Footer className="bg-dark">

@@ -61,13 +61,13 @@ export const deleteCompany = (id) => async (dispatch) => {
     }
 };
 
-export const updateCompany =
-    (id, name, email, latitude, longutude) => async (dispatch) => {
-        try {
-            await CompanyService.update(id, name, email, latitude, longutude);
-            dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
-        } catch (error) {
-            dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
-            console.error('Creating company failed', error);
-        }
-    };
+export const updateCompany = (id, updatedFields) => async (dispatch) => {
+    try {
+        await CompanyService.update(id, updatedFields);
+        dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+        console.error('Updating company failed', error);
+    }
+};
+

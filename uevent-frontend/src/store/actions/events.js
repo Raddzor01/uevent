@@ -79,36 +79,12 @@ export const deleteEvent = (id) => async (dispatch) => {
     }
 };
 
-export const updateEvent =
-    (
-        name,
-        description,
-        date,
-        price,
-        tickets_available,
-        latitude,
-        longitude,
-        company_id,
-        format_id,
-        theme_id,
-    ) =>
-    async (dispatch) => {
-        try {
-            await EventService.update(
-                name,
-                description,
-                date,
-                price,
-                tickets_available,
-                latitude,
-                longitude,
-                company_id,
-                format_id,
-                theme_id,
-            );
-            dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
-        } catch (error) {
-            dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
-            console.error('Updating event failed', error);
-        }
-    };
+export const updateEvent = (id, updatedFields) => async (dispatch) => {
+    try {
+        await EventService.update(id, updatedFields);
+        dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+        console.error('Updating event failed', error);
+    }
+};

@@ -20,7 +20,6 @@ const EventForm = () => {
     const [company, setCompany] = useState('');
     const [format, setFormat] = useState('');
     const [theme, setTheme] = useState('');
-    const [eventPhoto, setEventPhoto] = useState(null);
     const [availableTickets, setAvailableTickets] = useState('');
     const [ticketPrice, setTicketPrice] = useState('');
     const [notificationChecked, setNotificationChecked] = useState(false);
@@ -43,10 +42,6 @@ const EventForm = () => {
                 theme,
             ),
         );
-    };
-
-    const handleFileChange = (e) => {
-        setEventPhoto(e.target.files[0]);
     };
 
     return (
@@ -178,25 +173,6 @@ const EventForm = () => {
                             required
                             className={styles.input}
                         />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="eventPhoto">
-                        <Form.Label className={styles.label}>
-                            Event Photo
-                        </Form.Label>
-                        <Form.Control
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className={styles.input}
-                        />
-                        {eventPhoto && (
-                            <img
-                                src={URL.createObjectURL(eventPhoto)}
-                                alt="Event Preview"
-                                className="mt-2"
-                                style={{ maxWidth: '100%', maxHeight: '200px' }}
-                            />
-                        )}
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="availableTickets">

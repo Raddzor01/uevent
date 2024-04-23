@@ -32,34 +32,9 @@ const EventPage = () => {
         return new Date(dateString).toLocaleString('en-US', options);
     };
 
-    const handleUpdateEvent = (updatedEventData) => {
-        // dispatch(updateEvent(eventId, updatedEventData))
-        //     .then(() => {
-        //         setEditMode(false); // Exit edit mode after successful update
-        //         // Optionally display a success message here
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error updating event:', error);
-        //         // Handle update error (e.g., display an error message to the user)
-        //     });
-    };
-
-    const handleDeleteEvent = () => {
-        // dispatch(deleteEvent(eventId))
-        //     .then(() => {
-        //         navigate('/events'); // Redirect to events list after deletion
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error deleting event:', error);
-        //         // Handle delete error (e.g., display an error message to the user)
-        //     });
-    };
-
     if (!event) {
         return <div>Loading...</div>;
     }
-
-    console.log(event);
 
     return (
         <div>
@@ -84,38 +59,29 @@ const EventPage = () => {
                         </Card.Text>
                         <div className={styles.infoContainer}>
                             <div className={styles.info}>
-                                <span className={styles.infoLabel}>Price:</span>
                                 <span className={styles.infoText}>
-                                    ${event.price}
+                                    Price: ${event.price}
                                 </span>
                             </div>
                             <div className={styles.info}>
-                                <span className={styles.infoLabel}>
-                                    Format:
-                                </span>
                                 <span className={styles.infoText}>
+                                    Format:{' '}
                                     {getFormat(event.format_id, formats)}
                                 </span>
                             </div>
                             <div className={styles.info}>
-                                <span className={styles.infoLabel}>Theme:</span>
                                 <span className={styles.infoText}>
-                                    {getTheme(event.theme_id, themes)}
+                                    Theme: {getTheme(event.theme_id, themes)}
                                 </span>
                             </div>
                             <div className={styles.info}>
-                                <span className={styles.infoLabel}>
-                                    Tickets Available:
-                                </span>
                                 <span className={styles.infoText}>
-                                    {event.tickets_available}
+                                    Tickets Available: {event.tickets_available}
                                 </span>
                             </div>
                             <div className={styles.info}>
-                                <span className={styles.infoLabel}>
-                                    Organiser:
-                                </span>
                                 <span className={styles.infoText}>
+                                    Organiser:{' '}
                                     {getCompanyName(
                                         event.company_id,
                                         companies,
@@ -123,9 +89,8 @@ const EventPage = () => {
                                 </span>
                             </div>
                             <div className={styles.info}>
-                                <span className={styles.infoLabel}>Date:</span>
                                 <span className={styles.infoText}>
-                                    {formatDate(event.date)}
+                                    Date: {formatDate(event.date)}
                                 </span>
                             </div>
                         </div>
@@ -136,23 +101,6 @@ const EventPage = () => {
                                 className={`mt-4 ${styles.buyButton} w-100`}
                             >
                                 Buy Ticket
-                            </Button>
-                        </div>
-
-                        <div className="text-center mb-3">
-                            <Button
-                                variant="primary"
-                                className={`mt-2 ${styles.button} w-50 smallButton`} // Add `smallButton` class
-                                onClick={() => handleUpdateEvent()}
-                            >
-                                Update Event
-                            </Button>
-                            <Button
-                                variant="danger"
-                                className={`mt-2 ${styles.button} w-50`}
-                                onClick={handleDeleteEvent}
-                            >
-                                Delete Event
                             </Button>
                         </div>
                     </Card.Body>

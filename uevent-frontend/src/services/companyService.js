@@ -21,7 +21,8 @@ export default class CompanyService {
         return $api.delete(`companies/${companyId}`);
     }
 
-    static async update(id, name, email, latitude, longitude) {
+    static async update(id, updatedFields) {
+        const { name, email, latitude, longitude } = updatedFields;
         return $api.put(`companies/${id}`, {
             name,
             email,
@@ -29,6 +30,7 @@ export default class CompanyService {
             longitude,
         });
     }
+    
 }
 
 export const getCompanyName = (companyId, companies) => {

@@ -5,7 +5,7 @@ export default class UserService {
         return $api.get(`users/${id}`);
     }
 
-    static async updateUserPhoto() {
-        return $api.post(`users/photo`);
+    static async updateUserPhoto(file, id) {
+        return $api.post(`users/${id}/avatar`, file);
     }
 }

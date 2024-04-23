@@ -4,14 +4,23 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Footer from './Footer';
 import CompanyModal from './CompanyModal';
 import { getUserCompanies } from '../store/actions/company';
-
+import { updateUserPhoto } from '../store/actions/user';
 import styles from '../styles/Profile.module.css';
 
 const Profile = () => {
     const dispatch = useDispatch();
-    const [selectedCompany, setSelectedCompany] = useState(null);
     const user = useSelector((state) => state.auth.user);
     const companies = useSelector((state) => state.company.user_companies);
+    const [selectedCompany, setSelectedCompany] = useState(null);
+
+    const handleAvatarChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('avatar', file);
+            await dispatch(updateUserPhoto(user.id, formData));
+        }
+    };
 
     const openCompanyModal = (company) => {
         setSelectedCompany(company);
@@ -41,12 +50,22 @@ const Profile = () => {
                                     <div
                                         className={`text-center mb-3 ${styles.textCenter}`}
                                     >
-                                        <img
-                                            src={`https://i.kym-cdn.com/photos/images/original/001/265/762/87f.jpg`}
-                                            alt="Avatar"
-                                            className={`rounded-circle ${styles.avatar}`}
-                                        />
+                                        <label htmlFor="avatarInput">
+                                            <img
+                                                src={`http://127.0.0.1:8000/${user.picture}`}
+                                                alt="Avatar"
+                                                className={`rounded-circle ${styles.avatar}`}
+                                            />
+                                            <input
+                                                id="avatarInput"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleAvatarChange}
+                                                style={{ display: 'none' }}
+                                            />
+                                        </label>
                                     </div>
+
                                     <Card.Title
                                         className={`text-center ${styles.cardTitle}`}
                                     >

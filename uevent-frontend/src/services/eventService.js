@@ -43,20 +43,20 @@ export default class EventService {
         return $api.delete(`events/${eventId}`);
     }
 
-    static async update(
-        id,
-        name,
-        description,
-        date,
-        price,
-        tickets_available,
-        latitude,
-        longitude,
-        company_id,
-        format_id,
-        theme_id,
-    ) {
-        return $api.put(`events/${id}`, {
+    static async update(id, updatedFields) {
+        const {
+            name,
+            description,
+            date,
+            price,
+            tickets_available,
+            latitude,
+            longitude,
+            company_id,
+            format_id,
+            theme_id,
+        } = updatedFields;
+        return $api.patch(`events/${id}`, {
             name,
             description,
             date,

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from './store/actions/auth';
+import Cookies from 'js-cookie';
 import './App.css';
 
 import HomePage from './components/HomePage';
@@ -10,6 +13,12 @@ import EventPage from './components/EventPage';
 import EventForm from './components/EventForm';
 
 function App() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (!Cookies.get('token')) {
+            dispatch(setUser(null));
+        }
+    }, [dispatch]);
     return (
         <Router>
             <div>
