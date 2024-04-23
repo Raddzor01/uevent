@@ -77,14 +77,20 @@ const CompanyModal = ({ company, show, handleClose }) => {
                 <div className={styles.eventsContainer}>
                     <h3 className={styles.eventsHeader}>Events</h3>
                     <ul className={styles.eventsList}>
-                        {events.eventsArray.map((event, index) => (
-                            <li
-                                key={event.id || index}
-                                className={styles.eventItem}
-                            >
-                                {event.name}
-                            </li>
-                        ))}
+                        {events &&
+                            events.eventsArray &&
+                            events.eventsArray.length > 0 && (
+                                <ul>
+                                    {events.eventsArray.map((event, index) => (
+                                        <li
+                                            key={event.id || index}
+                                            className={styles.eventItem}
+                                        >
+                                            {event.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                     </ul>
                 </div>
             </Modal.Body>

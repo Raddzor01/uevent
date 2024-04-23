@@ -14,7 +14,7 @@ const EventPage = () => {
     const dispatch = useDispatch();
     const { eventId } = useParams();
     const companies = useSelector((state) => state.company.companies);
-    const event = useSelector((state) => state.event.event.event);
+    const event = useSelector((state) => state.event.event);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
     useEffect(() => {
