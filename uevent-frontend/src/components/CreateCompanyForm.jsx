@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 import { createCompany } from '../store/actions/company';
-import MapContainer from './GoogleMap';
+import SearchBoxContainer from './SearchBoxContainer';
 
 import styles from '../styles/CreateCompanyForm.module.css';
 
@@ -12,10 +12,6 @@ const CreateCompanyForm = ({ show, handleClose }) => {
     const [email, setEmail] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
-
-    // console.log(latitude);
-    // console.log(longitude);
-
     const handleSave = () => {
         dispatch(createCompany(name, email, latitude, longitude));
         handleClose();
@@ -53,10 +49,15 @@ const CreateCompanyForm = ({ show, handleClose }) => {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <MapContainer
-                        setLatitude={setLatitude}
-                        setLongitude={setLongitude}
-                    />
+                    <div className="mb-3">
+                        <label htmlFor="address" className="form-label">
+                            Adress:
+                        </label>
+                        <SearchBoxContainer
+                            setLatitude={setLatitude}
+                            setLongitude={setLongitude}
+                        />
+                    </div>
                 </form>
             </Modal.Body>
             <Modal.Footer className="bg-dark">
