@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Api for service to search or create events.",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node --env-file .env index.js",
-    "dev": "nodemon --env-file .env index.js",
+    "start": "node --env-file .env src/app.js",
+    "dev": "nodemon --env-file .env src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
