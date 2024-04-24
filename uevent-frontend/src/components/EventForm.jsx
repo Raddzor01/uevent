@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import Footer from './Footer';
-
+import SearchBoxContainer from './SearchBoxContainer';
 import { createEvent } from '../store/actions/events';
 
 import styles from '../styles/EventForm.module.css';
@@ -81,32 +81,17 @@ const EventForm = () => {
                         />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="latitude">
-                        <Form.Label className={styles.label}>
-                            Latitude
-                        </Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter latitude"
-                            value={latitude}
-                            onChange={(e) => setLatitude(e.target.value)}
-                            required
-                            className={styles.input}
-                        />
-                    </Form.Group>
-
                     <Form.Group className="mb-3" controlId="longitude">
-                        <Form.Label className={styles.label}>
-                            Longitude
-                        </Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter longitude"
-                            value={longitude}
-                            onChange={(e) => setLongitude(e.target.value)}
-                            required
-                            className={styles.input}
-                        />
+                        <Form.Label className={styles.label}>Adress</Form.Label>
+                        <div className="mb-3">
+                            <label htmlFor="address" className="form-label">
+                                Adress:
+                            </label>
+                            <SearchBoxContainer
+                                setLatitude={setLatitude}
+                                setLongitude={setLongitude}
+                            />
+                        </div>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="company">

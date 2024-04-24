@@ -72,7 +72,7 @@ const Footer = () => {
                                     </p>
                                 </Link>
                                 <img
-                                    src={`https://i.kym-cdn.com/photos/images/original/001/265/762/87f.jpg`}
+                                    src={`http://127.0.0.1:8000/${user.picture}`}
                                     alt={`${user.login}'s Avatar`}
                                     className={`${styles.avatar} ms-2`}
                                 />
