@@ -1,16 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { StandaloneSearchBox, useJsApiLoader } from '@react-google-maps/api';
-
+import { StandaloneSearchBox } from '@react-google-maps/api';
+import useGoogleMapsLoader from './../services/googleService';
 import '../styles/GoogleMap.css';
 
 const SearchBoxContainer = ({ setLatitude, setLongitude }) => {
     const [searchBox, setSearchBox] = useState(null);
     const libraries = useMemo(() => ['places'], []);
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_API}`,
-        libraries: libraries,
-    });
+    const { isLoaded } = useGoogleMapsLoader(libraries);
 
     const handlePlacesChanged = () => {
         if (searchBox != null) {

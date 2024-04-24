@@ -19,7 +19,7 @@ export const createEvent =
                 name,
                 description,
                 date,
-                price,
+                Number(price),
                 tickets_available,
                 latitude,
                 longitude,
