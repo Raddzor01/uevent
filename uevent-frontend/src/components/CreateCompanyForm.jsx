@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 import { createCompany } from '../store/actions/company';
+import MapContainer from './GoogleMap';
 
 import styles from '../styles/CreateCompanyForm.module.css';
 
@@ -11,6 +12,9 @@ const CreateCompanyForm = ({ show, handleClose }) => {
     const [email, setEmail] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
+
+    // console.log(latitude);
+    // console.log(longitude);
 
     const handleSave = () => {
         dispatch(createCompany(name, email, latitude, longitude));
@@ -49,30 +53,10 @@ const CreateCompanyForm = ({ show, handleClose }) => {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="latitude" className="form-label">
-                            Latitude:
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control bg-dark text-white"
-                            id="latitude"
-                            value={latitude}
-                            onChange={(e) => setLatitude(e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="longitude" className="form-label">
-                            Longitude:
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control bg-dark text-white"
-                            id="longitude"
-                            value={longitude}
-                            onChange={(e) => setLongitude(e.target.value)}
-                        />
-                    </div>
+                    <MapContainer
+                        setLatitude={setLatitude}
+                        setLongitude={setLongitude}
+                    />
                 </form>
             </Modal.Body>
             <Modal.Footer className="bg-dark">

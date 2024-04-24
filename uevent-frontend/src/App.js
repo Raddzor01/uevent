@@ -11,6 +11,7 @@ import LoginForm from './components/LoginForm';
 import Profile from './components/Profile';
 import EventPage from './components/EventPage';
 import EventForm from './components/EventForm';
+// import GoogleMap from './components/GoogleMap';
 
 function App() {
     const dispatch = useDispatch();
