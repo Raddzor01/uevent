@@ -122,8 +122,24 @@ class companiesController {
 
     }
 
-    getStripeAccountLink = async(req, res) => {
+    getStripeAccount = async(req, res) => {
+        const companyId = Number(req.params.id);
 
+        const company = companiesTable.read(companyId);
+
+        if(!company)
+            throw new ClientError("Company not found", 404);
+
+        if(!company.stripe_id)
+            throw new ClientError("Stripe account does not exist or connected", 403);
+
+        const account = await stripe.accounts.retrieve(company.stripe_id);
+        if (!account.details_submitted)
+            throw new ClientError('Company has not completed their account', 403);
+
+        const link = await stripe.accounts.createLoginLink(company.stripe_id);
+
+        res.json({ url: link.url });
     }
 }
 

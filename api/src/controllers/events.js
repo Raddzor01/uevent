@@ -4,6 +4,7 @@ import formatsTable from '../models/Formats.js';
 import themesTable from '../models/Themes.js';
 import { ClientError } from "../middleware/error.js";
 import { saveFile } from '../service/fileUpload.js';
+import stripe from '../service/stripe.js';
 
 class eventsController {
      getEvents = async(req, res) => {
@@ -22,7 +23,19 @@ class eventsController {
         const { name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id } = req.body;
 
         if(price !== 0) {
-            // some payment check shit
+            const company = companiesTable.read(company_id);
+
+            if(!company)
+                throw new ClientError("Company not found", 404);
+
+            if(!company.stripe_id)
+                throw new ClientError("Stripe account does not exist or connected", 403);
+
+            const account = await stripe.accounts.retrieve(company.stripe_id);
+
+            if (!account.details_submitted)
+                throw new ClientError('Company has not completed their account', 403);
+
         }
 
         if (await eventsTable.checkFor("name", name))
@@ -116,6 +129,48 @@ class eventsController {
 
         res.sendStatus(204);
     }
+
+    // createSession = async(req, res) => {
+    //     const eventId = Number(req.params.id);
+    //     const user = req.user;
+    //     const isVisible = String(req.body.isVisible);
+    //
+    //     const event = await eventsTable.read(eventId);
+    //     await EventSubscription.check(event.id, user.id);
+    //
+    //     if (Number(event.price) === 0) {
+    //         const meta = {
+    //             metadata: {
+    //                 isVisible,
+    //                 eventId: String(eventId),
+    //                 userId: String(user.id),
+    //             },
+    //         };
+    //         await EventSubscription.handleWith(meta);
+    //         return res.json({ sessionId: -1 });
+    //     }
+    //
+    //     const stripeId = await CompanyService.isStripeConnected(event.companyId);
+    //     await CompanyService.checkAccountOrThrow(stripeId);
+    //
+    //     const discount = await getDiscount(eventId, req.body.promoCode);
+    //
+    //     const params: Stripe.Checkout.SessionCreateParams = {
+    //         ...STRIPE_PAYMENT_OPTIONS,
+    //         line_items: [stripeLineItem(event, discount)],
+    //         customer_email: user.email,
+    //         payment_intent_data: {
+    //             metadata: { eventId, userId: user.id, isVisible },
+    //             transfer_data: {
+    //                 destination: stripeId,
+    //             },
+    //         },
+    //     };
+    //
+    //     const session = await stripe.checkout.sessions.create(params);
+    //
+    //     res.json({ sessionId: session.id });
+    // }
 }
 
 const controller = new eventsController();
