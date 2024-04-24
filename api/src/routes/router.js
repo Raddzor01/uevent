@@ -6,6 +6,7 @@ import users from "./users.js";
 import themes from "./themes.js";
 import formats from "./formats.js";
 import promoCodes from './promo-codes.js';
+import comments from './comments.js';
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use('/users', users);
 router.use('/themes', themes);
 router.use('/formats', formats);
 router.use('/promo-codes', promoCodes);
+router.use('/comments', comments);
 
 export default router;

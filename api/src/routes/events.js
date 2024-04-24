@@ -2,7 +2,7 @@ import express from "express";
 import controller from "../controllers/events.js";
 import TokenService from "../service/token.js";
 import { boundary } from "../middleware/error.js";
-import { checkUserCompanyRights, checkUserEventRights } from "../middleware/permissions-check.js";
+import { checkUserCompanyPermissions, checkUserEventPermissions } from "../middleware/permissions-check.js";
 
 const router = express.Router();
 
@@ -11,10 +11,10 @@ router.get("/:id", boundary(controller.getEvent));
 
 router.use(TokenService.authCheck);
 
-router.post("/", checkUserCompanyRights, boundary(controller.createEvent));
-router.put("/:id", checkUserEventRights, boundary(controller.updateEvent));
-router.delete("/:id", checkUserEventRights, boundary(controller.deleteEvent));
-router.post('/:id/avatar', checkUserEventRights, boundary(controller.updateEventPhoto));
-router.delete('/:id/avatar', checkUserEventRights, boundary(controller.deleteEventPhoto));
+router.post("/", checkUserCompanyPermissions, boundary(controller.createEvent));
+router.put("/:id", checkUserEventPermissions, boundary(controller.updateEvent));
+router.delete("/:id", checkUserEventPermissions, boundary(controller.deleteEvent));
+router.post('/:id/avatar', checkUserEventPermissions, boundary(controller.updateEventPhoto));
+router.delete('/:id/avatar', checkUserEventPermissions, boundary(controller.deleteEventPhoto));
 
 export default router;

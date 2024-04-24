@@ -3,8 +3,9 @@ import eventsTable from '../models/Event.js';
 import TokenService from "../service/token.js";
 import { ClientError } from "./error.js";
 import promoCodesTable from '../models/Promo-codes.js';
+import commentsTable from '../models/Comments.js';
 
-const checkUserCompanyRights = async (req, res, next) => {
+const checkUserCompanyPermissions = async (req, res, next) => {
     const companyId = req.body.company_id || Number(req.params.id);
 
     const token = req.cookies.token;
@@ -18,7 +19,7 @@ const checkUserCompanyRights = async (req, res, next) => {
     next();
 };
 
-const checkUserEventRights = async (req, res, next) => {
+const checkUserEventPermissions = async (req, res, next) => {
     const eventId = req.body.event_id || Number(req.params.id);
 
     const token = req.cookies.token;
@@ -35,7 +36,7 @@ const checkUserEventRights = async (req, res, next) => {
     next();
 };
 
-const checkUserPromoCodeRights = async(req, res, next) => {
+const checkUserPromoCodePermissions = async(req, res, next) => {
     const promoCodeId = Number(req.params.id);
 
     const token = req.cookies.token;
@@ -52,4 +53,21 @@ const checkUserPromoCodeRights = async(req, res, next) => {
     next();
 }
 
-export { checkUserCompanyRights, checkUserEventRights, checkUserPromoCodeRights };
+const checkUserCommentPermissions = async (req, res, next) => {
+    const commentId = Number(req.params.id);
+
+    const token = req.cookies.token;
+    const { userId } = await TokenService.getData(token);
+
+    const comment = await commentsTable.read(commentId);
+    if (!comment)
+        return next(new ClientError('The comment is not found.', 404));
+
+    if (comment.user_id !== userId)
+        return next(new ClientError('Forbidden action', 403));
+
+    next();
+};
+
+
+export { checkUserCompanyPermissions, checkUserEventPermissions, checkUserPromoCodePermissions, checkUserCommentPermissions };
