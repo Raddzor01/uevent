@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { StandaloneSearchBox } from '@react-google-maps/api';
-import useGoogleMapsLoader from './../services/googleService';
+import { useGoogleMapsLoader } from './../services/googleService';
 import '../styles/GoogleMap.css';
 
-const SearchBoxContainer = ({ setLatitude, setLongitude }) => {
+const SearchBoxContainer = ({ setLatitude, setLongitude, address }) => {
     const [searchBox, setSearchBox] = useState(null);
     const libraries = useMemo(() => ['places'], []);
     const { isLoaded } = useGoogleMapsLoader(libraries);
@@ -20,6 +20,15 @@ const SearchBoxContainer = ({ setLatitude, setLongitude }) => {
             }
         }
     };
+
+    useEffect(() => {
+        if (address && searchBox) {
+            const input = searchBox.input;
+            if (input) {
+                input.value = address;
+            }
+        }
+    }, [address, searchBox]);
 
     if (!isLoaded) {
         return null;

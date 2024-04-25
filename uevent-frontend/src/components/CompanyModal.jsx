@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import CompanyUpdateForm from './CompanyUpdateForm';
 import EventUpdateForm from './EventUpdateForm';
 import UniversalModal from './UniversalModal';
+import Pagination from './Pagination';
 
 import styles from '../styles/CompanyModal.module.css';
 
@@ -17,16 +18,42 @@ const CompanyModal = ({ company, show, handleClose }) => {
     const [showDeleteEventModal, setShowDeleteEventModal] = useState(false);
     const [showUpdateCompanyModal, setShowUpdateCompanyModal] = useState(false);
     const [showUpdateEventModal, setShowUpdateEventModal] = useState(false);
+    const eventsPerPage = 3;
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = Math.ceil(events.eventsArray.length / eventsPerPage);
+    const indexOfLastEvent = currentPage * eventsPerPage;
+    const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+    const currentEvents = events.eventsArray.slice(
+        indexOfFirstEvent,
+        indexOfLastEvent,
+    );
+    const nextPage = () => setCurrentPage(currentPage + 1);
+    const prevPage = () => setCurrentPage(currentPage - 1);
+
     const handleOpenUpdateCompanyModal = () => setShowUpdateCompanyModal(true);
     const handleCloseUpdateCompanyModal = () =>
         setShowUpdateCompanyModal(false);
-    const handleOpenUpdateEventModal = () => setShowUpdateEventModal(true);
-    const handleCloseUpdateEventModal = () => setShowUpdateEventModal(false);
+    const handleOpenDeleteEventModal = (eventId) => {
+        setShowDeleteEventModal({ ...showDeleteEventModal, [eventId]: true });
+    };
+
+    const handleCloseDeleteEventModal = (eventId) => {
+        setShowDeleteEventModal({ ...showDeleteEventModal, [eventId]: false });
+        window.location.reload();
+    };
+
+    const handleOpenUpdateEventModal = (eventId) => {
+        setShowUpdateEventModal({ ...showUpdateEventModal, [eventId]: true });
+    };
+
+    const handleCloseUpdateEventModal = (eventId) => {
+        setShowUpdateEventModal({ ...showUpdateEventModal, [eventId]: false });
+        window.location.reload();
+    };
+
     const handleOpenDeleteCompanyModal = () => setShowDeleteCompanyModal(true);
     const handleCloseDeleteCompanyModal = () =>
         setShowDeleteCompanyModal(false);
-    const handleOpenDeleteEventModal = () => setShowDeleteEventModal(true);
-    const handleCloseDeleteEventModal = () => setShowDeleteEventModal(false);
 
     useEffect(() => {
         if (company && company.id) {
@@ -111,7 +138,7 @@ const CompanyModal = ({ company, show, handleClose }) => {
                             events.eventsArray &&
                             events.eventsArray.length > 0 && (
                                 <ul>
-                                    {events.eventsArray.map((event, index) => (
+                                    {currentEvents.map((event, index) => (
                                         <li
                                             key={event.id || index}
                                             className={styles.eventItem}
@@ -137,24 +164,35 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                             >
                                                 <button
                                                     className={styles.button}
-                                                    onClick={
-                                                        handleOpenUpdateEventModal
-                                                    }
-                                                >
-                                                    Update
-                                                </button>
-                                                <button
-                                                    className={styles.button}
-                                                    onClick={
-                                                        handleOpenDeleteEventModal
+                                                    onClick={() =>
+                                                        handleOpenDeleteEventModal(
+                                                            event.id,
+                                                        )
                                                     }
                                                 >
                                                     Delete
                                                 </button>
+                                                <button
+                                                    className={styles.button}
+                                                    onClick={() =>
+                                                        handleOpenUpdateEventModal(
+                                                            event.id,
+                                                        )
+                                                    }
+                                                >
+                                                    Update
+                                                </button>
+
                                                 <UniversalModal
-                                                    show={showDeleteEventModal}
-                                                    onHide={
-                                                        handleCloseDeleteEventModal
+                                                    show={
+                                                        showDeleteEventModal[
+                                                            event.id
+                                                        ]
+                                                    }
+                                                    onHide={() =>
+                                                        handleCloseDeleteEventModal(
+                                                            event.id,
+                                                        )
                                                     }
                                                     title="Delete Event Confirmation"
                                                     bodyText="Are you sure you want to delete this event?"
@@ -168,9 +206,15 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                                 />
                                             </div>
                                             <Modal
-                                                show={showUpdateEventModal}
-                                                onHide={
-                                                    handleCloseUpdateEventModal
+                                                show={
+                                                    showUpdateEventModal[
+                                                        event.id
+                                                    ]
+                                                }
+                                                onHide={() =>
+                                                    handleCloseUpdateEventModal(
+                                                        event.id,
+                                                    )
                                                 }
                                                 centered
                                                 className={`bg-dark `}
@@ -196,8 +240,16 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                             </Modal>
                                         </li>
                                     ))}
+                                    <Pagination
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        prevPage={prevPage}
+                                        nextPage={nextPage}
+                                        setCurrentPage={setCurrentPage}
+                                    />
                                 </ul>
                             )}
+
                         {!events ||
                             !events.eventsArray ||
                             (events.eventsArray.length === 0 && (

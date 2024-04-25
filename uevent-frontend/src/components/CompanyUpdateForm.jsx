@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { updateCompany } from '../store/actions/company';
+import SearchBoxContainer from './SearchBoxContainer';
+import AddressDisplay from './AddressDisplay';
 import styles from '../styles/CompanyUpdateForm.module.css';
 
 const CompanyUpdateForm = ({ company, handleClose }) => {
@@ -84,30 +86,25 @@ const CompanyUpdateForm = ({ company, handleClose }) => {
                     className={styles.formGroup}
                 >
                     <Form.Label className={`${styles.formLabel} mt-4`}>
-                        Latitude
+                        Address
                     </Form.Label>
-                    <Form.Control
-                        type="number"
-                        name="latitude"
-                        value={formData.latitude}
-                        onChange={handleChange}
-                        className={`${styles.input} ${styles.formControl}`}
+                    <AddressDisplay
+                        lat={parseFloat(originalFormData.latitude)}
+                        lng={parseFloat(originalFormData.longitude)}
                     />
-                </Form.Group>
-
-                <Form.Group
-                    controlId="formCompanyLongitude"
-                    className={styles.formGroup}
-                >
-                    <Form.Label className={`${styles.formLabel} mt-4`}>
-                        Longitude
-                    </Form.Label>
-                    <Form.Control
-                        type="number"
-                        name="longitude"
-                        value={formData.longitude}
-                        onChange={handleChange}
-                        className={`${styles.input} ${styles.formControl}`}
+                    <SearchBoxContainer
+                        setLatitude={(latitude) =>
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                latitude: latitude,
+                            }))
+                        }
+                        setLongitude={(longitude) =>
+                            setFormData((prevFormData) => ({
+                                ...prevFormData,
+                                longitude: longitude,
+                            }))
+                        }
                     />
                 </Form.Group>
 

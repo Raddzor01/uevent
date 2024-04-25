@@ -6,6 +6,7 @@ import { getEvent } from '../store/actions/events';
 import { getFormat } from '../services/formatService';
 import { getTheme } from '../services/themeService';
 import { getCompanyName } from '../services/companyService';
+import MapWithAddress from './MapWithAddress';
 import Footer from './Footer';
 
 import styles from '../styles/EventPage.module.css';
@@ -92,6 +93,12 @@ const EventPage = () => {
                                 <span className={styles.infoText}>
                                     Date: {formatDate(event.date)}
                                 </span>
+                            </div>
+                            <div className={styles.info}>
+                                <MapWithAddress
+                                    lat={parseFloat(event.latitude)}
+                                    lng={parseFloat(event.longitude)}
+                                />
                             </div>
                         </div>
 
