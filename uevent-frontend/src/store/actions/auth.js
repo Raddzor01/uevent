@@ -23,7 +23,7 @@ export const registration =
             console.log(response);
             dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
         } catch (error) {
-            dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+            dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
             console.error('Register failed', error);
         }
     };

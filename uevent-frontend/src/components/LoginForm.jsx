@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Container } from 'react-bootstrap';
 import { registration, login } from '../store/actions/auth';
 import { useNavigate } from 'react-router-dom';
 
 import styles from '../styles/LoginForm.module.css';
+import CustomAlert from './CustomAlert';
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const LoginForm = () => {
     const [full_name, setFullName] = useState('');
     const [password, setPassword] = useState('');
     const [isLoginForm, setIsLoginForm] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
+    const alertMessage = useSelector((state) => state.auth.message);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -28,6 +31,14 @@ const LoginForm = () => {
 
     const handleToggleForm = () => {
         setIsLoginForm(!isLoginForm);
+    };
+
+    const handleAlert = () => {
+        setShowAlert(true);
+    };
+    
+    const handleCloseAlert = () => {
+        setShowAlert(false);
     };
 
     return (
@@ -111,6 +122,7 @@ const LoginForm = () => {
                     variant="info"
                     type="submit"
                     className={`${styles.submitButton}`}
+                    onClick={handleAlert}
                 >
                     {isLoginForm ? 'Login' : 'Register'}
                 </Button>
@@ -128,6 +140,7 @@ const LoginForm = () => {
                     {isLoginForm ? 'Is not Registered?' : 'Back to Login'}
                 </Button>
             </Form>
+            <CustomAlert show={showAlert} handleClose={handleCloseAlert} message={alertMessage} />
         </Container>
     );
 };
