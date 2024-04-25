@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
-import useGoogleMapsLoader from './../services/googleService';
+import { useGoogleMapsLoader } from '../services/googleService';
 
-const ShowAddress = () => {
+import styles from '../styles/EventPage.module.css';
+
+const MapWithAddress = ({ lat, lng }) => {
     const [address, setAddress] = useState(null);
     const libraries = useMemo(() => ['places'], []);
-    const testCoordinates = { lat: 49.999029, lng: 36.248372 };
     const { isLoaded } = useGoogleMapsLoader(libraries);
 
     const geocodeLatLng = (geocoder, latlng) => {
@@ -24,10 +25,7 @@ const ShowAddress = () => {
 
     const onLoad = (map) => {
         const geocoder = new window.google.maps.Geocoder();
-        const latlng = new window.google.maps.LatLng(
-            testCoordinates.lat,
-            testCoordinates.lng,
-        );
+        const latlng = new window.google.maps.LatLng(lat, lng);
         geocodeLatLng(geocoder, latlng);
     };
 
@@ -38,8 +36,8 @@ const ShowAddress = () => {
                     id="example-map"
                     mapContainerStyle={{ width: '500px', height: '500px' }}
                     center={{
-                        lat: testCoordinates.lat,
-                        lng: testCoordinates.lng,
+                        lat: lat,
+                        lng: lng,
                     }}
                     zoom={15}
                     onLoad={onLoad}
@@ -47,9 +45,10 @@ const ShowAddress = () => {
             ) : (
                 <p>Loading map...</p>
             )}
-            {address && <p>Address: {address}</p>}
+
+            {address && <span className={styles.infoText}>{address}</span>}
         </div>
     );
 };
 
-export default ShowAddress;
+export default MapWithAddress;

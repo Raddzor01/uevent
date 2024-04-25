@@ -6,6 +6,7 @@ import Pagination from './Pagination';
 import { getFormat } from '../services/formatService';
 import { getTheme } from '../services/themeService';
 import { getCompanyName } from '../services/companyService';
+import AddressDisplay from './AddressDisplay';
 import styles from '../styles/EventList.module.css';
 
 const EventList = () => {
@@ -72,6 +73,12 @@ const EventList = () => {
                                             <p className={styles.date}>
                                                 {formatDate(event.date)}
                                             </p>
+                                            <AddressDisplay
+                                                lat={parseFloat(event.latitude)}
+                                                lng={parseFloat(
+                                                    event.longitude,
+                                                )}
+                                            />
                                         </div>
                                         <hr className={styles.divider} />
                                         <Card.Text

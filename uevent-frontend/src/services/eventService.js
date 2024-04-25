@@ -56,7 +56,7 @@ export default class EventService {
             format_id,
             theme_id,
         } = updatedFields;
-        return $api.patch(`events/${id}`, {
+        return $api.put(`events/${id}`, {
             name,
             description,
             date,

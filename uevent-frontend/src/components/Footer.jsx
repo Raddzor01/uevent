@@ -56,26 +56,22 @@ const Footer = () => {
                         />
                     </Col>
 
-                    <Col
-                        xs={12}
-                        md={2}
-                        className="text-center text-md-end mt-3 mt-md-0"
-                    >
+                    <Col xs={12} md={1} className="text-center mt-3 mt-md-0">
                         {user ? (
                             <div>
                                 <Link
                                     to={`/profile/${user.id}`}
-                                    className={`${styles.userInfo} text-end`}
+                                    className={`${styles.userInfo}`}
                                 >
                                     <p className={`${styles.text} mb-0`}>
                                         {user.login}
                                     </p>
+                                    <img
+                                        src={`http://127.0.0.1:8000/${user.picture}`}
+                                        alt={`${user.login}'s Avatar`}
+                                        className={`${styles.avatar} ms-2`}
+                                    />
                                 </Link>
-                                <img
-                                    src={`http://127.0.0.1:8000/${user.picture}`}
-                                    alt={`${user.login}'s Avatar`}
-                                    className={`${styles.avatar} ms-2`}
-                                />
                                 <Button
                                     variant="secondary"
                                     className={styles.button}

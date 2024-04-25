@@ -58,11 +58,6 @@
     font-weight: bold;
 }
 
-.infoText:not(:first-child)::before {
-    content: ': ';
-    font-weight: bold;
-}
-
 .buyButton,
 .button,
 .smallButton {
