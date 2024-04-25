@@ -18,6 +18,7 @@ const EventPage = () => {
     const event = useSelector((state) => state.event.event);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
+
     useEffect(() => {
         dispatch(getEvent(eventId));
     }, [dispatch, eventId]);
@@ -94,7 +95,7 @@ const EventPage = () => {
                                     Date: {formatDate(event.date)}
                                 </span>
                             </div>
-                            <div className={styles.info}>
+                            <div>
                                 <MapWithAddress
                                     lat={parseFloat(event.latitude)}
                                     lng={parseFloat(event.longitude)}

@@ -9,20 +9,35 @@ import { getCompanyName } from '../services/companyService';
 import AddressDisplay from './AddressDisplay';
 import styles from '../styles/EventList.module.css';
 
-const EventList = () => {
-    const events = useSelector((state) => state.event.events);
+const EventList = ({ filter, sortByDate }) => {
+    const events = useSelector((state) => state.event.events.eventsArray);
     const companies = useSelector((state) => state.company.companies);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
-
-    const eventsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
 
     if (!events) {
         return <div>Loading</div>;
     }
 
-    const totalPages = Math.ceil(events.eventsArray.length / eventsPerPage);
+    const filteredEvents = events.filter((event) => {
+        return (
+            (!filter.theme || event.theme_id === filter.theme) &&
+            (!filter.format || event.format_id === filter.format)
+        );
+    });
+
+    const sortedEvents = [...filteredEvents].sort((event1, event2) => {
+        if (sortByDate === 'asc') {
+            return new Date(event1.date) - new Date(event2.date);
+        } else {
+            return new Date(event2.date) - new Date(event1.date);
+        }
+    });
+
+    const eventsPerPage = 6;
+
+    const totalPages = Math.ceil(sortedEvents.length / eventsPerPage);
 
     const formatDate = (dateString) => {
         const options = {
@@ -37,7 +52,7 @@ const EventList = () => {
 
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = events.eventsArray.slice(
+    const currentEvents = sortedEvents.slice(
         indexOfFirstEvent,
         indexOfLastEvent,
     );

@@ -11,10 +11,8 @@ const SearchBoxContainer = ({ setLatitude, setLongitude, address }) => {
     const handlePlacesChanged = () => {
         if (searchBox != null) {
             const places = searchBox.getPlaces();
-            console.dir(places[0].formatted_address);
             if (places && places.length > 0) {
                 const { lat, lng } = places[0].geometry.location;
-                console.log(lat(), lng());
                 setLatitude(lat());
                 setLongitude(lng());
             }

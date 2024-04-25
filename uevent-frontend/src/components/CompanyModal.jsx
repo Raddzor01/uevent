@@ -8,6 +8,7 @@ import CompanyUpdateForm from './CompanyUpdateForm';
 import EventUpdateForm from './EventUpdateForm';
 import UniversalModal from './UniversalModal';
 import Pagination from './Pagination';
+import PaymentButton from './PaymentButton';
 
 import styles from '../styles/CompanyModal.module.css';
 
@@ -27,6 +28,7 @@ const CompanyModal = ({ company, show, handleClose }) => {
         indexOfFirstEvent,
         indexOfLastEvent,
     );
+
     const nextPage = () => setCurrentPage(currentPage + 1);
     const prevPage = () => setCurrentPage(currentPage - 1);
 
@@ -117,9 +119,7 @@ const CompanyModal = ({ company, show, handleClose }) => {
                         >
                             Delete
                         </Button>
-                        <Button variant="success" className={styles.button}>
-                            Payment
-                        </Button>
+                        <PaymentButton company={company} />
                     </div>
                     <div className={styles.buttonRow}>
                         <Link to={`/eventform`} className={styles.link}>

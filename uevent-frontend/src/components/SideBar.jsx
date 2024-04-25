@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import styles from '../styles/SideBar.module.css';
@@ -6,25 +6,48 @@ import styles from '../styles/SideBar.module.css';
 const SideBar = ({ onFilterChange, onSortChange }) => {
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
+    const [selectedFormat, setSelectedFormat] = useState('');
+    const [selectedTheme, setSelectedTheme] = useState('');
+    const [sortByDate, setSortByDate] = useState('asc');
 
     if (!formats || !themes) {
         return <div>loading</div>;
     }
 
     const handleFilterChange = (event) => {
-        // onFilterChange(event.target.value);
+        const { value } = event.target;
+        if (value) {
+            if (value === 'All') {
+                setSelectedFormat('');
+                setSelectedTheme('');
+                onFilterChange('', '');
+            } else if (formats.some((format) => format.name === value)) {
+                const formatId = formats.find(
+                    (format) => format.name === value,
+                ).id;
+                setSelectedFormat(formatId);
+                onFilterChange(formatId, selectedTheme);
+            } else if (themes.some((theme) => theme.name === value)) {
+                const themeId = themes.find((theme) => theme.name === value).id;
+                setSelectedTheme(themeId);
+                onFilterChange(selectedFormat, themeId);
+            }
+        }
     };
 
     const handleSortChange = (event) => {
-        // onSortChange(event.target.value);
+        const { value } = event.target;
+        setSortByDate(value);
+        onSortChange(sortByDate);
     };
+
     return (
         <aside className={`p-4 ${styles.sidebar}`}>
             <h2>Filter and Sort</h2>
             <Form.Group className="mb-3">
                 <Form.Label>Format:</Form.Label>
                 <Form.Control as="select" onChange={handleFilterChange}>
-                    <option value="">All</option>
+                    <option value="All">All</option>
                     {formats.map((format) => (
                         <option key={format.id} value={format.name}>
                             {format.name}
@@ -35,7 +58,7 @@ const SideBar = ({ onFilterChange, onSortChange }) => {
             <Form.Group className="mb-3">
                 <Form.Label>Theme:</Form.Label>
                 <Form.Control as="select" onChange={handleFilterChange}>
-                    <option value="">All</option>
+                    <option value="All">All</option>
                     {themes.map((theme) => (
                         <option key={theme.id} value={theme.name}>
                             {theme.name}

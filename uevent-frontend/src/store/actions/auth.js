@@ -14,7 +14,13 @@ export const login = (login, password) => async (dispatch) => {
 export const registration =
     (email, password, login, full_name) => async (dispatch) => {
         try {
-            await AuthService.register(email, password, login, full_name);
+            const response = await AuthService.register(
+                email,
+                password,
+                login,
+                full_name,
+            );
+            console.log(response);
             dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
         } catch (error) {
             dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
