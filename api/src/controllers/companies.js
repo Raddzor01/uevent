@@ -100,7 +100,7 @@ class companiesController {
     createStripeAccount = async(req, res) =>  {
         const companyId = Number(req.params.id);
 
-        const company = companiesTable.read(companyId);
+        const company = await companiesTable.read(companyId);
 
         if(!company.stripe_id) {
             const stripeAccount = await stripe.accounts.create({
@@ -125,7 +125,7 @@ class companiesController {
     getStripeAccount = async(req, res) => {
         const companyId = Number(req.params.id);
 
-        const company = companiesTable.read(companyId);
+        const company = await companiesTable.read(companyId);
 
         if(!company)
             throw new ClientError("Company not found", 404);

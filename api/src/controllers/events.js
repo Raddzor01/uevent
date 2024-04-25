@@ -23,7 +23,7 @@ class eventsController {
         const { name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id } = req.body;
 
         if(price !== 0) {
-            const company = companiesTable.read(company_id);
+            const company = await companiesTable.read(company_id);
 
             if(!company)
                 throw new ClientError("Company not found", 404);
