@@ -71,3 +71,22 @@ export const updateCompany = (id, updatedFields) => async (dispatch) => {
     }
 };
 
+export const createCompanyStripe = (id) => async (dispatch) => {
+    try {
+        await CompanyService.createStripe(id);
+        dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+        console.error('Updating company failed', error);
+    }
+};
+
+export const getCompanyStripe = (id) => async (dispatch) => {
+    try {
+        await CompanyService.getStripe(id);
+        dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+        console.error('Updating company failed', error);
+    }
+};

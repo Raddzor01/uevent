@@ -30,7 +30,14 @@ export default class CompanyService {
             longitude,
         });
     }
-    
+
+    static async createStripe(id) {
+        return $api.post(`companies/${id}/connect-stripe`);
+    }
+
+    static async getStripe(id) {
+        return $api.get(`companies/${id}/connect-stripe`);
+    }
 }
 
 export const getCompanyName = (companyId, companies) => {
