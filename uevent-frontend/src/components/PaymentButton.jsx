@@ -11,7 +11,14 @@ const PaymentButton = ({ company }) => {
 
     const handlePaymentConfirmation = () => {
         setShowModal(false);
-        dispatch(createCompanyStripe(company.id));
+        dispatch(createCompanyStripe(company.id))
+            .then((response) => {
+                console.log(response);
+                window.open(response);
+            })
+            .catch((error) => {
+                console.error('Error handling payment confirmation:', error);
+            });
     };
 
     return (

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Container, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import { getTheme } from '../services/themeService';
 import { getCompanyName } from '../services/companyService';
 import MapWithAddress from './MapWithAddress';
 import Footer from './Footer';
+import EventList from './EventList';
 
 import styles from '../styles/EventPage.module.css';
 
@@ -19,9 +20,27 @@ const EventPage = () => {
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
 
+    const [filter, setFilter] = useState({
+        format: event.format_id,
+        theme: event.theme_id,
+    });
+
     useEffect(() => {
         dispatch(getEvent(eventId));
     }, [dispatch, eventId]);
+
+    useEffect(() => {
+        if (
+            event &&
+            (filter.format !== event.format_id ||
+                filter.theme !== event.theme_id)
+        ) {
+            setFilter({
+                format: event.format_id,
+                theme: event.theme_id,
+            });
+        }
+    }, [event, filter]);
 
     const formatDate = (dateString) => {
         const options = {
@@ -34,8 +53,8 @@ const EventPage = () => {
         return new Date(dateString).toLocaleString('en-US', options);
     };
 
-    if (!event) {
-        return <div>Loading...</div>;
+    if (!event && event.id !== eventId) {
+        return <div>Loading</div>;
     }
 
     return (
@@ -114,6 +133,16 @@ const EventPage = () => {
                     </Card.Body>
                 </Card>
             </Container>
+            <div style={{ width: '100%', padding: 0, margin: 0 }}>
+                <h2 style={{ textAlign: 'center', margin: '20px 0' }}>
+                    Similar Events
+                </h2>
+                <EventList
+                    filter={filter}
+                    excludeEvent={event.id}
+                    eventsPerPage={3}
+                />
+            </div>
         </div>
     );
 };

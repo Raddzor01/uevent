@@ -74,8 +74,8 @@ export const updateCompany = (id, updatedFields) => async (dispatch) => {
 export const createCompanyStripe = (id) => async (dispatch) => {
     try {
         const response = await CompanyService.createStripe(id);
-        console.log(response);
         dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
+        return response.data.account_url;
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
         console.error('Create company stripe error', error);
