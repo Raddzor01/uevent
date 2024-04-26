@@ -71,9 +71,10 @@ CREATE TABLE IF NOT EXISTS comments(
                             FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS user_events(
+CREATE TABLE IF NOT EXISTS tickets(
                             user_id INTEGER NOT NULL,
                             event_id INTEGER NOT NULL,
+                            isVisible BOOLEAN NOT NULL,
 
                             PRIMARY KEY (user_id, event_id),
                             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,

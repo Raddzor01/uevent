@@ -38,6 +38,12 @@ class PromoCodes extends Model {
 		const result = await db.makeRequest(query, [promoCode_id, user_id]);
 		return !!result[0].length;
 	}
+
+	async getDiscountEventPromoCode(code, event_id) {
+		const query = `SELECT * FROM promo_codes WHERE code = ? AND event_id = ? LIMIT 1; `;
+		const result = await db.makeRequest(query, [code, event_id]);
+		return result[0][0].discount;
+	}
 }
 
 const promoCodesTable = new PromoCodes();
