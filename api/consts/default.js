@@ -10,3 +10,5 @@ export const DATABASE_CONFIG = {
 export const COOKIE_OPTIONS = {
 	expiresIn: TOKEN_LIFE,
 };
+
+export const TICKETS_UNLIMITED = -1;

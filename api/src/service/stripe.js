@@ -13,11 +13,11 @@ const stripeWebhook = async(req, res) => {
 		throw new Error(`Stripe webhook error: ${err}`);
 	}
 
-	// if (event.type === 'payment_intent.succeeded') {
-	//     const meta = event.data.object;
-	//     await EventSubscription.handleWith(meta);
-	//     logger.info('Your payment was successful');
-	// }
+	if (event.type === 'payment_intent.succeeded') {
+	    const meta = event.data.object;
+	    // await EventSubscription.handleWith(meta);
+	    console.info('Your payment was successful');
+	}
 
 	if (event.type === 'account.updated') {
 		if (!event.account)

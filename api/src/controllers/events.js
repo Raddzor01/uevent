@@ -5,6 +5,9 @@ import themesTable from '../models/Themes.js';
 import { ClientError } from "../middleware/error.js";
 import { saveFile } from '../service/fileUpload.js';
 import stripe from '../service/stripe.js';
+import ticketsTable from '../models/Tickets.js';
+import { TICKETS_UNLIMITED } from '../../consts/default.js';
+import promoCodesTable from '../models/Promo-codes.js';
 
 class eventsController {
      getEvents = async(req, res) => {
@@ -130,47 +133,66 @@ class eventsController {
         res.sendStatus(204);
     }
 
-    // createSession = async(req, res) => {
-    //     const eventId = Number(req.params.id);
-    //     const user = req.user;
-    //     const isVisible = String(req.body.isVisible);
-    //
-    //     const event = await eventsTable.read(eventId);
-    //     await EventSubscription.check(event.id, user.id);
-    //
-    //     if (Number(event.price) === 0) {
-    //         const meta = {
-    //             metadata: {
-    //                 isVisible,
-    //                 eventId: String(eventId),
-    //                 userId: String(user.id),
-    //             },
-    //         };
-    //         await EventSubscription.handleWith(meta);
-    //         return res.json({ sessionId: -1 });
-    //     }
-    //
-    //     const stripeId = await CompanyService.isStripeConnected(event.companyId);
-    //     await CompanyService.checkAccountOrThrow(stripeId);
-    //
-    //     const discount = await getDiscount(eventId, req.body.promoCode);
-    //
-    //     const params: Stripe.Checkout.SessionCreateParams = {
-    //         ...STRIPE_PAYMENT_OPTIONS,
-    //         line_items: [stripeLineItem(event, discount)],
-    //         customer_email: user.email,
-    //         payment_intent_data: {
-    //             metadata: { eventId, userId: user.id, isVisible },
-    //             transfer_data: {
-    //                 destination: stripeId,
-    //             },
-    //         },
-    //     };
-    //
-    //     const session = await stripe.checkout.sessions.create(params);
-    //
-    //     res.json({ sessionId: session.id });
-    // }
+    createPayment = async(req, res) => {
+        const eventId = Number(req.params.id);
+        const user = req.user;
+        const { isVisible, promo_code } = req.body;
+
+        const event = await eventsTable.read(eventId);
+
+        if(!event)
+            throw new ClientError("Event not found", 404);
+
+        if(!await ticketsTable.checkUserTicket(eventId, user.userId))
+            throw new ClientError("You already bought a ticket", 400);
+
+        if(event.tickets_available <= 0 && event.tickets_available !== TICKETS_UNLIMITED)
+            throw new ClientError('No tickets available', 403);
+
+
+        if (event.price === 0) {
+            const ticketId = await ticketsTable.create(user.userId, eventId, isVisible);
+
+            if(event.tickets_available !== TICKETS_UNLIMITED)
+                await eventsTable.update(eventId, "tickets_available", event.tickets_available - 1);
+
+            // mailing shit
+
+            return res.json({ url: -1 });
+        }
+
+        const stripeId = await companiesTable.checkStripeAccount(event.company_id);
+
+        const discount = promo_code ? await promoCodesTable.getDiscountEventPromoCode(promo_code, eventId) : 0;
+
+        const params = {
+            payment_method_types: ['card'],
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_URL}/event/payment/?status=true`,
+            cancel_url: `${process.env.CLIENT_URL}/event/payment/?status=false`,
+            line_items: [{
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: `Ticket for the '${event.name}' event`,
+                    },
+                    unit_amount: Number(event.price) * (100 - discount),
+                },
+                quantity: 1,
+            }],
+            customer_email: user.email,
+            payment_intent_data: {
+                metadata: { eventId, userId: user.id, isVisible },
+                transfer_data: {
+                    destination: stripeId,
+                },
+            },
+        };
+
+        const session = await stripe.checkout.sessions.create(params);
+
+        res.json({ url: session.url });
+    }
 }
 
 const controller = new eventsController();
