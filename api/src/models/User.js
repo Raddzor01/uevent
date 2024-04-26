@@ -33,6 +33,14 @@ class User extends Model {
 
         await db.makeRequest(sql, [password, email]);
     }
+
+    getUsersEventComments = async(event_id) => {
+        const sql = `SELECT * FROM users
+                    INNER JOIN comments ON users.id = comments.user_id
+                    WHERE comments.event_id = ?; `;
+        const res = await db.makeRequest(sql, [event_id]);
+        return res[0];
+    }
 }
 
 const usersTable = new User();

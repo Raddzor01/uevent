@@ -13,13 +13,6 @@ class Company extends Model {
 		return res[0].insertId;
 	}
 
-	async saveUserCompany(userId, eventId) {
-		const query = `INSERT INTO user_events(user_id, event_id) VALUES(?, ?);`;
-		const res = await db.makeRequest(query, [userId, eventId]);
-
-		return res[0].insertId;
-	}
-
 	async read(id) {
 		const data = await super.read(id);
 		return data[0][0];
