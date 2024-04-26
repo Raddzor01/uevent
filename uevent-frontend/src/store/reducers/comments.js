@@ -1,12 +1,12 @@
 const initialState = {
-    comments_users: null,
+    comments: null,
     message: null,
 };
 
-const userReducer = (state = initialState, action) => {
+const commentReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_COMMENTS_USERS':
-            return { ...state, comments_users: action.payload };
+        case 'SET_COMMENTS':
+            return { ...state, comments: action.payload };
         case 'SET_MESSAGE':
             return { ...state, message: action.payload };
         case 'CLEAR_MESSAGE':
@@ -16,4 +16,4 @@ const userReducer = (state = initialState, action) => {
     }
 };
 
-export default userReducer;
+export default commentReducer;

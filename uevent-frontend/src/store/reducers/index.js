@@ -5,6 +5,7 @@ import userReducer from './user';
 import eventReducer from './events';
 import themesReducer from './theme';
 import formatsReducer from './format';
+import commentReducer from './comments';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     event: eventReducer,
     theme: themesReducer,
     format: formatsReducer,
+    comment: commentReducer,
 });
 
 export default rootReducer;

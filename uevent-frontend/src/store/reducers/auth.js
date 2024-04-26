@@ -1,6 +1,6 @@
 const initialState = {
     user: null,
-    message: "",
+    message: '',
 };
 
 const authReducer = (state = initialState, action) => {
@@ -12,7 +12,6 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 user: { ...state.user, picture: action.payload },
             };
-
         case 'SET_MESSAGE':
             return { ...state, message: action.payload };
         case 'CLEAR_MESSAGE':

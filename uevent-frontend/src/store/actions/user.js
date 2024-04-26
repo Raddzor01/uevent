@@ -11,6 +11,21 @@ export const getUser = (id) => async (dispatch) => {
     }
 };
 
+export const getCommentsUsers = (eventId, comments) => async (dispatch) => {
+    try {
+        const response = await UserService.getAll(eventId, comments);
+        dispatch({
+            type: 'SET_COMMENTS_USERS',
+            payload: response.data.usersArray,
+        });
+        dispatch({ type: 'SET_MESSAGE', payload: 'Success' });
+        return response.data.userData;
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: 'Error' });
+        console.error('Getting user failed', error);
+    }
+};
+
 export const updateUserPhoto = (id, file) => async (dispatch) => {
     try {
         console.log(id);
