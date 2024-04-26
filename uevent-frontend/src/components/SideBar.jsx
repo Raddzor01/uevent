@@ -17,10 +17,12 @@ const SideBar = ({ onFilterChange, onSortChange }) => {
     const handleFilterChange = (event) => {
         const { value } = event.target;
         if (value) {
-            if (value === 'All') {
+            if (value === 'AllFormat') {
                 setSelectedFormat('');
+                onFilterChange('', selectedTheme);
+            } else if (value === 'AllTheme') {
                 setSelectedTheme('');
-                onFilterChange('', '');
+                onFilterChange(selectedFormat, '');
             } else if (formats.some((format) => format.name === value)) {
                 const formatId = formats.find(
                     (format) => format.name === value,
@@ -47,7 +49,7 @@ const SideBar = ({ onFilterChange, onSortChange }) => {
             <Form.Group className="mb-3">
                 <Form.Label>Format:</Form.Label>
                 <Form.Control as="select" onChange={handleFilterChange}>
-                    <option value="All">All</option>
+                    <option value="AllFormat">All</option>
                     {formats.map((format) => (
                         <option key={format.id} value={format.name}>
                             {format.name}
@@ -58,7 +60,7 @@ const SideBar = ({ onFilterChange, onSortChange }) => {
             <Form.Group className="mb-3">
                 <Form.Label>Theme:</Form.Label>
                 <Form.Control as="select" onChange={handleFilterChange}>
-                    <option value="All">All</option>
+                    <option value="AllTheme">All</option>
                     {themes.map((theme) => (
                         <option key={theme.id} value={theme.name}>
                             {theme.name}

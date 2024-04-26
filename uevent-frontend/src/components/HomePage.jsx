@@ -39,7 +39,11 @@ const HomePage = () => {
                     onFilterChange={handleFilterChange}
                     onSortChange={handleSortChange}
                 />
-                <EventList filter={filter} sortByDate={sortByDate} />
+                <EventList
+                    filter={filter}
+                    sortByDate={sortByDate}
+                    eventsPerPage={6}
+                />
             </div>
         </div>
     );
