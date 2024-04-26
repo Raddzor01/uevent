@@ -191,7 +191,7 @@ class eventsController {
 
         const session = await stripe.checkout.sessions.create(params);
 
-        res.json({ sessionId: session.url });
+        res.json({ url: session.url });
     }
 }
 
