@@ -90,3 +90,11 @@ CREATE TABLE IF NOT EXISTS themes(
                             id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
                             name VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS companySubscription(
+                            user_id INTEGER NOT NULL,
+                            company_id INTEGER NOT NULL,
+
+                            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+                            FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE ON UPDATE CASCADE
+);

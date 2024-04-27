@@ -32,11 +32,12 @@ class PromoCodes extends Model {
 	}
 
 	async checkPermission(promoCode_id, user_id) {
-		const query = `SELECT * FROM promo_codes
-    						INNER JOIN companies ON promo_codes.event_id = companies.id
-                       		WHERE promo_codes.id = ? AND companies.user_id = ?;`;
-		const result = await db.makeRequest(query, [promoCode_id, user_id]);
-		return !!result[0].length;
+		const query = `SELECT COUNT(*) AS access_count FROM companies
+                    	INNER JOIN events ON companies.id = events.company_id
+                        INNER JOIN promo_codes ON events.id = promo_codes.event_id
+                       	WHERE companies.user_id = ? AND promo_codes.id = ?; `;
+		const result = await db.makeRequest(query, [user_id, promoCode_id]);
+		return !!result[0][0].access_count;
 	}
 
 	async getDiscountEventPromoCode(code, event_id) {

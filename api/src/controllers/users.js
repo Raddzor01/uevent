@@ -1,8 +1,6 @@
 import usersTable from '../models/User.js';
 import { ClientError } from "../middleware/error.js";
 import { saveFile } from '../service/fileUpload.js';
-import companiesTable from '../models/Company.js';
-import commentsTable from '../models/Comments.js';
 
 class usersController {
 
