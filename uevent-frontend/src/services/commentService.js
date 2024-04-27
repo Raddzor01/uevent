@@ -21,8 +21,7 @@ export default class CommentService {
         return $api.delete(`comments/${id}`);
     }
 
-    static async update(id, updatedFields) {
-        const { content } = updatedFields;
+    static async update(id, content) {
         return $api.put(`comments/${id}`, {
             content,
         });

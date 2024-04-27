@@ -28,8 +28,6 @@ export const getCommentsUsers = (eventId, comments) => async (dispatch) => {
 
 export const updateUserPhoto = (id, file) => async (dispatch) => {
     try {
-        console.log(id);
-        console.log(file);
         const response = await UserService.updateUserPhoto(file, id);
         dispatch({ type: 'SET_MESSAGE', payload: 'User photo updated successfully' });
         return response.data.userData;

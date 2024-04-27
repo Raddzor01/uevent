@@ -17,7 +17,7 @@ const Profile = () => {
         const file = event.target.files[0];
         if (file) {
             const formData = new FormData();
-            formData.append('avatar', file);
+            formData.append('photo', file);
             await dispatch(updateUserPhoto(user.id, formData));
         }
     };
@@ -103,7 +103,7 @@ const Profile = () => {
                                 <Card.Body>
                                     <div className={styles.companyInfo}>
                                         <img
-                                            src={`https://www.rmpsrl.net/wp-content/uploads/2017/02/CP_logo_black-2.jpg`}
+                                            src={`http://127.0.0.1:8000/${company.picture_path}`}
                                             alt="Company Logo"
                                             className={styles.companyLogo}
                                         />

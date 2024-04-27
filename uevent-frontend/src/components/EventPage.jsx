@@ -7,19 +7,27 @@ import { getEvent } from '../store/actions/events';
 import { getFormat } from '../services/formatService';
 import { getTheme } from '../services/themeService';
 import { getCompanyName } from '../services/companyService';
-import { createComment, getComments } from '../store/actions/comments';
+import {
+    createComment,
+    getComments,
+    deleteComment,
+    updateComment,
+} from '../store/actions/comments';
 import { getCommentsUsers } from '../store/actions/user';
+import { formatDate } from '../store/actions/data';
 
 import MapWithAddress from './MapWithAddress';
 import Footer from './Footer';
 import EventList from './EventList';
+import UniversalModal from './UniversalModal';
 
 import styles from '../styles/EventPage.module.css';
 
 const EventPage = () => {
     const dispatch = useDispatch();
+
     const { eventId } = useParams();
-    const [content, setContent] = useState('');
+
     const companies = useSelector((state) => state.company.companies);
     const comments = useSelector((state) => state.comment.comments);
     const user = useSelector((state) => state.auth.user);
@@ -28,14 +36,47 @@ const EventPage = () => {
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
 
+    const [content, setContent] = useState('');
+    const [filter, setFilter] = useState({
+        format: event ? event.format_id : null,
+        theme: event ? event.theme_id : null,
+    });
+    const [showModal, setShowModal] = useState(false);
+    const [commentToDeleteIndex, setCommentToDeleteIndex] = useState(null);
+    const [updatedContent, setUpdatedContent] = useState('');
+    const [commentToUpdateIndex, setCommentToUpdateIndex] = useState(null);
+
     const handleInputChatChange = (event) => {
         setContent(event.target.value);
     };
 
-    const [filter, setFilter] = useState({
-        format: event.format_id,
-        theme: event.theme_id,
-    });
+    const handleDelete = (index) => {
+        setCommentToDeleteIndex(index);
+        setShowModal(true);
+    };
+
+    const confirmDelete = () => {
+        setShowModal(false);
+        const commentId = comments[commentToDeleteIndex].id;
+        dispatch(deleteComment(commentId));
+    };
+
+    const handleUpdateContentChange = (event) => {
+        setUpdatedContent(event.target.value);
+    };
+
+    const handleUpdate = (index) => {
+        setCommentToUpdateIndex(index);
+        const commentContent = comments[index].content;
+        setUpdatedContent(commentContent);
+    };
+
+    const handleUpdateComment = () => {
+        const commentId = comments[commentToUpdateIndex].id;
+        dispatch(updateComment(commentId, updatedContent));
+        setUpdatedContent('');
+        setCommentToUpdateIndex(null);
+    };
 
     useEffect(() => {
         dispatch(getEvent(eventId));
@@ -57,32 +98,23 @@ const EventPage = () => {
     }, [event, filter]);
 
     const handleSubmitComment = () => {
-        dispatch(createComment(content, user.id, event.id));
+        if (user) {
+            dispatch(createComment(content, user.id, event.id));
+        }
         setContent('');
     };
 
-    const formatDate = (dateString) => {
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-        };
-        return new Date(dateString).toLocaleString('en-US', options);
-    };
-
-    if (!event && event.id !== eventId) {
+    if (!event || event.id != eventId) {
         return <div>Loading</div>;
     }
 
     return (
         <div>
             <Footer />
-            <Container className={` ${styles.container}`}>
+            <Container>
                 <Row>
                     <Col md={6}>
-                        <Card className={`${styles.card} border-0`}>
+                        <Card className={`${styles.card}`}>
                             <Card.Img
                                 variant="top"
                                 src={`https://206329.selcdn.ru/BHAGs-media/upload/activity_banners/e2a1cca6-f9d9-42ed-be13-3f0415b25514.jpg`}
@@ -160,10 +192,10 @@ const EventPage = () => {
                         </Card>
                     </Col>
 
-                    <Col md={6} className="d-flex align-items-center">
+                    <Col md={6} className=" align-items-center ">
                         <div>
                             <Card
-                                className={`${styles.chat}  bg-dark text-light`}
+                                className={`${styles.chat}  bg-dark text-light `}
                             >
                                 <Card.Body>
                                     <Card.Title
@@ -173,46 +205,94 @@ const EventPage = () => {
                                     </Card.Title>
                                     <div
                                         className={`${styles.commentsContainer} mb-3`}
-                                        style={{
-                                            maxHeight: '1000px',
-                                            overflowY: 'auto',
-                                        }}
                                     >
-                                        {comments.map((comment, index) => {
-                                            const author = users.find(
-                                                (user) =>
-                                                    user.id === comment.user_id,
-                                            );
-                                            const isCurrentUser =
-                                                user !== null &&
-                                                user.id === author.id;
-                                            return (
-                                                <div
-                                                    className={`d-flex align-items-center mb-3 ${isCurrentUser ? 'flex-row-reverse' : ''}`}
-                                                    key={index}
-                                                >
-                                                    <img
-                                                        src={`http://127.0.0.1:8000/${author.picture}`}
-                                                        alt={`User ${index + 1} Avatar`}
-                                                        className={`${styles.avatar} mr-3`}
-                                                    />
-                                                    <div>
-                                                        <strong
-                                                            className={
-                                                                styles.username
-                                                            }
-                                                        >
-                                                            {author.login}
-                                                        </strong>
-                                                        <div
-                                                            className={`${styles.comment} mb-2`}
-                                                        >
-                                                            {comment.content}
+                                        {comments &&
+                                            Array.isArray(comments) &&
+                                            comments.map((comment, index) => {
+                                                const author = users.find(
+                                                    (user) =>
+                                                        user.id ===
+                                                        comment.user_id,
+                                                );
+                                                return (
+                                                    <div
+                                                        className={`align-items-center mb-3`}
+                                                        key={index}
+                                                    >
+                                                        <img
+                                                            src={`http://127.0.0.1:8000/${author.picture}`}
+                                                            alt={`User ${index + 1} Avatar`}
+                                                            className={`${styles.avatar} mr-3`}
+                                                        />
+                                                        <div>
+                                                            <strong
+                                                                className={`${styles.username} `}
+                                                            >
+                                                                {author.login}
+                                                            </strong>
+                                                            <div
+                                                                className={`${styles.comment} mb-2`}
+                                                            >
+                                                                {commentToUpdateIndex ===
+                                                                index ? (
+                                                                    <div>
+                                                                        <textarea
+                                                                            value={
+                                                                                updatedContent
+                                                                            }
+                                                                            onChange={
+                                                                                handleUpdateContentChange
+                                                                            }
+                                                                            className="form-control mb-2"
+                                                                            rows={
+                                                                                3
+                                                                            }
+                                                                        />
+                                                                        <div className="d-flex justify-content-end mt-auto">
+                                                                            <button
+                                                                                className="btn btn-sm btn-custom-primary mr-1"
+                                                                                onClick={
+                                                                                    handleUpdateComment
+                                                                                }
+                                                                            >
+                                                                                Save
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                ) : (
+                                                                    <div>
+                                                                        {
+                                                                            comment.content
+                                                                        }
+                                                                        <div className="d-flex justify-content-end mt-auto">
+                                                                            <button
+                                                                                className="btn btn-sm btn-custom-primary mr-1"
+                                                                                onClick={() =>
+                                                                                    handleUpdate(
+                                                                                        index,
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Update
+                                                                            </button>
+                                                                            <button
+                                                                                className="btn btn-sm btn-custom-danger"
+                                                                                onClick={() =>
+                                                                                    handleDelete(
+                                                                                        index,
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Delete
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            );
-                                        })}
+                                                );
+                                            })}
                                     </div>
                                 </Card.Body>
 
@@ -252,6 +332,15 @@ const EventPage = () => {
                     eventsPerPage={3}
                 />
             </div>
+            <UniversalModal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                title="Delete Comment"
+                bodyText="Are you sure you want to delete this comment?"
+                deleteActionText="Delete"
+                handleDelete={confirmDelete}
+                confirmationMessage="This action cannot be undone."
+            />
         </div>
     );
 };

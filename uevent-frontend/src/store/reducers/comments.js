@@ -1,5 +1,5 @@
 const initialState = {
-    comments: null,
+    comments: [],
     message: null,
 };
 
@@ -11,6 +11,19 @@ const commentReducer = (state = initialState, action) => {
             return { ...state, message: action.payload };
         case 'CLEAR_MESSAGE':
             return { ...state, message: action.payload };
+        case 'DELETE_COMMENT':
+            const updatedCommentsAfterDelete = state.comments.filter(
+                (comment) => comment.id !== action.payload,
+            );
+            return { ...state, comments: updatedCommentsAfterDelete };
+        case 'UPDATE_COMMENT':
+            const updatedCommentsAfterUpdate = state.comments.map((comment) => {
+                if (comment.id === action.payload.id) {
+                    return { ...comment, content: action.payload.content };
+                }
+                return comment;
+            });
+            return { ...state, comments: updatedCommentsAfterUpdate };
         default:
             return state;
     }
