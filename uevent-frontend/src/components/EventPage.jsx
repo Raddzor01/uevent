@@ -103,8 +103,7 @@ const EventPage = () => {
         }
         setContent('');
     };
-
-    if (!event || event.id != eventId) {
+    if (!event || parseInt(event.id) !== parseInt(eventId)) {
         return <div>Loading</div>;
     }
 
@@ -209,11 +208,13 @@ const EventPage = () => {
                                         {comments &&
                                             Array.isArray(comments) &&
                                             comments.map((comment, index) => {
-                                                const author = users.find(
-                                                    (user) =>
-                                                        user.id ===
-                                                        comment.user_id,
-                                                );
+                                                const author =
+                                                    users &&
+                                                    users.find(
+                                                        (user) =>
+                                                            user.id ===
+                                                            comment.user_id,
+                                                    );
                                                 return (
                                                     <div
                                                         className={`align-items-center mb-3`}
@@ -264,28 +265,32 @@ const EventPage = () => {
                                                                         {
                                                                             comment.content
                                                                         }
-                                                                        <div className="d-flex justify-content-end mt-auto">
-                                                                            <button
-                                                                                className="btn btn-sm btn-custom-primary mr-1"
-                                                                                onClick={() =>
-                                                                                    handleUpdate(
-                                                                                        index,
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                Update
-                                                                            </button>
-                                                                            <button
-                                                                                className="btn btn-sm btn-custom-danger"
-                                                                                onClick={() =>
-                                                                                    handleDelete(
-                                                                                        index,
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                Delete
-                                                                            </button>
-                                                                        </div>
+                                                                        {user &&
+                                                                            user.id ===
+                                                                                author.id && (
+                                                                                <div className="d-flex justify-content-end mt-auto">
+                                                                                    <button
+                                                                                        className="btn btn-sm btn-custom-primary mr-1"
+                                                                                        onClick={() =>
+                                                                                            handleUpdate(
+                                                                                                index,
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Update
+                                                                                    </button>
+                                                                                    <button
+                                                                                        className="btn btn-sm btn-custom-danger"
+                                                                                        onClick={() =>
+                                                                                            handleDelete(
+                                                                                                index,
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Delete
+                                                                                    </button>
+                                                                                </div>
+                                                                            )}
                                                                     </div>
                                                                 )}
                                                             </div>

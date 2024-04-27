@@ -1,0 +1,166 @@
+.textCenter {
+    text-align: center;
+}
+
+.modalContent {
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.modalTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    width: 100%;
+    color: aqua;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.modalText {
+    color: #cccccc;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.modalHeader,
+.modalFooter {
+    color: #cccccc;
+    border: 0;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -50px;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.button {
+    background-color: #292929 !important;
+    color: #ffffff;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.button:hover {
+    background-color: #008b8b !important;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid aqua;
+}
+
+.eventsContainer {
+    color: #eee;
+    border: 1px solid aqua;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.eventsHeader {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #00ffff;
+}
+
+.eventsContainer {
+    padding: 1rem;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.eventsHeader {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+ul {
+    list-style: none;
+}
+
+.eventsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.eventItem {
+    border: 1px solid #07eaf1;
+    padding: 1rem;
+    cursor: pointer;
+    padding-left: 20px;
+    margin-left: -20px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.eventInfo {
+    flex: 1;
+}
+
+.eventName {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.eventLink {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.input {
+    background-color: #343a40;
+    color: white;
+    border: 1px solid #6c757d;
+    border-radius: 4px;
+    padding: 0.375rem 0.75rem;
+}
+
+.updateButton {
+    background-color: #292929 !important;
+    color: #ffffff;
+    border: none;
+    width: 100%;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.updateButton:hover {
+    background-color: #008b8b !important;
+}
+
+.customListItem {
+    background-color: #343a40;
+    color: white;
+    border: 1px solid #6c757d;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 8px;
+}
+
+.promoCodesContainer {
+    max-height: 500px;
+    overflow-y: auto;
+}
