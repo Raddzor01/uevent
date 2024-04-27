@@ -1,6 +1,6 @@
 const initialState = {
     comments_users: null,
-    message: null,
+    message: '',
 };
 
 const userReducer = (state = initialState, action) => {

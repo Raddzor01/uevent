@@ -1,6 +1,6 @@
 const initialState = {
     promocodes: [],
-    message: null,
+    message: '',
 };
 
 const promocodesReducer = (state = initialState, action) => {

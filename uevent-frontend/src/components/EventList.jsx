@@ -20,7 +20,7 @@ const EventList = ({ filter, sortByDate, excludeEvent, eventsPerPage }) => {
         return <div>Loading</div>;
     }
 
-    const filteredEvents = events.filter((event) => {
+    const filteredEvents = events && events.filter((event) => {
         if (excludeEvent) {
             return (
                 (!filter.theme ||

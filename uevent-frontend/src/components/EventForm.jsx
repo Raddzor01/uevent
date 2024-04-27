@@ -4,11 +4,13 @@ import { Form, Button } from 'react-bootstrap';
 import Footer from './Footer';
 import SearchBoxContainer from './SearchBoxContainer';
 import { createEvent } from '../store/actions/events';
+import { useNavigate } from 'react-router-dom';
 
 import styles from '../styles/EventForm.module.css';
 
 const EventForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const companies = useSelector((state) => state.company.companies);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
@@ -42,6 +44,7 @@ const EventForm = () => {
                 theme,
             ),
         );
+        navigate('/');
     };
 
     return (

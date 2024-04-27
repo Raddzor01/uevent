@@ -1,6 +1,6 @@
 const initialState = {
     comments: [],
-    message: null,
+    message: '',
 };
 
 const commentReducer = (state = initialState, action) => {

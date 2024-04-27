@@ -5,12 +5,15 @@ import { updateEvent } from '../store/actions/events';
 import AddressDisplay from './AddressDisplay';
 import SearchBoxContainer from './SearchBoxContainer';
 import styles from '../styles/CompanyUpdateForm.module.css';
+import CustomAlert from './CustomAlert';
 
 const EventUpdateForm = ({ event, handleClose }) => {
     const dispatch = useDispatch();
     const companies = useSelector((state) => state.company.companies);
     const formats = useSelector((state) => state.format.formats);
     const themes = useSelector((state) => state.theme.themes);
+    const alertMessage = useSelector((state) => state.auth.message);
+    const [showAlert, setShowAlert] = useState(false);
     const initialDateTime = event.date ? event.date.slice(0, 16) : '';
     const [originalFormData] = useState({
         name: event.name,
@@ -243,10 +246,12 @@ const EventUpdateForm = ({ event, handleClose }) => {
                     variant="primary"
                     type="submit"
                     className={`${styles.updateButton} mt-4`}
+                    onClick={() => { setShowAlert(true); }}
                 >
                     Update
                 </Button>
             </Form>
+            <CustomAlert show={showAlert} handleClose={() => { setShowAlert(false); }} message={alertMessage} />
         </Modal.Body>
     );
 };

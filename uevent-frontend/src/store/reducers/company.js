@@ -2,7 +2,7 @@ const initialState = {
     companies: null,
     user_companies: null,
     events: null,
-    message: null,
+    message: '',
 };
 
 const companyReducer = (state = initialState, action) => {

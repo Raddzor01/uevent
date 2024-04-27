@@ -1,6 +1,6 @@
 const initialState = {
     themes: null,
-    message: null,
+    message: '',
 };
 
 const themesReducer = (state = initialState, action) => {
