@@ -21,27 +21,24 @@ const CompanyModal = ({ company, show, handleClose }) => {
     const [showUpdateEventModal, setShowUpdateEventModal] = useState(false);
     const eventsPerPage = 3;
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(events.eventsArray.length / eventsPerPage);
+    const totalPages = Math.ceil(events && events.length / eventsPerPage);
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-    const currentEvents = events.eventsArray.slice(
-        indexOfFirstEvent,
-        indexOfLastEvent,
-    );
-
+    const currentEvents =
+        events && events.slice(indexOfFirstEvent, indexOfLastEvent);
     const nextPage = () => setCurrentPage(currentPage + 1);
     const prevPage = () => setCurrentPage(currentPage - 1);
 
     const handleOpenUpdateCompanyModal = () => setShowUpdateCompanyModal(true);
     const handleCloseUpdateCompanyModal = () =>
         setShowUpdateCompanyModal(false);
+
     const handleOpenDeleteEventModal = (eventId) => {
         setShowDeleteEventModal({ ...showDeleteEventModal, [eventId]: true });
     };
 
     const handleCloseDeleteEventModal = (eventId) => {
         setShowDeleteEventModal({ ...showDeleteEventModal, [eventId]: false });
-        window.location.reload();
     };
 
     const handleOpenUpdateEventModal = (eventId) => {
@@ -50,7 +47,6 @@ const CompanyModal = ({ company, show, handleClose }) => {
 
     const handleCloseUpdateEventModal = (eventId) => {
         setShowUpdateEventModal({ ...showUpdateEventModal, [eventId]: false });
-        window.location.reload();
     };
 
     const handleOpenDeleteCompanyModal = () => setShowDeleteCompanyModal(true);
@@ -93,7 +89,7 @@ const CompanyModal = ({ company, show, handleClose }) => {
                     {company.name}
                     <div className={`text-center mb-3 ${styles.textCenter}`}>
                         <img
-                            src={`https://www.rmpsrl.net/wp-content/uploads/2017/02/CP_logo_black-2.jpg`}
+                            src={`http://127.0.0.1:8000/${company.picture_path}`}
                             alt="Avatar"
                             className={`rounded-circle ${styles.avatar}`}
                         />
@@ -134,121 +130,109 @@ const CompanyModal = ({ company, show, handleClose }) => {
                 <div className={styles.eventsContainer}>
                     <h3 className={styles.eventsHeader}>Events</h3>
                     <ul className={styles.eventsList}>
-                        {events &&
-                            events.eventsArray &&
-                            events.eventsArray.length > 0 && (
-                                <ul>
-                                    {currentEvents.map((event, index) => (
-                                        <li
-                                            key={event.id || index}
-                                            className={styles.eventItem}
+                        {events && events.length > 0 && (
+                            <ul>
+                                {currentEvents.map((event, index) => (
+                                    <li
+                                        key={event.id || index}
+                                        className={styles.eventItem}
+                                    >
+                                        <Link
+                                            to={`/event/${event.id}`}
+                                            className={styles.eventLink}
                                         >
-                                            <Link
-                                                to={`/event/${event.id}`}
-                                                className={styles.eventLink}
-                                            >
-                                                <div
-                                                    className={styles.eventInfo}
+                                            <div className={styles.eventInfo}>
+                                                <span
+                                                    className={styles.eventName}
                                                 >
-                                                    <span
-                                                        className={
-                                                            styles.eventName
-                                                        }
-                                                    >
-                                                        {event.name}
-                                                    </span>
-                                                </div>
-                                            </Link>
-                                            <div
-                                                className={styles.eventActions}
-                                            >
-                                                <button
-                                                    className={styles.button}
-                                                    onClick={() =>
-                                                        handleOpenDeleteEventModal(
-                                                            event.id,
-                                                        )
-                                                    }
-                                                >
-                                                    Delete
-                                                </button>
-                                                <button
-                                                    className={styles.button}
-                                                    onClick={() =>
-                                                        handleOpenUpdateEventModal(
-                                                            event.id,
-                                                        )
-                                                    }
-                                                >
-                                                    Update
-                                                </button>
-
-                                                <UniversalModal
-                                                    show={
-                                                        showDeleteEventModal[
-                                                            event.id
-                                                        ]
-                                                    }
-                                                    onHide={() =>
-                                                        handleCloseDeleteEventModal(
-                                                            event.id,
-                                                        )
-                                                    }
-                                                    title="Delete Event Confirmation"
-                                                    bodyText="Are you sure you want to delete this event?"
-                                                    handleDelete={() =>
-                                                        handleDeleteEvent(
-                                                            event.id,
-                                                        )
-                                                    }
-                                                    deleteActionText="Delete Event"
-                                                    confirmationMessage="This action cannot be undone. All associated events will also be deleted."
-                                                />
+                                                    {event.name}
+                                                </span>
                                             </div>
-                                            <Modal
+                                        </Link>
+                                        <div className={styles.eventActions}>
+                                            <button
+                                                className={styles.button}
+                                                onClick={() =>
+                                                    handleOpenDeleteEventModal(
+                                                        event.id,
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                            <button
+                                                className={styles.button}
+                                                onClick={() =>
+                                                    handleOpenUpdateEventModal(
+                                                        event.id,
+                                                    )
+                                                }
+                                            >
+                                                Update
+                                            </button>
+
+                                            <UniversalModal
                                                 show={
-                                                    showUpdateEventModal[
+                                                    showDeleteEventModal[
                                                         event.id
                                                     ]
                                                 }
                                                 onHide={() =>
-                                                    handleCloseUpdateEventModal(
+                                                    handleCloseDeleteEventModal(
                                                         event.id,
                                                     )
                                                 }
-                                                centered
-                                                className={`bg-dark `}
+                                                title="Delete Event Confirmation"
+                                                bodyText="Are you sure you want to delete this event?"
+                                                handleDelete={() =>
+                                                    handleDeleteEvent(event.id)
+                                                }
+                                                deleteActionText="Delete Event"
+                                                confirmationMessage="This action cannot be undone. All associated events will also be deleted."
+                                            />
+                                        </div>
+                                        <Modal
+                                            show={
+                                                showUpdateEventModal[event.id]
+                                            }
+                                            onHide={() =>
+                                                handleCloseUpdateEventModal(
+                                                    event.id,
+                                                )
+                                            }
+                                            centered
+                                            className={`bg-dark `}
+                                        >
+                                            <Modal.Header
+                                                closeButton
+                                                className={`bg-dark ${styles.modalHeader}`}
                                             >
-                                                <Modal.Header
-                                                    closeButton
-                                                    className={`bg-dark ${styles.modalHeader}`}
-                                                >
-                                                    <Modal.Title>
-                                                        Update Event
-                                                    </Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body
-                                                    className={`bg-dark ${styles.modalText}`}
-                                                >
-                                                    <EventUpdateForm
-                                                        event={event}
-                                                        handleClose={
-                                                            handleCloseUpdateEventModal
-                                                        }
-                                                    />
-                                                </Modal.Body>
-                                            </Modal>
-                                        </li>
-                                    ))}
-                                    <Pagination
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                        prevPage={prevPage}
-                                        nextPage={nextPage}
-                                        setCurrentPage={setCurrentPage}
-                                    />
-                                </ul>
-                            )}
+                                                <Modal.Title>
+                                                    Update Event
+                                                </Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body
+                                                className={`bg-dark ${styles.modalText}`}
+                                            >
+                                                <EventUpdateForm
+                                                    event={event}
+                                                    handleClose={
+                                                        handleCloseUpdateEventModal
+                                                    }
+                                                />
+                                            </Modal.Body>
+                                        </Modal>
+                                    </li>
+                                ))}
+                                <Pagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    prevPage={prevPage}
+                                    nextPage={nextPage}
+                                    setCurrentPage={setCurrentPage}
+                                />
+                            </ul>
+                        )}
 
                         {!events ||
                             !events.eventsArray ||

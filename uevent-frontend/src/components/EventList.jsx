@@ -10,7 +10,7 @@ import AddressDisplay from './AddressDisplay';
 import styles from '../styles/EventList.module.css';
 
 const EventList = ({ filter, sortByDate, excludeEvent, eventsPerPage }) => {
-    const events = useSelector((state) => state.event.events.eventsArray);
+    const events = useSelector((state) => state.event.events);
     const companies = useSelector((state) => state.company.companies);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);

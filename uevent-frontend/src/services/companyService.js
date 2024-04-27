@@ -41,6 +41,7 @@ export default class CompanyService {
 }
 
 export const getCompanyName = (companyId, companies) => {
-    const company = companies.find((company) => company.id === companyId);
+    const company =
+        companies && companies.find((company) => company.id === companyId);
     return company ? company.name : 'Unknown';
 };

@@ -33,14 +33,6 @@ const LoginForm = () => {
         setIsLoginForm(!isLoginForm);
     };
 
-    const handleAlert = () => {
-        setShowAlert(true);
-    };
-    
-    const handleCloseAlert = () => {
-        setShowAlert(false);
-    };
-
     return (
         <Container
             fluid
@@ -122,7 +114,7 @@ const LoginForm = () => {
                     variant="info"
                     type="submit"
                     className={`${styles.submitButton}`}
-                    onClick={handleAlert}
+                    onClick={() => { setShowAlert(true); }}
                 >
                     {isLoginForm ? 'Login' : 'Register'}
                 </Button>
@@ -140,7 +132,7 @@ const LoginForm = () => {
                     {isLoginForm ? 'Is not Registered?' : 'Back to Login'}
                 </Button>
             </Form>
-            <CustomAlert show={showAlert} handleClose={handleCloseAlert} message={alertMessage} />
+            <CustomAlert show={showAlert} handleClose={() => { setShowAlert(false); }} message={alertMessage} />
         </Container>
     );
 };
