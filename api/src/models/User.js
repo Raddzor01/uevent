@@ -41,6 +41,14 @@ class User extends Model {
         const res = await db.makeRequest(sql, [event_id]);
         return res[0];
     }
+
+    getEventSubscribers = async(event_id) => {
+        const sql = `SELECT users.login, users.picture, users.id  FROM users
+                    INNER JOIN tickets ON users.id = tickets.user_id
+                    WHERE tickets.event_id = ? AND  tickets.isVisible = true; `;
+        const res = await db.makeRequest(sql, [event_id]);
+        return res[0];
+    }
 }
 
 const usersTable = new User();
