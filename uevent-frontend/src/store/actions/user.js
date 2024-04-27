@@ -3,7 +3,10 @@ import UserService from '../../services/userService';
 export const getUser = (id) => async (dispatch) => {
     try {
         const response = await UserService.get(id);
-        dispatch({ type: 'SET_MESSAGE', payload: 'User information received successfully' });
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'User information received successfully',
+        });
         return response.data.userData;
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
@@ -18,7 +21,10 @@ export const getCommentsUsers = (eventId, comments) => async (dispatch) => {
             type: 'SET_COMMENTS_USERS',
             payload: response.data.usersArray,
         });
-        dispatch({ type: 'SET_MESSAGE', payload: 'List of user comments received successfully' });
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'List of user comments received successfully',
+        });
         return response.data.userData;
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
@@ -28,9 +34,13 @@ export const getCommentsUsers = (eventId, comments) => async (dispatch) => {
 
 export const updateUserPhoto = (id, file) => async (dispatch) => {
     try {
-        const response = await UserService.updateUserPhoto(file, id);
-        dispatch({ type: 'SET_MESSAGE', payload: 'User photo updated successfully' });
-        return response.data.userData;
+        await UserService.updateUserPhoto(file, id);
+        const user = await UserService.get(id);
+        dispatch({ type: 'SET_USER', payload: user.data.userData });
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'User photo updated successfully',
+        });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
         console.error('Updating user photo failed', error);

@@ -63,7 +63,7 @@ const Footer = () => {
                                     to={`/profile/${user.id}`}
                                     className={`${styles.userInfo}`}
                                 >
-                                    <p className={`${styles.text} mb-0`}>
+                                    <p className={`${styles.text}`}>
                                         {user.login}
                                     </p>
                                     <img

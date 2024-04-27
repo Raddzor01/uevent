@@ -6,6 +6,7 @@ import eventReducer from './events';
 import themesReducer from './theme';
 import formatsReducer from './format';
 import commentReducer from './comments';
+import promocodesReducer from './promocode';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     theme: themesReducer,
     format: formatsReducer,
     comment: commentReducer,
+    promocode: promocodesReducer,
 });
 
 export default rootReducer;

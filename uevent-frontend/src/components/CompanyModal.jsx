@@ -9,6 +9,7 @@ import EventUpdateForm from './EventUpdateForm';
 import UniversalModal from './UniversalModal';
 import Pagination from './Pagination';
 import PaymentButton from './PaymentButton';
+import PromoCodeModal from './PromoCodeModal';
 
 import styles from '../styles/CompanyModal.module.css';
 
@@ -28,6 +29,18 @@ const CompanyModal = ({ company, show, handleClose }) => {
         events && events.slice(indexOfFirstEvent, indexOfLastEvent);
     const nextPage = () => setCurrentPage(currentPage + 1);
     const prevPage = () => setCurrentPage(currentPage - 1);
+
+    const [isPromoCodeModalOpen, setIsPromoCodeModalOpen] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
+
+    const handleOpenPromoCodeModal = (event) => {
+        setSelectedEvent(event);
+        setIsPromoCodeModalOpen(true);
+    };
+
+    const handleClosePromoCodeModal = () => {
+        setIsPromoCodeModalOpen(false);
+    };
 
     const handleOpenUpdateCompanyModal = () => setShowUpdateCompanyModal(true);
     const handleCloseUpdateCompanyModal = () =>
@@ -170,7 +183,16 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                             >
                                                 Update
                                             </button>
-
+                                            <button
+                                                className={styles.button}
+                                                onClick={() =>
+                                                    handleOpenPromoCodeModal(
+                                                        event,
+                                                    )
+                                                }
+                                            >
+                                                PROMOCODE
+                                            </button>
                                             <UniversalModal
                                                 show={
                                                     showDeleteEventModal[
@@ -211,16 +233,12 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                                     Update Event
                                                 </Modal.Title>
                                             </Modal.Header>
-                                            <Modal.Body
-                                                className={`bg-dark ${styles.modalText}`}
-                                            >
-                                                <EventUpdateForm
-                                                    event={event}
-                                                    handleClose={
-                                                        handleCloseUpdateEventModal
-                                                    }
-                                                />
-                                            </Modal.Body>
+                                            <EventUpdateForm
+                                                event={event}
+                                                handleClose={
+                                                    handleCloseUpdateEventModal
+                                                }
+                                            />
                                         </Modal>
                                     </li>
                                 ))}
@@ -242,6 +260,13 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                 </p>
                             ))}
                     </ul>
+                    {isPromoCodeModalOpen && (
+                        <PromoCodeModal
+                            event={selectedEvent}
+                            show={isPromoCodeModalOpen}
+                            onClose={handleClosePromoCodeModal}
+                        />
+                    )}
                 </div>
             </Modal.Body>
             <Modal.Footer className="bg-dark text-white border-0">
