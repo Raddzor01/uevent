@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS themes(
                             name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS companySubscription(
+CREATE TABLE IF NOT EXISTS companySubscriptions(
                             user_id INTEGER NOT NULL,
                             company_id INTEGER NOT NULL,
 

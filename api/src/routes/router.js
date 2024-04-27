@@ -7,11 +7,13 @@ import themes from "./themes.js";
 import formats from "./formats.js";
 import promoCodes from './promo-codes.js';
 import comments from './comments.js';
+import companySubscriptions from './companySubscriptions.js';
 
 const router = express.Router();
 
 router.use('/auth', authRouter);
 router.use('/companies', companies);
+router.use('/companies/subscription', companySubscriptions);
 router.use('/events', events);
 router.use('/users', users);
 router.use('/themes', themes);
