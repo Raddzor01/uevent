@@ -11,8 +11,8 @@ class usersController {
         if(eventId) {
             if(comments)
                 usersArray = await usersTable.getUsersEventComments(eventId);
-            // else
-                // usersArray = await usersTable.getEventSubscribers(eventId);
+            else
+                usersArray = await usersTable.getEventSubscribers(eventId);
         } else
             usersArray = await usersTable.getAll();
 
