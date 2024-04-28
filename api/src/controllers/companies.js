@@ -1,7 +1,7 @@
 import companiesTable from "../models/Company.js";
 import stripe from "../service/stripe.js";
 import { ClientError } from "../middleware/error.js";
-import { saveFile } from "../service/fileUpload.js";
+import { saveFile } from "../utils/fileUpload.js";
 
 class companiesController {
 

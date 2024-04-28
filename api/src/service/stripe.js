@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { subscribeToEvent } from './eventSubscription.js';
 
 const stripe = new Stripe(process.env.STRIPE_API_SECRET_KEY, {apiVersion: process.env.STRIPE_API_VERSION});
 
@@ -14,8 +15,8 @@ const stripeWebhook = async(req, res) => {
 	}
 
 	if (event.type === 'payment_intent.succeeded') {
-	    const meta = event.data.object;
-	    // await EventSubscription.handleWith(meta);
+	    const { eventId, userId, isVisible } = event.data.object;
+		await subscribeToEvent(eventId, userId, isVisible);
 	    console.info('Your payment was successful');
 	}
 
