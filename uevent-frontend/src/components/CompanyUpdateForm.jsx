@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateCompany } from '../store/actions/company';
 import SearchBoxContainer from './SearchBoxContainer';
 import AddressDisplay from './AddressDisplay';
 import styles from '../styles/CompanyUpdateForm.module.css';
+import CustomAlert from './CustomAlert';
 
 const CompanyUpdateForm = ({ company, handleClose }) => {
     const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const CompanyUpdateForm = ({ company, handleClose }) => {
         latitude: company.latitude,
         longitude: company.longitude,
     });
+    const [showAlert, setShowAlert] = useState(false);
+    const alertMessage = useSelector((state) => state.auth.message);
 
     const handleChange = (e) => {
         setFormData({
@@ -112,10 +115,20 @@ const CompanyUpdateForm = ({ company, handleClose }) => {
                     variant="primary"
                     type="submit"
                     className={`${styles.updateButton} mt-4`}
+                    onClick={() => {
+                        setShowAlert(true);
+                    }}
                 >
                     Update
                 </Button>
             </Form>
+            <CustomAlert
+                show={showAlert}
+                handleClose={() => {
+                    setShowAlert(false);
+                }}
+                message={alertMessage}
+            />
         </Modal.Body>
     );
 };

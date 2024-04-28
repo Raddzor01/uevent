@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
 import { createCompany } from '../store/actions/company';
 import SearchBoxContainer from './SearchBoxContainer';
 
 import styles from '../styles/CreateCompanyForm.module.css';
+import CustomAlert from './CustomAlert';
 
 const CreateCompanyForm = ({ show, handleClose }) => {
     const dispatch = useDispatch();
@@ -12,10 +13,11 @@ const CreateCompanyForm = ({ show, handleClose }) => {
     const [email, setEmail] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
+    const alertMessage = useSelector((state) => state.auth.message);
     const handleSave = () => {
         dispatch(createCompany(name, email, latitude, longitude));
-        handleClose();
-        window.location.reload();
+        setShowAlert(true);
     };
 
     return (
@@ -76,6 +78,15 @@ const CreateCompanyForm = ({ show, handleClose }) => {
                     Save
                 </Button>
             </Modal.Footer>
+            <CustomAlert
+                show={showAlert}
+                message={alertMessage}
+                handleClose={() => {
+                    setShowAlert(false);
+                    handleClose();
+                    window.location.reload();
+                }}
+            />
         </Modal>
     );
 };

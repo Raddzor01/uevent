@@ -4,11 +4,13 @@ import { Form, Button } from 'react-bootstrap';
 import Footer from './Footer';
 import SearchBoxContainer from './SearchBoxContainer';
 import { createEvent } from '../store/actions/events';
+import { useNavigate } from 'react-router-dom';
 
 import styles from '../styles/EventForm.module.css';
 
 const EventForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const companies = useSelector((state) => state.company.companies);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
@@ -42,14 +44,18 @@ const EventForm = () => {
                 theme,
             ),
         );
+        navigate('/');
     };
 
     return (
         <div>
             <Footer />
-            <div className={`container ${styles.darkTheme}`}>
+            <div className={`container bg-dark ${styles.darkTheme}`}>
                 <h2>Create New Event</h2>
-                <Form onSubmit={handleSubmit}>
+                <Form
+                    onSubmit={handleSubmit}
+                    className={`bg-dark text-white ${styles.modalContent}`}
+                >
                     <Form.Group className="mb-3" controlId="eventName">
                         <Form.Label className={styles.label}>
                             Event Name
@@ -82,11 +88,10 @@ const EventForm = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="longitude">
-                        <Form.Label className={styles.label}>Adress</Form.Label>
+                        <Form.Label className={styles.label}>
+                            Address
+                        </Form.Label>
                         <div className="mb-3">
-                            <label htmlFor="address" className="form-label">
-                                Adress:
-                            </label>
                             <SearchBoxContainer
                                 setLatitude={setLatitude}
                                 setLongitude={setLongitude}

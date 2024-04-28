@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateEvent } from '../store/actions/events';
+import { updateEvent, updateEventPhoto } from '../store/actions/events';
+
 import AddressDisplay from './AddressDisplay';
 import SearchBoxContainer from './SearchBoxContainer';
+import CustomAlert from './CustomAlert';
 import styles from '../styles/CompanyUpdateForm.module.css';
 
 const EventUpdateForm = ({ event, handleClose }) => {
@@ -11,6 +13,8 @@ const EventUpdateForm = ({ event, handleClose }) => {
     const companies = useSelector((state) => state.company.companies);
     const formats = useSelector((state) => state.format.formats);
     const themes = useSelector((state) => state.theme.themes);
+    const alertMessage = useSelector((state) => state.auth.message);
+    const [showAlert, setShowAlert] = useState(false);
     const initialDateTime = event.date ? event.date.slice(0, 16) : '';
     const [originalFormData] = useState({
         name: event.name,
@@ -62,6 +66,18 @@ const EventUpdateForm = ({ event, handleClose }) => {
         handleClose();
     };
 
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('photo', file);
+
+            console.log(event.id, file);
+            await dispatch(updateEventPhoto(event.id, formData));
+            window.location.reload();
+        }
+    };
+
     return (
         <Modal.Body className={`bg-dark text-white ${styles.modalContent}`}>
             <Form onSubmit={handleSubmit} className={styles.form}>
@@ -69,6 +85,24 @@ const EventUpdateForm = ({ event, handleClose }) => {
                     controlId="formEventName"
                     className={styles.formGroup}
                 >
+                    <div className={`text-center mb-3 ${styles.textCenter}`}>
+                        <label htmlFor="eventImageInput">
+                            <img
+                                src={`http://127.0.0.1:8000/${event.picture}`}
+                                alt="img"
+                                className={`rounded ${styles.avatar}`}
+                                style={{ maxWidth: '100%', maxHeight: '100%' }}
+                            />
+                            <input
+                                id="eventImageInput"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{ display: 'none' }}
+                            />
+                        </label>
+                    </div>
+
                     <Form.Label className={`${styles.formLabel} mt-4`}>
                         Event Name
                     </Form.Label>
@@ -243,10 +277,20 @@ const EventUpdateForm = ({ event, handleClose }) => {
                     variant="primary"
                     type="submit"
                     className={`${styles.updateButton} mt-4`}
+                    onClick={() => {
+                        setShowAlert(true);
+                    }}
                 >
                     Update
                 </Button>
             </Form>
+            <CustomAlert
+                show={showAlert}
+                handleClose={() => {
+                    setShowAlert(false);
+                }}
+                message={alertMessage}
+            />
         </Modal.Body>
     );
 };

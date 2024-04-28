@@ -13,7 +13,6 @@ const PaymentButton = ({ company }) => {
         setShowModal(false);
         dispatch(createCompanyStripe(company.id))
             .then((response) => {
-                console.log(response);
                 window.open(response);
             })
             .catch((error) => {

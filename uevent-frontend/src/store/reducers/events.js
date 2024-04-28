@@ -1,7 +1,7 @@
 const initialState = {
     events: null,
     event: null,
-    message: null,
+    message: '',
 };
 
 const eventReducer = (state = initialState, action) => {

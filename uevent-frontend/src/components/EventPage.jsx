@@ -20,6 +20,7 @@ import MapWithAddress from './MapWithAddress';
 import Footer from './Footer';
 import EventList from './EventList';
 import UniversalModal from './UniversalModal';
+import PaymentModal from './PaymentModal';
 
 import styles from '../styles/EventPage.module.css';
 
@@ -41,10 +42,15 @@ const EventPage = () => {
         format: event ? event.format_id : null,
         theme: event ? event.theme_id : null,
     });
+
     const [showModal, setShowModal] = useState(false);
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [commentToDeleteIndex, setCommentToDeleteIndex] = useState(null);
     const [updatedContent, setUpdatedContent] = useState('');
     const [commentToUpdateIndex, setCommentToUpdateIndex] = useState(null);
+
+    const handleOpenPaymentModal = () => setShowPaymentModal(true);
+    const handleClosePaymentModal = () => setShowPaymentModal(false);
 
     const handleInputChatChange = (event) => {
         setContent(event.target.value);
@@ -111,12 +117,12 @@ const EventPage = () => {
         <div>
             <Footer />
             <Container>
-                <Row>
-                    <Col md={6}>
+                <Row className="d-flex">
+                    <Col md={6} className="align-items-center">
                         <Card className={`${styles.card}`}>
                             <Card.Img
                                 variant="top"
-                                src={`https://206329.selcdn.ru/BHAGs-media/upload/activity_banners/e2a1cca6-f9d9-42ed-be13-3f0415b25514.jpg`}
+                                src={`http://127.0.0.1:8000/${event.picture}`}
                                 className={`${styles.image} rounded-top`}
                             />
                             <Card.Body>
@@ -183,10 +189,16 @@ const EventPage = () => {
                                     <Button
                                         variant="primary"
                                         className={`mt-4 ${styles.buyButton} w-100`}
+                                        onClick={handleOpenPaymentModal}
                                     >
                                         Buy Ticket
                                     </Button>
                                 </div>
+                                <PaymentModal
+                                    show={showPaymentModal}
+                                    handleClose={handleClosePaymentModal}
+                                    event={event}
+                                />
                             </Card.Body>
                         </Card>
                     </Col>
@@ -221,7 +233,7 @@ const EventPage = () => {
                                                         key={index}
                                                     >
                                                         <img
-                                                            src={`http://127.0.0.1:8000/${author.picture}`}
+                                                            src={`http://127.0.0.1:8000/${author && author.picture}`}
                                                             alt={`User ${index + 1} Avatar`}
                                                             className={`${styles.avatar} mr-3`}
                                                         />
@@ -229,7 +241,8 @@ const EventPage = () => {
                                                             <strong
                                                                 className={`${styles.username} `}
                                                             >
-                                                                {author.login}
+                                                                {author &&
+                                                                    author.login}
                                                             </strong>
                                                             <div
                                                                 className={`${styles.comment} mb-2`}
@@ -266,6 +279,7 @@ const EventPage = () => {
                                                                             comment.content
                                                                         }
                                                                         {user &&
+                                                                            author &&
                                                                             user.id ===
                                                                                 author.id && (
                                                                                 <div className="d-flex justify-content-end mt-auto">

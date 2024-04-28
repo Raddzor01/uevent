@@ -5,8 +5,8 @@
 
 .darkTheme {
     color: white;
-    background-color: #343a40;
     padding: 20px;
+    border: 1px solid aqua;
     border-radius: 10px;
 }
 
@@ -32,14 +32,14 @@
 }
 
 .button {
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-top: 20px;
-    cursor: pointer;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: #00c0b9 !important;
 }

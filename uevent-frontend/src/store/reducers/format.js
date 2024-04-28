@@ -1,6 +1,6 @@
 const initialState = {
     formats: null,
-    message: null,
+    message: '',
 };
 
 const formatsReducer = (state = initialState, action) => {

@@ -43,6 +43,14 @@ export default class EventService {
         return $api.delete(`events/${eventId}`);
     }
 
+    static async updateEventPhoto(id, file) {
+        return $api.post(`events/${id}/avatar`, file);
+    }
+
+    static async createPayment(id, isVisible, promo_code) {
+        return $api.post(`events/${id}/payment`, isVisible, promo_code);
+    }
+
     static async update(id, updatedFields) {
         const {
             name,

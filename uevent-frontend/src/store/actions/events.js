@@ -85,6 +85,19 @@ export const getEventsForCompany = (id) => async (dispatch) => {
     }
 };
 
+export const updateEventPhoto = (id, file) => async (dispatch) => {
+    try {
+        await EventService.updateEventPhoto(id, file);
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'User photo updated successfully',
+        });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Updating user photo failed', error);
+    }
+};
+
 export const deleteEvent = (id) => async (dispatch) => {
     try {
         console.log(id);
@@ -99,6 +112,29 @@ export const deleteEvent = (id) => async (dispatch) => {
         console.error('Deleting event failed', error);
     }
 };
+
+export const createPayment =
+    (id, isVisible, promo_code) => async (dispatch) => {
+        try {
+            const response = await EventService.createPayment(
+                id,
+                isVisible,
+                promo_code,
+            );
+            console.log(response);
+            dispatch({
+                type: 'SET_MESSAGE',
+                payload: 'Payment created successfully',
+            });
+            return response.data.url;
+        } catch (error) {
+            dispatch({
+                type: 'SET_MESSAGE',
+                payload: error.response.data.message,
+            });
+            console.error('Payment failed', error);
+        }
+    };
 
 export const updateEvent = (id, updatedFields) => async (dispatch) => {
     try {
