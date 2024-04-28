@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Footer.module.css';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -8,11 +9,15 @@ import CreateCompanyForm from './CreateCompanyForm';
 
 const Footer = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const user = useSelector((state) => state.auth.user);
     const handleOpenModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
-    const handleLogout = () => dispatch(logout());
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/');
+    };
 
     return (
         <footer className={`${styles.footer}`}>

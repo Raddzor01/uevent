@@ -116,7 +116,7 @@ const EventPage = () => {
                         <Card className={`${styles.card}`}>
                             <Card.Img
                                 variant="top"
-                                src={`https://206329.selcdn.ru/BHAGs-media/upload/activity_banners/e2a1cca6-f9d9-42ed-be13-3f0415b25514.jpg`}
+                                src={`http://127.0.0.1:8000/${event.picture}`}
                                 className={`${styles.image} rounded-top`}
                             />
                             <Card.Body>
@@ -221,7 +221,7 @@ const EventPage = () => {
                                                         key={index}
                                                     >
                                                         <img
-                                                            src={`http://127.0.0.1:8000/${author.picture}`}
+                                                            src={`http://127.0.0.1:8000/${author && author.picture}`}
                                                             alt={`User ${index + 1} Avatar`}
                                                             className={`${styles.avatar} mr-3`}
                                                         />

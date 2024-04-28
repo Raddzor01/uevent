@@ -17,6 +17,14 @@ const companyReducer = (state = initialState, action) => {
             return { ...state, message: action.payload };
         case 'CLEAR_MESSAGE':
             return { ...state, message: action.payload };
+        case 'UPDATE_USER_COMPANY':
+            const updatedUserCompanies = state.user_companies.map((company) => {
+                if (company.id === action.payload.companyId) {
+                    return { ...company, ...action.payload.companyData };
+                }
+                return company;
+            });
+            return { ...state, user_companies: updatedUserCompanies };
         default:
             return state;
     }

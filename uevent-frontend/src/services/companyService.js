@@ -31,6 +31,10 @@ export default class CompanyService {
         });
     }
 
+    static async updateCompanyPhoto(id, file) {
+        return $api.post(`companies/${id}/avatar`, file);
+    }
+
     static async createStripe(id) {
         return $api.post(`companies/${id}/connect-stripe`);
     }

@@ -85,6 +85,19 @@ export const getEventsForCompany = (id) => async (dispatch) => {
     }
 };
 
+export const updateEventPhoto = (id, file) => async (dispatch) => {
+    try {
+        await EventService.updateEventPhoto(id, file);
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'User photo updated successfully',
+        });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Updating user photo failed', error);
+    }
+};
+
 export const deleteEvent = (id) => async (dispatch) => {
     try {
         console.log(id);

@@ -115,12 +115,20 @@ const CompanyUpdateForm = ({ company, handleClose }) => {
                     variant="primary"
                     type="submit"
                     className={`${styles.updateButton} mt-4`}
-                    onClick={() => { setShowAlert(true); }}
+                    onClick={() => {
+                        setShowAlert(true);
+                    }}
                 >
                     Update
                 </Button>
             </Form>
-            <CustomAlert show={showAlert} handleClose={() => { setShowAlert(false); }} message={alertMessage} />
+            <CustomAlert
+                show={showAlert}
+                handleClose={() => {
+                    setShowAlert(false);
+                }}
+                message={alertMessage}
+            />
         </Modal.Body>
     );
 };

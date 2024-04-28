@@ -43,6 +43,10 @@ export default class EventService {
         return $api.delete(`events/${eventId}`);
     }
 
+    static async updateEventPhoto(id, file) {
+        return $api.post(`events/${id}/avatar`, file);
+    }
+
     static async update(id, updatedFields) {
         const {
             name,

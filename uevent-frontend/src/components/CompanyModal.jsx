@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteEvent, getEventsForCompany } from '../store/actions/events';
-import { deleteCompany } from '../store/actions/company';
+import { deleteCompany, updateCompanyPhoto } from '../store/actions/company';
 import { Link } from 'react-router-dom';
 import CompanyUpdateForm from './CompanyUpdateForm';
 import EventUpdateForm from './EventUpdateForm';
@@ -88,6 +88,16 @@ const CompanyModal = ({ company, show, handleClose }) => {
         handleCloseDeleteEventModal();
     };
 
+    const handleAvatarChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('photo', file);
+            await dispatch(updateCompanyPhoto(company.id, formData));
+            window.location.reload();
+        }
+    };
+
     return (
         <Modal
             show={show}
@@ -101,11 +111,20 @@ const CompanyModal = ({ company, show, handleClose }) => {
                 <Modal.Title className={`${styles.modalTitle}`}>
                     {company.name}
                     <div className={`text-center mb-3 ${styles.textCenter}`}>
-                        <img
-                            src={`http://127.0.0.1:8000/${company.picture_path}`}
-                            alt="Avatar"
-                            className={`rounded-circle ${styles.avatar}`}
-                        />
+                        <label htmlFor="companyAvatarInput">
+                            <img
+                                src={`http://127.0.0.1:8000/${company.picture_path}`}
+                                alt="Avatar"
+                                className={`rounded-circle ${styles.avatar}`}
+                            />
+                            <input
+                                id="companyAvatarInput"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                                style={{ display: 'none' }}
+                            />
+                        </label>
                     </div>
                     <p className={styles.modalText}>{company.email}</p>
                 </Modal.Title>

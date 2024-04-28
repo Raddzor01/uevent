@@ -20,22 +20,24 @@ const EventList = ({ filter, sortByDate, excludeEvent, eventsPerPage }) => {
         return <div>Loading</div>;
     }
 
-    const filteredEvents = events && events.filter((event) => {
-        if (excludeEvent) {
-            return (
-                (!filter.theme ||
-                    event.theme_id === filter.theme ||
-                    !filter.format ||
-                    event.format_id === filter.format) &&
-                event.id !== excludeEvent
-            );
-        } else {
-            return (
-                (!filter.theme || event.theme_id === filter.theme) &&
-                (!filter.format || event.format_id === filter.format)
-            );
-        }
-    });
+    const filteredEvents =
+        events &&
+        events.filter((event) => {
+            if (excludeEvent) {
+                return (
+                    (!filter.theme ||
+                        event.theme_id === filter.theme ||
+                        !filter.format ||
+                        event.format_id === filter.format) &&
+                    event.id !== excludeEvent
+                );
+            } else {
+                return (
+                    (!filter.theme || event.theme_id === filter.theme) &&
+                    (!filter.format || event.format_id === filter.format)
+                );
+            }
+        });
 
     const sortedEvents = [...filteredEvents].sort((event1, event2) => {
         if (sortByDate === 'asc') {
@@ -83,7 +85,7 @@ const EventList = ({ filter, sortByDate, excludeEvent, eventsPerPage }) => {
                                 >
                                     <Card.Img
                                         variant="top"
-                                        src={`https://206329.selcdn.ru/BHAGs-media/upload/activity_banners/e2a1cca6-f9d9-42ed-be13-3f0415b25514.jpg`}
+                                        src={`http://127.0.0.1:8000/${event.picture}`}
                                         className={styles.image}
                                     />
                                     <Card.Body>
