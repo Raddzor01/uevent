@@ -58,7 +58,7 @@ class eventsController {
         const eventId = await eventsTable.create(name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id);
 
         scheduleCompanySubscribersNotification(eventId);
-        scheduleEventReminder(date, eventId);
+        scheduleEventReminder(new Date(date), eventId);
 
         res.status(200).json({ eventId });
 
@@ -156,7 +156,7 @@ class eventsController {
 
 
         if (event.price === 0) {
-            await subscribeToEvent(eventId, user.id, isVisible);
+            await subscribeToEvent(eventId, user.userId, isVisible);
 
             return res.json({ url: -1 });
         }
