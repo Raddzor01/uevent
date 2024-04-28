@@ -62,11 +62,19 @@
 }
 
 .avatar {
+    position: relative;
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid aqua;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+
+.avatar:hover {
+    filter: brightness(70%);
+    transform: translateY(-5px);
 }
 
 .eventsContainer {

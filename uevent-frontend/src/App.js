@@ -11,6 +11,7 @@ import LoginForm from './components/LoginForm';
 import Profile from './components/Profile';
 import EventPage from './components/EventPage';
 import EventForm from './components/EventForm';
+import PaymentStatus from './components/PaymentStatus';
 
 function App() {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/profile/:id" element={<Profile />} />
                     <Route path="/event/:eventId" element={<EventPage />} />
                     <Route path="/eventform" element={<EventForm />} />
+                    <Route path="/event/payment/" element={<PaymentStatus />} />
                 </Routes>
             </div>
         </Router>

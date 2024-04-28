@@ -47,6 +47,10 @@ export default class EventService {
         return $api.post(`events/${id}/avatar`, file);
     }
 
+    static async createPayment(id, isVisible, promo_code) {
+        return $api.post(`events/${id}/payment`, isVisible, promo_code);
+    }
+
     static async update(id, updatedFields) {
         const {
             name,

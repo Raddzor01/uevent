@@ -113,6 +113,29 @@ export const deleteEvent = (id) => async (dispatch) => {
     }
 };
 
+export const createPayment =
+    (id, isVisible, promo_code) => async (dispatch) => {
+        try {
+            const response = await EventService.createPayment(
+                id,
+                isVisible,
+                promo_code,
+            );
+            console.log(response);
+            dispatch({
+                type: 'SET_MESSAGE',
+                payload: 'Payment created successfully',
+            });
+            return response.data.url;
+        } catch (error) {
+            dispatch({
+                type: 'SET_MESSAGE',
+                payload: error.response.data.message,
+            });
+            console.error('Payment failed', error);
+        }
+    };
+
 export const updateEvent = (id, updatedFields) => async (dispatch) => {
     try {
         await EventService.update(id, updatedFields);
