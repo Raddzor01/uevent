@@ -44,9 +44,6 @@ const CompanyUpdateForm = ({ company, handleClose }) => {
         if (Object.keys(changedFields).length > 0) {
             dispatch(updateCompany(company.id, changedFields));
         }
-
-        handleClose();
-        window.location.reload();
     };
 
     return (
@@ -126,6 +123,8 @@ const CompanyUpdateForm = ({ company, handleClose }) => {
                 show={showAlert}
                 handleClose={() => {
                     setShowAlert(false);
+                    handleClose();
+                    window.location.reload();
                 }}
                 message={alertMessage}
             />
