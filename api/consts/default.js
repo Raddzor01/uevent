@@ -12,3 +12,4 @@ export const COOKIE_OPTIONS = {
 };
 
 export const TICKETS_UNLIMITED = -1;
+export const HOURS_BEFORE_EVENT = 4;

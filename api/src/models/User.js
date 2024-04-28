@@ -42,11 +42,20 @@ class User extends Model {
         return res[0];
     }
 
-    getEventSubscribers = async(event_id) => {
+    getEventGuests = async(event_id) => {
         const sql = `SELECT users.login, users.picture, users.id  FROM users
                     INNER JOIN tickets ON users.id = tickets.user_id
                     WHERE tickets.event_id = ? AND  tickets.isVisible = true; `;
         const res = await db.makeRequest(sql, [event_id]);
+        return res[0];
+    }
+
+    getCompanySubscribers = async(company_id) => {
+        const sql = `SELECT users.login, users.picture, users.id, users.email FROM users
+                    INNER JOIN companySubscriptions ON users.id = companySubscriptions.user_id
+                    WHERE companySubscriptions.company_id = ?;
+        `;
+        const res = await db.makeRequest(sql, [company_id]);
         return res[0];
     }
 }

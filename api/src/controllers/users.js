@@ -1,6 +1,6 @@
 import usersTable from '../models/User.js';
 import { ClientError } from "../middleware/error.js";
-import { saveFile } from '../service/fileUpload.js';
+import { saveFile } from '../utils/fileUpload.js';
 
 class usersController {
 
@@ -12,7 +12,7 @@ class usersController {
             if(comments)
                 usersArray = await usersTable.getUsersEventComments(eventId);
             else
-                usersArray = await usersTable.getEventSubscribers(eventId);
+                usersArray = await usersTable.getEventGuests(eventId);
         } else
             usersArray = await usersTable.getAll();
 

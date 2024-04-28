@@ -3,11 +3,13 @@ import companiesTable from '../models/Company.js';
 import formatsTable from '../models/Formats.js';
 import themesTable from '../models/Themes.js';
 import { ClientError } from "../middleware/error.js";
-import { saveFile } from '../service/fileUpload.js';
+import { saveFile } from '../utils/fileUpload.js';
 import stripe from '../service/stripe.js';
 import ticketsTable from '../models/Tickets.js';
 import { TICKETS_UNLIMITED } from '../../consts/default.js';
 import promoCodesTable from '../models/Promo-codes.js';
+import { scheduleCompanySubscribersNotification, scheduleEventReminder } from '../service/mailScheduler.js';
+import { subscribeToEvent } from '../service/eventSubscription.js';
 
 class eventsController {
      getEvents = async(req, res) => {
@@ -54,6 +56,9 @@ class eventsController {
             throw new ClientError("Unknown company", 404);
 
         const eventId = await eventsTable.create(name, description, date, price, tickets_available, latitude, longitude, company_id, format_id, theme_id);
+
+        scheduleCompanySubscribersNotification(eventId);
+        scheduleEventReminder(new Date(date), eventId);
 
         res.status(200).json({ eventId });
 
@@ -151,12 +156,7 @@ class eventsController {
 
 
         if (event.price === 0) {
-            const ticketId = await ticketsTable.create(user.userId, eventId, isVisible);
-
-            if(event.tickets_available !== TICKETS_UNLIMITED)
-                await eventsTable.update(eventId, "tickets_available", event.tickets_available - 1);
-
-            // mailing shit
+            await subscribeToEvent(eventId, user.userId, isVisible);
 
             return res.json({ url: -1 });
         }
@@ -182,7 +182,7 @@ class eventsController {
             }],
             customer_email: user.email,
             payment_intent_data: {
-                metadata: { eventId, userId: user.id, isVisible },
+                metadata: { eventId, userId: user.id, isVisible, },
                 transfer_data: {
                     destination: stripeId,
                 },

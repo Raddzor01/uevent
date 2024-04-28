@@ -6,3 +6,5 @@ export const NODEMAILER_TRANSPORTER = {
 		pass: process.env.NODEMAILER_PASSWORD
 	}
 };
+
+export const CRON_TIMEZONE = 'Europe/Kiev';
