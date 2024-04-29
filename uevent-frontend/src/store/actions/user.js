@@ -47,6 +47,19 @@ export const updateUserPhoto = (id, file) => async (dispatch) => {
     }
 };
 
+export const updateUser = (id, updatedFields) => async (dispatch) => {
+    try {
+        await UserService.update(id, updatedFields);
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'User information updated successfully',
+        });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Updating company failed', error);
+    }
+};
+
 export const fetchUserProfile = async (dispatch, id) => {
     try {
         const userData = await dispatch(getUser(id));

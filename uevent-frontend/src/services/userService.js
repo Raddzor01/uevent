@@ -12,4 +12,14 @@ export default class UserService {
     static async updateUserPhoto(file, id) {
         return $api.post(`users/${id}/avatar`, file);
     }
+
+    static async update(id, updatedFields) {
+        const { login, password, email, full_name  } = updatedFields;
+        return $api.put(`users/${id}`, {
+            login,
+            password,
+            email,
+            full_name,
+        });
+    }
 }
