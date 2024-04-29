@@ -8,6 +8,8 @@ import { stripeWebhook } from './service/stripe.js';
 
 const app = express();
 
+app.use("/webhook", express.raw({ type: 'application/json' }), stripeWebhook);
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +21,6 @@ app.use(cors({
     allowedHeaders: "Content-Type, Authorization, Set-Cookie",
 }));
 
-app.use("/webhook", express.raw({ type: 'application/json' }), stripeWebhook);
 app.use("/api", router);
 app.use(errorMiddleware);
 

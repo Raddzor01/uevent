@@ -5,7 +5,6 @@ const stripe = new Stripe(process.env.STRIPE_API_SECRET_KEY, {apiVersion: proces
 
 const stripeWebhook = async(req, res) => {
 	const signature = req.headers['stripe-signature'];
-
 	let event;
 
 	try {
@@ -15,7 +14,7 @@ const stripeWebhook = async(req, res) => {
 	}
 
 	if (event.type === 'payment_intent.succeeded') {
-	    const { eventId, userId, isVisible } = event.data.object;
+	    const { eventId, userId, isVisible } = event.data.object.metadata;
 		await subscribeToEvent(eventId, userId, isVisible);
 	    console.info('Your payment was successful');
 	}

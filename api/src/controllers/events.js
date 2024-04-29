@@ -182,7 +182,7 @@ class eventsController {
             }],
             customer_email: user.email,
             payment_intent_data: {
-                metadata: { eventId, userId: user.id, isVisible, },
+                metadata: { eventId, userId: user.userId, isVisible, },
                 transfer_data: {
                     destination: stripeId,
                 },
