@@ -12,12 +12,14 @@ export default class TokenService {
         try {
             const token = req.cookies.token;
             if (!token) {
-                new ClientError('The access token is invalid or has expired.', 401);
+                new ClientError('The access token is invalid or has expired', 401);
             }
 
             jsonwebtoken.verify(token, process.env.JSWT_KEY, (err, decoded) => {
-                if (err)
-                    throw new ClientError('The access token is invalid or has expired.', 401);
+                if (err) {
+                    res.clearCookie("token");
+                    throw new ClientError('The access token is invalid or has expired', 401);
+                }
 
                 req.user = decoded;
             });

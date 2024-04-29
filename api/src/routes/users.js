@@ -10,6 +10,7 @@ router.get('/:id', boundary(controller.getUser));
 
 router.use(TokenService.authCheck);
 
+router.put('/:id', boundary(controller.updateUser));
 router.post('/:id/avatar', boundary(controller.updateUserPhoto));
 router.delete('/:id/avatar', boundary(controller.deleteUserPhoto));
 
