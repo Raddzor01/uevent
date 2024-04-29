@@ -35,6 +35,14 @@ export default class CompanyService {
         return $api.post(`companies/${id}/avatar`, file);
     }
 
+    static async subscribeToCompany(id) {
+        return $api.post(`companies/subscription/${id}`);
+    }
+
+    static async unsubscribeToCompany(id) {
+        return $api.delete(`companies/subscription/${id}`);
+    }
+
     static async createStripe(id) {
         return $api.post(`companies/${id}/connect-stripe`);
     }

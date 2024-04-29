@@ -48,7 +48,7 @@ export default class EventService {
     }
 
     static async createPayment(id, isVisible, promo_code) {
-        return $api.post(`events/${id}/payment`, isVisible, promo_code);
+        return $api.post(`events/${id}/payment`, { isVisible, promo_code });
     }
 
     static async update(id, updatedFields) {

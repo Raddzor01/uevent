@@ -121,7 +121,6 @@ export const createPayment =
                 isVisible,
                 promo_code,
             );
-            console.log(response);
             dispatch({
                 type: 'SET_MESSAGE',
                 payload: 'Payment created successfully',

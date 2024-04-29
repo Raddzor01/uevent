@@ -32,6 +32,24 @@ export const getCommentsUsers = (eventId, comments) => async (dispatch) => {
     }
 };
 
+export const getAllTicketEvents = (id) => async (dispatch) => {
+    try {
+        const response = await UserService.getAllTicketEvents(id);
+        dispatch({
+            type: 'SET_TICKET_EVENTS',
+            payload: response.data.eventsArray,
+        });
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'List of user comments received successfully',
+        });
+        return response.data.userData;
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Getting user failed', error);
+    }
+};
+
 export const updateUserPhoto = (id, file) => async (dispatch) => {
     try {
         await UserService.updateUserPhoto(file, id);
