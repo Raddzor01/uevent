@@ -24,6 +24,14 @@ class Event extends Model {
         const rows = await db.makeRequest(query, [companyId]);
         return rows[0];
     }
+
+    getAllUserEvents = async(user_id) => {
+        const query = `SELECT id, name, description, date, latitude, longitude, picture FROM events
+                        INNER JOIN tickets ON events.id = tickets.event_id
+                        WHERE tickets.user_id = ?; `;
+        const res = await db.makeRequest(query, [user_id]);
+        return res[0];
+    }
 }
 
 const eventsTable = new Event();

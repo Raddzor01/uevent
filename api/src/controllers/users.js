@@ -3,6 +3,7 @@ import { ClientError } from "../middleware/error.js";
 import { saveFile } from '../utils/fileUpload.js';
 import { hashPassword } from '../service/hash.js';
 import TokenService from '../service/token.js';
+import eventsTable from '../models/Event.js';
 
 class usersController {
 
@@ -91,7 +92,13 @@ class usersController {
         res.sendStatus(204);
     }
 
+    getAllTicketEvents = async(req, res) => {
+        const user_id = req.user.userId;
 
+        const eventsArray = await eventsTable.getAllUserEvents(user_id);
+
+        res.status(200).json({ eventsArray });
+    }
 }
 
 const controller = new usersController();
