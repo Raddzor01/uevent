@@ -10,18 +10,21 @@ import UniversalModal from './UniversalModal';
 import Pagination from './Pagination';
 import PaymentButton from './PaymentButton';
 import PromoCodeModal from './PromoCodeModal';
+import CustomAlert from './CustomAlert';
 
 import styles from '../styles/CompanyModal.module.css';
 
 const CompanyModal = ({ company, show, handleClose }) => {
     const dispatch = useDispatch();
     const events = useSelector((state) => state.company.events);
+    const alertMessage = useSelector((state) => state.auth.message);
     const [showDeleteCompanyModal, setShowDeleteCompanyModal] = useState(false);
     const [showDeleteEventModal, setShowDeleteEventModal] = useState(false);
     const [showUpdateCompanyModal, setShowUpdateCompanyModal] = useState(false);
     const [showUpdateEventModal, setShowUpdateEventModal] = useState(false);
-    const eventsPerPage = 3;
     const [currentPage, setCurrentPage] = useState(1);
+    const [showAlert, setShowAlert] = useState(false);
+    const eventsPerPage = 3;
     const totalPages = Math.ceil(events && events.length / eventsPerPage);
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
@@ -78,14 +81,12 @@ const CompanyModal = ({ company, show, handleClose }) => {
 
     const handleDeleteCompany = (companyId) => {
         dispatch(deleteCompany(companyId));
-        window.location.reload();
-        handleCloseDeleteCompanyModal();
+        setShowAlert(true);
     };
 
     const handleDeleteEvent = (eventId) => {
         dispatch(deleteEvent(eventId));
-        window.location.reload();
-        handleCloseDeleteEventModal();
+        setShowAlert(true);
     };
 
     const handleAvatarChange = async (event) => {
@@ -215,7 +216,7 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                             <UniversalModal
                                                 show={
                                                     showDeleteEventModal[
-                                                        event.id
+                                                    event.id
                                                     ]
                                                 }
                                                 onHide={() =>
@@ -325,6 +326,16 @@ const CompanyModal = ({ company, show, handleClose }) => {
                     />
                 </Modal.Body>
             </Modal>
+            <CustomAlert
+                show={showAlert}
+                message={alertMessage}
+                handleClose={() => {
+                    setShowAlert(false);
+                    window.location.reload();
+                    handleCloseDeleteCompanyModal();
+                    handleCloseDeleteEventModal();
+                }}
+            />
         </Modal>
     );
 };

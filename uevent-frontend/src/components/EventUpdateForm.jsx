@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEvent, updateEventPhoto } from '../store/actions/events';
+import { useNavigate } from 'react-router-dom';
 
 import AddressDisplay from './AddressDisplay';
 import SearchBoxContainer from './SearchBoxContainer';
@@ -10,6 +11,7 @@ import styles from '../styles/CompanyUpdateForm.module.css';
 
 const EventUpdateForm = ({ event, handleClose }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const companies = useSelector((state) => state.company.companies);
     const formats = useSelector((state) => state.format.formats);
     const themes = useSelector((state) => state.theme.themes);
@@ -61,6 +63,7 @@ const EventUpdateForm = ({ event, handleClose }) => {
 
         if (Object.keys(changedFields).length > 0) {
             dispatch(updateEvent(event.id, changedFields));
+            navigate(`/event/${event.id}`);
         }
 
         handleClose();
