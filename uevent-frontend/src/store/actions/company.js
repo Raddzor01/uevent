@@ -101,7 +101,7 @@ export const updateCompanyPhoto = (id, file) => async (dispatch) => {
         });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
-        console.error('Updating user photo failed', error);
+        console.error('Updating company photo failed', error);
     }
 };
 
@@ -115,7 +115,7 @@ export const createCompanyStripe = (id) => async (dispatch) => {
         return response.data.account_url;
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
-        console.error('Create company stripe error', error);
+        console.error('Creating company stripe failed', error);
     }
 };
 
@@ -128,6 +128,6 @@ export const getCompanyStripe = (id) => async (dispatch) => {
         });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
-        console.error('Updating company failed', error);
+        console.error('Getting company stripe failed', error);
     }
 };
