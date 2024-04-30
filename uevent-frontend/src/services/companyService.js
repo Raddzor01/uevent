@@ -11,7 +11,7 @@ export default class CompanyService {
 
     static async getAll(userId) {
         if (userId) {
-            return $api.get(`companies/${userId}`);
+            return $api.get(`companies/?userId=${userId}`);
         } else {
             return $api.get('companies/');
         }

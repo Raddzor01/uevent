@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { GoogleMap } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 import { useGoogleMapsLoader } from '../services/googleService';
 
 import styles from '../styles/EventPage.module.css';
@@ -41,7 +41,16 @@ const MapWithAddress = ({ lat, lng }) => {
                     }}
                     zoom={15}
                     onLoad={onLoad}
-                />
+                >
+                    {address && (
+                        <Marker
+                            position={{
+                                lat: lat,
+                                lng: lng,
+                            }}
+                        />
+                    )}
+                </GoogleMap>
             ) : (
                 <p>Loading map...</p>
             )}
