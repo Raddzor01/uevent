@@ -88,9 +88,11 @@ export const updateUser = (id, updatedFields) => async (dispatch) => {
             type: 'SET_MESSAGE',
             payload: 'User information updated successfully',
         });
+        const user = await UserService.get(id);
+        dispatch({ type: 'SET_USER', payload: user.data.userData });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
-        console.error('Updating company failed', error);
+        console.error('Updating user information failed', error);
     }
 };
 

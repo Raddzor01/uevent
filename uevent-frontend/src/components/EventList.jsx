@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Card, Col, Row, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Row, Container } from 'react-bootstrap';
 import Pagination from './Pagination';
-import { getFormat } from '../services/formatService';
-import { getTheme } from '../services/themeService';
-import { getCompanyName } from '../services/companyService';
-import AddressDisplay from './AddressDisplay';
+import Event from './Event';
 import styles from '../styles/EventList.module.css';
+import { getAllCompanySubscriptions } from '../store/actions/company';
 
 const EventList = ({ filter, sortByDate, excludeEvent, eventsPerPage }) => {
+    const dispatch = useDispatch();
     const events = useSelector((state) => state.event.events);
     const companies = useSelector((state) => state.company.companies);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
+    const user = useSelector((state) => state.auth.user);
+    const subscriptions = useSelector((state) => state.company.subscriptions);
     const [currentPage, setCurrentPage] = useState(1);
+
+    useEffect(() => {
+        if (user) {
+            dispatch(getAllCompanySubscriptions());
+        }
+    }, [dispatch, user]);
 
     if (!events) {
         return <div>Loading</div>;
@@ -49,17 +55,6 @@ const EventList = ({ filter, sortByDate, excludeEvent, eventsPerPage }) => {
 
     const totalPages = Math.ceil(sortedEvents.length / eventsPerPage);
 
-    const formatDate = (dateString) => {
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-        };
-        return new Date(dateString).toLocaleString('en-US', options);
-    };
-
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
     const currentEvents = sortedEvents.slice(
@@ -75,101 +70,15 @@ const EventList = ({ filter, sortByDate, excludeEvent, eventsPerPage }) => {
             {currentEvents.length > 0 ? (
                 <Row xs={1} md={2} lg={3} className={styles.eventContainer}>
                     {currentEvents.map((event, index) => (
-                        <Col key={index} className={styles.eventCol}>
-                            <Link
-                                to={`/event/${event.id}`}
-                                className={`text-decoration-none ${styles.link}`}
-                            >
-                                <Card
-                                    className={`bg-dark text-white ${styles.card}`}
-                                >
-                                    <Card.Img
-                                        variant="top"
-                                        src={`http://127.0.0.1:8000/${event.picture}`}
-                                        className={styles.image}
-                                    />
-                                    <Card.Body>
-                                        <div className={styles.content}>
-                                            <div className={styles.header}>
-                                                <Card.Title
-                                                    className={styles.title}
-                                                >
-                                                    {event.name}
-                                                </Card.Title>
-                                                <p className={styles.date}>
-                                                    {formatDate(event.date)}
-                                                </p>
-                                                <AddressDisplay
-                                                    lat={parseFloat(
-                                                        event.latitude,
-                                                    )}
-                                                    lng={parseFloat(
-                                                        event.longitude,
-                                                    )}
-                                                />
-                                            </div>
-                                            <hr className={styles.divider} />
-                                            <Card.Text
-                                                className={`${styles.description} mb-3`}
-                                            >
-                                                {event.description}
-                                            </Card.Text>
-                                            <div className={styles.details}>
-                                                <p className={styles.detail}>
-                                                    <span
-                                                        className={styles.label}
-                                                    >
-                                                        Price:
-                                                    </span>{' '}
-                                                    ${event.price}
-                                                </p>
-                                                <p className={styles.detail}>
-                                                    <span
-                                                        className={styles.label}
-                                                    >
-                                                        Theme:
-                                                    </span>{' '}
-                                                    {getTheme(
-                                                        event.theme_id,
-                                                        themes,
-                                                    )}
-                                                </p>
-                                                <p className={styles.detail}>
-                                                    <span
-                                                        className={styles.label}
-                                                    >
-                                                        Format:
-                                                    </span>{' '}
-                                                    {getFormat(
-                                                        event.format_id,
-                                                        formats,
-                                                    )}
-                                                </p>
-                                                <p className={styles.detail}>
-                                                    <span
-                                                        className={styles.label}
-                                                    >
-                                                        Tickets Available:
-                                                    </span>{' '}
-                                                    {event.tickets_available}
-                                                </p>
-                                                <p className={styles.detail}>
-                                                    <span
-                                                        className={styles.label}
-                                                    >
-                                                        Organiser:
-                                                    </span>{' '}
-                                                    {getCompanyName(
-                                                        event.company_id,
-                                                        companies,
-                                                    )}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            </Link>
-                        </Col>
+                        <Event
+                            key={event.id}
+                            event={event}
+                            user={user}
+                            subscriptions={subscriptions}
+                            companies={companies}
+                            themes={themes}
+                            formats={formats}
+                        />
                     ))}
                 </Row>
             ) : (

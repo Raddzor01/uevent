@@ -10,13 +10,13 @@ import styles from '../styles/CompanyUpdateForm.module.css';
 const UserUpdateForm = ({ user, handleClose }) => {
     const dispatch = useDispatch();
     const [originalFormData] = useState({
-        name: user.name,
+        login: user.login,
         email: user.email,
         full_name: user.full_name,
         password: user.password,
     });
     const [formData, setFormData] = useState({
-        name: user.name,
+        login: user.login,
         email: user.email,
         full_name: user.full_name,
         password: user.password,
@@ -59,8 +59,8 @@ const UserUpdateForm = ({ user, handleClose }) => {
                     </Form.Label>
                     <Form.Control
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="login"
+                        value={formData.login}
                         onChange={handleChange}
                         className={`${styles.input} ${styles.formControl}`}
                     />

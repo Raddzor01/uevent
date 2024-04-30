@@ -45,7 +45,7 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        dispatch(getUserCompanies());
+        dispatch(getUserCompanies(user.id));
         dispatch(getAllTicketEvents(user.id));
     }, [dispatch, user]);
 

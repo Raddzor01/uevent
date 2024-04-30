@@ -1,7 +1,8 @@
 const initialState = {
-    companies: null,
-    user_companies: null,
-    events: null,
+    companies: [],
+    user_companies: [],
+    events: [],
+    subscriptions: [],
     message: '',
 };
 
@@ -25,6 +26,8 @@ const companyReducer = (state = initialState, action) => {
                 return company;
             });
             return { ...state, user_companies: updatedUserCompanies };
+        case 'SET_SUBSCRIPTIONS':
+            return { ...state, subscriptions: action.payload };
         default:
             return state;
     }

@@ -51,10 +51,17 @@ export const getCompanies = () => async (dispatch) => {
 export const getUserCompanies = (userId) => async (dispatch) => {
     try {
         const response = await CompanyService.getAll(userId);
-        dispatch({
-            type: 'SET_USER_COMPANIES',
-            payload: response.data.calendarsArray,
-        });
+        if (!response.data.calendarsArray) {
+            dispatch({
+                type: 'SET_USER_COMPANIES',
+                payload: [],
+            });
+        } else {
+            dispatch({
+                type: 'SET_USER_COMPANIES',
+                payload: response.data.calendarsArray,
+            });
+        }
         dispatch({
             type: 'SET_MESSAGE',
             payload: 'List of user companies received successfully',
@@ -108,6 +115,11 @@ export const updateCompanyPhoto = (id, file) => async (dispatch) => {
 export const subscribeToCompany = (id) => async (dispatch) => {
     try {
         await CompanyService.subscribeToCompany(id);
+        const response = await CompanyService.getAllCompanySubscriptions();
+        dispatch({
+            type: 'SET_SUBSCRIPTIONS',
+            payload: response.data.subscriptionsArray,
+        });
         dispatch({
             type: 'SET_MESSAGE',
             payload: 'User subscribed successfully',
@@ -118,9 +130,31 @@ export const subscribeToCompany = (id) => async (dispatch) => {
     }
 };
 
+export const getAllCompanySubscriptions = () => async (dispatch) => {
+    try {
+        const response = await CompanyService.getAllCompanySubscriptions();
+        dispatch({
+            type: 'SET_SUBSCRIPTIONS',
+            payload: response.data.subscriptionsArray,
+        });
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'Getting user subsctiptions successfully',
+        });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Updating company photo failed', error);
+    }
+};
+
 export const unsubscribeToCompany = (id) => async (dispatch) => {
     try {
         await CompanyService.unsubscribeToCompany(id);
+        const response = await CompanyService.getAllCompanySubscriptions();
+        dispatch({
+            type: 'SET_SUBSCRIPTIONS',
+            payload: response.data.subscriptionsArray,
+        });
         dispatch({
             type: 'SET_MESSAGE',
             payload: 'User unsubscribed successfully',

@@ -45,8 +45,6 @@ const EventPage = () => {
         theme: event ? event.theme_id : null,
     });
 
-    console.log(event_guests);
-
     const [showModal, setShowModal] = useState(false);
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [commentToDeleteIndex, setCommentToDeleteIndex] = useState(null);

@@ -36,11 +36,15 @@ export default class CompanyService {
     }
 
     static async subscribeToCompany(id) {
-        return $api.post(`companies/subscription/${id}`);
+        return $api.post(`companies-subscription/${id}`);
+    }
+
+    static async getAllCompanySubscriptions() {
+        return $api.get(`companies-subscription/`);
     }
 
     static async unsubscribeToCompany(id) {
-        return $api.delete(`companies/subscription/${id}`);
+        return $api.delete(`companies-subscription/${id}`);
     }
 
     static async createStripe(id) {
