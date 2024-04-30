@@ -1,0 +1,13 @@
+.scrollContainer {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.cardColumn {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardHeight {
+    height: 180px;
+}

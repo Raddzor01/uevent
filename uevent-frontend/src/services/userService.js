@@ -9,6 +9,10 @@ export default class UserService {
         return $api.get(`users/?eventId=${eventId}&comments=${comments}`);
     }
 
+    static async getEventGuests(eventId) {
+        return $api.get(`users/?eventId=${eventId}`);
+    }
+
     static async getAllTicketEvents(id) {
         return $api.get(`users/${id}/tickets`);
     }
