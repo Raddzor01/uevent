@@ -45,8 +45,8 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        dispatch(getUserCompanies(user.id));
-        dispatch(getAllTicketEvents(user.id));
+        dispatch(getUserCompanies(user && user.id));
+        dispatch(getAllTicketEvents(user && user.id));
     }, [dispatch, user]);
 
     if (!user || !companies || !ticketEvents) {
