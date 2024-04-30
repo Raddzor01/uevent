@@ -25,6 +25,40 @@ export const getCommentsUsers = (eventId, comments) => async (dispatch) => {
             type: 'SET_MESSAGE',
             payload: 'List of user comments received successfully',
         });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Getting user failed', error);
+    }
+};
+
+export const getEventGuests = (eventId) => async (dispatch) => {
+    try {
+        const response = await UserService.getEventGuests(eventId);
+        dispatch({
+            type: 'SET_EVENT_GUESTS',
+            payload: response.data.usersArray,
+        });
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'List of event guests received successfully',
+        });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Getting event guests failed', error);
+    }
+};
+
+export const getAllTicketEvents = (id) => async (dispatch) => {
+    try {
+        const response = await UserService.getAllTicketEvents(id);
+        dispatch({
+            type: 'SET_TICKET_EVENTS',
+            payload: response.data.eventsArray,
+        });
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'List of user comments received successfully',
+        });
         return response.data.userData;
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });

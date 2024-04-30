@@ -19,7 +19,7 @@ const PaymentModal = ({ show, handleClose, event }) => {
     };
 
     const handleSubmit = async () => {
-        await dispatch(createPayment(event.id, allowDisplay, promoCode))
+        await dispatch(createPayment(event.id, Number(allowDisplay), promoCode))
             .then((response) => {
                 window.open(response);
             })

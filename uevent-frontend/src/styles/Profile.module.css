@@ -47,15 +47,17 @@
     background-color: #008b8b;
 }
 
-.avatar {
+.avatar,
+.event_avatar {
     position: relative;
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid aqua;
     cursor: pointer;
-    transition: filter 0.3s ease;
+    transition:
+        filter 0.3s ease,
+        transform 0.3s ease;
 }
 
 .avatar:hover {
@@ -101,4 +103,42 @@
 .companyEmail {
     margin: 0;
     font-size: 0.9rem;
+}
+
+.cardBody {
+    font-weight: bold;
+    transition:
+        filter 0.3s ease,
+        transform 0.3s ease;
+    object-fit: cover;
+}
+
+.cardBody:hover {
+    cursor: pointer;
+    transform: translateY(-5px);
+}
+
+.modalTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    width: 100%;
+    color: aqua;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.modalText {
+    color: #cccccc;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.modalHeader,
+.modalFooter {
+    color: #cccccc;
+    border: 0;
 }

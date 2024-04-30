@@ -1,13 +1,14 @@
 .card {
     background-color: #212529;
     color: #fff;
-    border: 2px solid #34495e;
+    border: 1px solid aqua;
     text-align: center;
     border-radius: 20px;
 }
 
 .image {
     width: 100%;
+    border-radius: 10px;
 }
 
 .title {
@@ -36,25 +37,17 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     padding: 10px 20px;
     margin: 10px;
-    cursor: pointer;
     background-size: 200% 200%;
     transition: background-position 0.5s;
+    border: 1px solid aqua;
     overflow: hidden;
-}
-
-.info:hover {
-    transform: translateY(-3px);
-    box-shadow:
-        0 6px 12px rgba(0, 0, 0, 0.5),
-        inset 0 0 20px rgba(255, 255, 255, 0.2);
-    background-position: right bottom;
 }
 
 .infoText {
     font-size: 16px;
+
     color: rgba(255, 255, 255, 0.9);
     display: block;
-
     margin-bottom: 5px;
 }
 
@@ -62,15 +55,14 @@
     padding: 15px 30px;
     font-size: 20px;
     border-radius: 40px;
-    border: 1px solid transparent;
+    border: 0;
     background-color: #343a40;
     color: #fff;
     transition: all 0.3s ease-in-out;
 }
 
 .buyButton:hover {
-    transform: scale(1.05);
-    background-color: #343a40;
+    background-color: #00ffff;
     border: 0;
     box-shadow: 0 0 20px rgb(0, 247, 255);
 }
@@ -83,7 +75,7 @@
 
 .chat {
     background-color: #343a40;
-    border: 2px solid #34495e;
+    border: 1px solid aqua;
     border-radius: 15px;
     padding: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -157,6 +149,7 @@
     color: #ffffff !important;
     border: none !important;
     font-size: 25px;
+    border-radius: 25px;
     margin: 10px;
     cursor: pointer !important;
     transition: background-color 0.3s;

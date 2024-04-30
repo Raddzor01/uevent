@@ -105,6 +105,32 @@ export const updateCompanyPhoto = (id, file) => async (dispatch) => {
     }
 };
 
+export const subscribeToCompany = (id) => async (dispatch) => {
+    try {
+        await CompanyService.subscribeToCompany(id);
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'User subscribed successfully',
+        });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Updating company photo failed', error);
+    }
+};
+
+export const unsubscribeToCompany = (id) => async (dispatch) => {
+    try {
+        await CompanyService.unsubscribeToCompany(id);
+        dispatch({
+            type: 'SET_MESSAGE',
+            payload: 'User unsubscribed successfully',
+        });
+    } catch (error) {
+        dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
+        console.error('Updating company photo failed', error);
+    }
+};
+
 export const createCompanyStripe = (id) => async (dispatch) => {
     try {
         const response = await CompanyService.createStripe(id);

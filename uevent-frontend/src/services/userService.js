@@ -9,12 +9,20 @@ export default class UserService {
         return $api.get(`users/?eventId=${eventId}&comments=${comments}`);
     }
 
+    static async getEventGuests(eventId) {
+        return $api.get(`users/?eventId=${eventId}`);
+    }
+
+    static async getAllTicketEvents(id) {
+        return $api.get(`users/${id}/tickets`);
+    }
+
     static async updateUserPhoto(file, id) {
         return $api.post(`users/${id}/avatar`, file);
     }
 
     static async update(id, updatedFields) {
-        const { login, password, email, full_name  } = updatedFields;
+        const { login, password, email, full_name } = updatedFields;
         return $api.put(`users/${id}`, {
             login,
             password,

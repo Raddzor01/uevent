@@ -13,7 +13,7 @@ import {
     deleteComment,
     updateComment,
 } from '../store/actions/comments';
-import { getCommentsUsers } from '../store/actions/user';
+import { getCommentsUsers, getEventGuests } from '../store/actions/user';
 import { formatDate } from '../store/actions/data';
 
 import MapWithAddress from './MapWithAddress';
@@ -21,6 +21,7 @@ import Footer from './Footer';
 import EventList from './EventList';
 import UniversalModal from './UniversalModal';
 import PaymentModal from './PaymentModal';
+import EventGuestsModal from './EventGuestsModal';
 
 import styles from '../styles/EventPage.module.css';
 
@@ -34,6 +35,7 @@ const EventPage = () => {
     const user = useSelector((state) => state.auth.user);
     const users = useSelector((state) => state.user.comments_users);
     const event = useSelector((state) => state.event.event);
+    const event_guests = useSelector((state) => state.event.event_guests);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
 
@@ -42,6 +44,8 @@ const EventPage = () => {
         format: event ? event.format_id : null,
         theme: event ? event.theme_id : null,
     });
+
+    console.log(event_guests);
 
     const [showModal, setShowModal] = useState(false);
     const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -88,6 +92,7 @@ const EventPage = () => {
         dispatch(getEvent(eventId));
         dispatch(getComments(eventId));
         dispatch(getCommentsUsers(eventId, 1));
+        dispatch(getEventGuests(eventId));
     }, [dispatch, eventId]);
 
     useEffect(() => {
@@ -184,7 +189,7 @@ const EventPage = () => {
                                         />
                                     </div>
                                 </div>
-
+                                <EventGuestsModal event_guests={event_guests} />
                                 <div className="text-center">
                                     <Button
                                         variant="primary"
