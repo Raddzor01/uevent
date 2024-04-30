@@ -4,6 +4,13 @@ import companySubscriptionsTable from '../models/CompanySubscriptions.js';
 
 
 class companySubscriptionsController {
+
+	getAllCompanySubscriptions = async(req, res) => {
+		const subscriptionsArray = await companySubscriptionsTable.getAllUserCompanySubscriptions(req.user.userId);
+
+		res.status(200).json({ subscriptionsArray });
+	}
+
 	subscribeToCompany = async(req, res) => {
 
 		const company_id = Number(req.params.id);

@@ -13,9 +13,10 @@ class CompanySubscriptions extends Model {
 		return res[0].insertId;
 	}
 
-	async read(id) {
-		const data = await super.read(id);
-		return data[0][0];
+	async read(user_id, company_id) {
+		const query = `SELECT * FROM companysubscriptions WHERE company_id = ? AND user_id = ?; `;
+		const companiesArray = await db.makeRequest(query, [company_id, user_id]);
+		return companiesArray[0][0];
 	}
 
 	async getAllCompanySubscriptions(company_id) {
@@ -34,6 +35,12 @@ class CompanySubscriptions extends Model {
 	async delete(user_id, company_id) {
 		const query = `DELETE FROM companysubscriptions WHERE user_id = ? and company_id = ?; `;
 		await db.makeRequest(query, [user_id, company_id]);
+	}
+
+	getAllUserCompanySubscriptions = async(user_id) => {
+		const query = `SELECT * FROM companysubscriptions WHERE user_id = ?`;
+		const subscriptionsArray = await db.makeRequest(query, [user_id]);
+		return subscriptionsArray[0];
 	}
 }
 

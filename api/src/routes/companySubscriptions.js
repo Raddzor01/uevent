@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.use(TokenService.authCheck);
 
+router.get('/', boundary(controller.getAllCompanySubscriptions));
 router.post('/:id', boundary(controller.subscribeToCompany));
 router.delete('/:id', boundary(controller.unsubscribeToCompany));
 
