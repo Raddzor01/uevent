@@ -12,8 +12,13 @@ export const login = (login, password) => async (dispatch) => {
 };
 
 export const registration =
-    (email, password, login, full_name) => async (dispatch) => {
+    (email, password, confirmationPassword, login, full_name) => async (dispatch) => {
         try {
+            if (password !== confirmationPassword) {
+                dispatch({ type: 'SET_MESSAGE', payload: 'Passwords isnt same' });
+                return;
+            }
+
             const response = await AuthService.register(
                 email,
                 password,

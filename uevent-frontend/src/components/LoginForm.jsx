@@ -14,6 +14,7 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [full_name, setFullName] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmationPassword, setConfirmationPassword] = useState('');
     const [isLoginForm, setIsLoginForm] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
     const alertMessage = useSelector((state) => state.auth.message);
@@ -26,7 +27,7 @@ const LoginForm = () => {
 
     const handleRegister = (e) => {
         e.preventDefault();
-        dispatch(registration(email, password, name, full_name));
+        dispatch(registration(email, password, confirmationPassword, name, full_name));
     };
 
     const handleToggleForm = () => {
@@ -104,6 +105,8 @@ const LoginForm = () => {
                         <Form.Control
                             type="password"
                             placeholder="Confirm Password"
+                            value={confirmationPassword}
+                            onChange={(e) => setConfirmationPassword(e.target.value)}
                             className="bg-dark text-light mb-3"
                         />
                     </Form.Group>
