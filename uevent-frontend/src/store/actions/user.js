@@ -90,7 +90,7 @@ export const updateUser = (id, updatedFields) => async (dispatch) => {
         });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
-        console.error('Updating company failed', error);
+        console.error('Updating user information failed', error);
     }
 };
 
