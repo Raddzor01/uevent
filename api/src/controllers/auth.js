@@ -68,6 +68,18 @@ class authController {
 
         res.sendStatus(200);
     }
+
+    confirmEmail = async(req, res) => {
+        const token = req.params.confirmToken;
+        let email;
+
+        await TokenService.getData(token).then((value) => (email = value.email));
+
+        await usersTable.activateAccount(email);
+
+        res.sendStatus(200);
+    }
+
     logout = async(req, res) => {
         if (req.cookies.token) {
             let id;

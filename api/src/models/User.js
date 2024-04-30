@@ -34,6 +34,12 @@ class User extends Model {
         await db.makeRequest(sql, [password, email]);
     }
 
+    activateAccount = async(email) => {
+        const sql = `UPDATE users SET is_confirmed = 1 WHERE email = ? ; `;
+
+        await db.makeRequest(sql, [email]);
+    }
+
     getUsersEventComments = async(event_id) => {
         const sql = `SELECT DISTINCT users.login, users.picture, users.id  FROM users
                     INNER JOIN comments ON users.id = comments.user_id
