@@ -70,7 +70,7 @@ class authController {
     }
 
     confirmEmail = async(req, res) => {
-        const token = req.params.confirmToken;
+        const token = req.params.token;
         let email;
 
         await TokenService.getData(token).then((value) => (email = value.email));
@@ -112,7 +112,7 @@ class authController {
     }
 
     set_new_password = async(req, res) => {
-        const token = req.params.confirmToken;
+        const token = req.params.token;
         let email;
 
         await TokenService.getData(token).then((value) => (email = value.email));
