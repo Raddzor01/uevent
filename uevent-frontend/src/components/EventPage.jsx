@@ -191,7 +191,7 @@ const EventPage = () => {
                                 <div className="text-center">
                                     <Button
                                         variant="primary"
-                                        className={`mt-4 ${styles.buyButton} w-100`}
+                                        className={`mt-2 ${styles.buyButton} w-100`}
                                         onClick={handleOpenPaymentModal}
                                     >
                                         Buy Ticket

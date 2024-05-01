@@ -12,6 +12,8 @@ import Profile from './components/Profile';
 import EventPage from './components/EventPage';
 import EventForm from './components/EventForm';
 import PaymentStatus from './components/PaymentStatus';
+import ConfirmationPage from './components/ConfirmationPage';
+import ChangePasswordModal from './components/ChangePasswordModal';
 
 function App() {
     const dispatch = useDispatch();
@@ -30,6 +32,14 @@ function App() {
                     <Route path="/event/:eventId" element={<EventPage />} />
                     <Route path="/eventform" element={<EventForm />} />
                     <Route path="/event/payment/" element={<PaymentStatus />} />
+                    <Route
+                        path="/confirm-email/:token"
+                        element={<ConfirmationPage />}
+                    />
+                    <Route
+                        path="/password-reset/:token"
+                        element={<ChangePasswordModal />}
+                    />
                 </Routes>
             </div>
         </Router>

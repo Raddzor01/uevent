@@ -47,8 +47,10 @@ const CompanyUpdateForm = ({ company, handleClose }) => {
     };
 
     return (
-        <Modal.Body className={`bg-dark text-white ${styles.modalContent}`}>
-            <Form onSubmit={handleSubmit} className={styles.form}>
+        <Modal.Body
+            className={`bg-dark text-white border border-white ${styles.modalContent}`}
+        >
+            <Form onSubmit={handleSubmit} className={`${styles.form}`}>
                 <Form.Group
                     controlId="formCompanyName"
                     className={styles.formGroup}

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Modal } from 'react-bootstrap';
 import { registration, login } from '../store/actions/auth';
 import { useNavigate } from 'react-router-dom';
+import CustomAlert from './CustomAlert';
+import PasswordResetModal from './PasswordResetModal';
 
 import styles from '../styles/LoginForm.module.css';
-import CustomAlert from './CustomAlert';
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const LoginForm = () => {
     const [confirmationPassword, setConfirmationPassword] = useState('');
     const [isLoginForm, setIsLoginForm] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
     const alertMessage = useSelector((state) => state.auth.message);
 
     const handleLogin = (e) => {
@@ -25,9 +27,25 @@ const LoginForm = () => {
         navigate('/');
     };
 
+    const handleOpenPasswordModal = () => {
+        setShowPasswordModal(true);
+    };
+
+    const handleClosePasswordModal = () => {
+        setShowPasswordModal(false);
+    };
+
     const handleRegister = (e) => {
         e.preventDefault();
-        dispatch(registration(email, password, confirmationPassword, name, full_name));
+        dispatch(
+            registration(
+                email,
+                password,
+                confirmationPassword,
+                name,
+                full_name,
+            ),
+        );
     };
 
     const handleToggleForm = () => {
@@ -47,7 +65,6 @@ const LoginForm = () => {
                     {isLoginForm ? 'Login' : 'Register'}
                 </h2>
 
-                {/* Login field */}
                 <Form.Group controlId="formBasicLogin">
                     <Form.Label>Login</Form.Label>
                     <Form.Control
@@ -59,7 +76,6 @@ const LoginForm = () => {
                     />
                 </Form.Group>
 
-                {/* Email field */}
                 {!isLoginForm && (
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
@@ -86,7 +102,6 @@ const LoginForm = () => {
                     </Form.Group>
                 )}
 
-                {/* Password field */}
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
@@ -98,7 +113,6 @@ const LoginForm = () => {
                     />
                 </Form.Group>
 
-                {/* Additional field for password confirmation in registration form */}
                 {!isLoginForm && (
                     <Form.Group controlId="formBasicPasswordConfirmation">
                         <Form.Label>Password Confirmation</Form.Label>
@@ -106,27 +120,40 @@ const LoginForm = () => {
                             type="password"
                             placeholder="Confirm Password"
                             value={confirmationPassword}
-                            onChange={(e) => setConfirmationPassword(e.target.value)}
+                            onChange={(e) =>
+                                setConfirmationPassword(e.target.value)
+                            }
                             className="bg-dark text-light mb-3"
                         />
                     </Form.Group>
                 )}
 
-                {/* Submit button */}
                 <Button
                     variant="info"
                     type="submit"
                     className={`${styles.submitButton}`}
-                    onClick={() => { setShowAlert(true); }}
+                    onClick={() => {
+                        setShowAlert(true);
+                    }}
                 >
                     {isLoginForm ? 'Login' : 'Register'}
                 </Button>
 
-                <Button variant="link" className={`${styles.customButton}`}>
+                <Button
+                    variant="link"
+                    onClick={handleOpenPasswordModal}
+                    className={`${styles.customButton}`}
+                >
                     Forgot your password?
                 </Button>
+                <Modal
+                    show={showPasswordModal}
+                    onHide={handleClosePasswordModal}
+                    centered
+                >
+                    <PasswordResetModal onClose={handleClosePasswordModal} />
+                </Modal>
 
-                {/* Toggle form button */}
                 <Button
                     variant="link"
                     onClick={handleToggleForm}
@@ -135,7 +162,13 @@ const LoginForm = () => {
                     {isLoginForm ? 'Is not Registered?' : 'Back to Login'}
                 </Button>
             </Form>
-            <CustomAlert show={showAlert} handleClose={() => { setShowAlert(false); }} message={alertMessage} />
+            <CustomAlert
+                show={showAlert}
+                handleClose={() => {
+                    setShowAlert(false);
+                }}
+                message={alertMessage}
+            />
         </Container>
     );
 };

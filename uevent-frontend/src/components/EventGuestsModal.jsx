@@ -15,7 +15,7 @@ const EventGuestsModal = ({ event_guests }) => {
             <Button
                 variant="primary"
                 onClick={handleShowGuestsModal}
-                className={styles.button}
+                className={`w-100 ${styles.buyButton}`}
             >
                 Show Guests
             </Button>

@@ -21,12 +21,15 @@ const PaymentModal = ({ show, handleClose, event }) => {
     const handleSubmit = async () => {
         await dispatch(createPayment(event.id, Number(allowDisplay), promoCode))
             .then((response) => {
-                window.open(response);
+                if (response === -1) {
+                    window.open(`/event/payment/?status=true`);
+                } else {
+                    window.open(response);
+                }
             })
             .catch((error) => {
                 console.error('Error handling payment confirmation:', error);
             });
-
         handleClose();
     };
 

@@ -216,7 +216,7 @@ const CompanyModal = ({ company, show, handleClose }) => {
                                             <UniversalModal
                                                 show={
                                                     showDeleteEventModal[
-                                                    event.id
+                                                        event.id
                                                     ]
                                                 }
                                                 onHide={() =>

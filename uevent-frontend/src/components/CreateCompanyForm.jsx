@@ -22,7 +22,7 @@ const CreateCompanyForm = ({ show, handleClose }) => {
 
     return (
         <Modal show={show} onHide={handleClose} dialogClassName="modal-dark">
-            <Modal.Header closeButton className="bg-dark text-white">
+            <Modal.Header className="bg-dark text-white">
                 <Modal.Title>Create Company</Modal.Title>
             </Modal.Header>
             <Modal.Body className="bg-dark text-white">

@@ -132,6 +132,7 @@ export const createPayment =
                 payload: error.response.data.message,
             });
             console.error('Payment failed', error);
+            return `/event/payment/?status=false`;
         }
     };
 

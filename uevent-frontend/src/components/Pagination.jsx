@@ -40,7 +40,7 @@ const Pagination = ({
             >
                 &lt;
             </Button>
-            <div className="d-flex align-items-center mx-2">
+            <div className="d-flex align-items-center">
                 {renderPageNumbers()}
             </div>
             <Button

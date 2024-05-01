@@ -1,6 +1,8 @@
 .card {
     background-color: #212529;
     color: #fff;
+    max-height: 145vh;
+    overflow: auto;
     border: 1px solid aqua;
     text-align: center;
     border-radius: 20px;
@@ -83,7 +85,8 @@
     color: #fff;
     width: 100%;
     max-width: 600px;
-    overflow: hidden;
+    max-height: 142vh;
+    overflow: auto;
 }
 
 .chatTitle {
@@ -105,8 +108,7 @@
 
 .commentsContainer {
     margin: 0 auto;
-    max-height: 100vh;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .comment {

@@ -13,13 +13,13 @@ const UserUpdateForm = ({ user, handleClose }) => {
         login: user.login,
         email: user.email,
         full_name: user.full_name,
-        password: user.password,
+        password: '',
     });
     const [formData, setFormData] = useState({
         login: user.login,
         email: user.email,
         full_name: user.full_name,
-        password: user.password,
+        password: '',
     });
 
     const handleChange = (e) => {
@@ -77,6 +77,22 @@ const UserUpdateForm = ({ user, handleClose }) => {
                         type="email"
                         name="email"
                         value={formData.email}
+                        onChange={handleChange}
+                        className={`${styles.input} ${styles.formControl}`}
+                    />
+                </Form.Group>
+
+                <Form.Group
+                    controlId="formUserPassword"
+                    className={styles.formGroup}
+                >
+                    <Form.Label className={`${styles.formLabel} mt-4`}>
+                        Password
+                    </Form.Label>
+                    <Form.Control
+                        type="password"
+                        name="password"
+                        value={formData.password}
                         onChange={handleChange}
                         className={`${styles.input} ${styles.formControl}`}
                     />

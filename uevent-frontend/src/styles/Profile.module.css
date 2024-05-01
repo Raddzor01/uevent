@@ -47,6 +47,10 @@
     background-color: #008b8b;
 }
 
+.eventCard {
+    height: 300px;
+}
+
 .avatar,
 .event_avatar {
     position: relative;
@@ -81,6 +85,14 @@
     background-color: #212529;
     border: 1px solid aqua;
     color: #ffffff;
+    transition:
+        filter 0.3s ease,
+        transform 0.3s ease;
+}
+
+.companyCard:hover {
+    cursor: pointer;
+    transform: translateY(-5px);
 }
 
 .companyInfo {
@@ -111,6 +123,7 @@
         filter 0.3s ease,
         transform 0.3s ease;
     object-fit: cover;
+    border: 1px solid aqua;
 }
 
 .cardBody:hover {

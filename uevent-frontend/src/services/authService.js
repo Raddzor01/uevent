@@ -14,6 +14,18 @@ export default class AuthService {
         });
     }
 
+    static async confirmAccount(token) {
+        return $api.post(`auth/confirm-account/${token}`);
+    }
+
+    static async passwordReset(email) {
+        return $api.post(`auth/password-reset`, { email });
+    }
+
+    static async setNewPassword(token, password) {
+        return $api.post(`auth/password-reset/${token}`, { password });
+    }
+
     static async logout() {
         return $api.post('auth/logout');
     }

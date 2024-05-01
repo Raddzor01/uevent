@@ -80,9 +80,10 @@
 .createCompany {
     background-color: #343a40;
     color: #ffffff;
-    border: none;
+    border: 1px solid aqua;
+    border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.1s ease;
+    transition: all 0.3s ease;
 }
 
 .createCompany:hover {
