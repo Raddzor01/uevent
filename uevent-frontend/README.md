@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# Short Description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project aims to enhance networking skills by providing information about entertaining/educational events in various locations. Users can explore upcoming events, subscribe, and interact with event organizers and other attendees.
 
-## Available Scripts
+# Requirements and Dependencies
 
-In the project directory, you can run:
+To successfully run this project, ensure that the following dependencies are installed:
 
-### `npm start`
+-   Node.js
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-   npm (Node Package Manager)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-   React.js
 
-### `npm test`
+-   BootStrap
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+-   Any additional dependencies listed in the package.json file
 
-### `npm run build`
+# How to Run
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Follow these steps to set up and run the project:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository: git clone [repository_link]
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Navigate to the project directory.
 
-### `npm run eject`
+3. Install dependencies: npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Start the development server: npm start
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Open your browser and visit http://127.0.0.1:3000 to view the calendar application.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Full-Fledged Documentation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Project Structure
 
-## Learn More
+The project follows a structured organization to maintain clarity and ease of navigation. Key directories include:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-   src/components: Contains reusable React components for building the user interface.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   src/styles: Includes global styles and theme configurations for consistent styling across the application.
 
-### Code Splitting
+-   public: Contains static assets such as images and favicon.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Implementation Details
 
-### Analyzing the Bundle Size
+### Authentication
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Users can sign up with email/password or log in with existing credentials. Upon successful authentication, users gain access to functionalities based on their permissions.
 
-### Making a Progressive Web App
+### User Interface
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The user interface is built using React.js and Material-UI components to ensure a responsive and visually appealing design. Features include:
 
-### Advanced Configuration
+-   Company creation, editing, and deletion, payment functionalities.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+-   Event creation, editing, and deletion, payment functionalities.
 
-### Deployment
+-   User-friendly forms for input validation and error handling.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+-   Intuitive navigation.
 
-### `npm run build` fails to minify
+## Usage Instructions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. User Registration/Login: Users can sign up for an account or log in with existing credentials using the provided authentication form.
+
+2. Company Creation: After registration or login, users have the option to create a company profile. This step involves providing necessary details about the company, such as name, email, and location.
+
+3. Payment System Setup: Proceed to configure the payment system to enable seamless transactions within the platform. Users can set up their preferred payment methods and billing information.
+
+4. Event Creation: Once the company profile and payment system are set up, users can create new events. This involves filling out a form with event details, such as date, description, ticket prices, and promotional offers.
+
+5. Event Registration/Purchase: After event creation, users can search for events of interest and proceed to register or purchase tickets. This step involves browsing through available events, selecting desired ones, and completing the registration or purchase process.
+
+6. Settings: Access user settings to customize preferences, manage account information, and configure notification preferences according to personal preferences.
+
+# Description of Progress
+
+## Engage: Explored existing applications, identified user needs, and outlined project goals.
+
+## Investigate: Researched technologies and frameworks suitable for building app. Decided to use React.js for the front end.
+
+## Act: Implemented user authentication, events and companies views functionality and editing features. Addressed challenges related to real-time data synchronization and user permissions.
+
+# Algorithm Description
+
+The application utilizes algorithms to manage various functionalities including user registration, company creation, payment system integration, event creation, event search, and ticket purchase.
