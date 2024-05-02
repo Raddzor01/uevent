@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Container, Modal } from 'react-bootstrap';
 import { registration, login } from '../store/actions/auth';
@@ -20,13 +20,25 @@ const LoginForm = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const alertMessage = useSelector((state) => state.auth.message);
-
-    const handleLogin = (e) => {
+    const user = useSelector((state) => state.auth.user);
+    
+    useEffect(() => {
+        if (alertMessage !== 'Logout success' && alertMessage !== 'List of events received successfully') {
+            if (user) {
+                navigate('/');
+            } else {
+                setShowAlert(true);
+            }
+        } else {
+            return;
+        }
+    }, [user, alertMessage, navigate]);
+    
+    const handleLogin = async (e) => {
         e.preventDefault();
-        dispatch(login(name, password));
-        navigate('/');
+        await dispatch(login(name, password));
     };
-
+    
     const handleOpenPasswordModal = () => {
         setShowPasswordModal(true);
     };
@@ -132,9 +144,6 @@ const LoginForm = () => {
                     variant="info"
                     type="submit"
                     className={`${styles.submitButton}`}
-                    onClick={() => {
-                        setShowAlert(true);
-                    }}
                 >
                     {isLoginForm ? 'Login' : 'Register'}
                 </Button>
@@ -162,13 +171,16 @@ const LoginForm = () => {
                     {isLoginForm ? 'Is not Registered?' : 'Back to Login'}
                 </Button>
             </Form>
-            <CustomAlert
-                show={showAlert}
-                handleClose={() => {
-                    setShowAlert(false);
-                }}
-                message={alertMessage}
-            />
+            {showAlert && (
+                <CustomAlert
+                    show={showAlert}
+                    handleClose={() => {
+                        setShowAlert(false);
+                    }}
+                    message={alertMessage}
+                />
+            )}
+
         </Container>
     );
 };
