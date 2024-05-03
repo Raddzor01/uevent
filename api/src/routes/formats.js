@@ -7,8 +7,8 @@ const router = express.Router();
 router.get('/', boundary(controller.getAllFormats));
 router.get('/:id', boundary(controller.getFormat));
 
-router.post('/', boundary(controller.createFormat));
-router.put('/:id', boundary(controller.updateFormat));
-router.delete('/:id', boundary(controller.deleteFormat));
+// router.post('/', boundary(controller.createFormat));
+// router.put('/:id', boundary(controller.updateFormat));
+// router.delete('/:id', boundary(controller.deleteFormat));
 
 export default router;
