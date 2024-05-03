@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS users(
                             full_name VARCHAR(255) NOT NULL,
                             email VARCHAR(255) NOT NULL UNIQUE,
                             picture VARCHAR(255) NOT NULL DEFAULT 'default_avatar.png',
-                            is_confirmed BOOLEAN NOT NULL DEFAULT false
+                            is_confirmed BOOLEAN NOT NULL DEFAULT false,
+
 );
 
 CREATE TABLE IF NOT EXISTS companies(

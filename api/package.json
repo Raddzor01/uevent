@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/Raddzor01/uevent#readme",
   "dependencies": {
+    "@adminjs/express": "^6.1.0",
+    "@adminjs/sql": "^2.2.3",
+    "adminjs": "^7.8.1",
     "argon2": "^0.40.1",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",

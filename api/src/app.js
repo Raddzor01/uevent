@@ -5,9 +5,11 @@ import cookieParser from "cookie-parser";
 import router from "./routes/router.js";
 import {errorMiddleware} from "./middleware/error.js";
 import { stripeWebhook } from './service/stripe.js';
+import { admin, adminRouter } from './admin/app.js';
 
 const app = express();
 
+app.use(admin.options.rootPath, adminRouter);
 app.use("/webhook", express.raw({ type: 'application/json' }), stripeWebhook);
 
 app.use(cookieParser());
