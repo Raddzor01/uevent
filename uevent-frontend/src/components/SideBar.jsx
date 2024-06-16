@@ -71,8 +71,8 @@ const SideBar = ({ onFilterChange, onSortChange }) => {
             <Form.Group className="mb-3">
                 <Form.Label>Sort by Date:</Form.Label>
                 <Form.Control as="select" onChange={handleSortChange}>
-                    <option value="asc">Oldest first</option>
                     <option value="desc">Newest first</option>
+                    <option value="asc">Oldest first</option>
                 </Form.Control>
             </Form.Group>
         </aside>

@@ -4,11 +4,6 @@ export const createComment =
     (content, user_id, event_id) => async (dispatch) => {
         try {
             await CommentService.create(content, user_id, event_id);
-            const updatedComments = await CommentService.getAll();
-            dispatch({
-                type: 'SET_COMMENTS',
-                payload: updatedComments.data.comments,
-            });
             dispatch({
                 type: 'SET_MESSAGE',
                 payload: 'Comment created successfully',

@@ -21,9 +21,14 @@ const LoginForm = () => {
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const alertMessage = useSelector((state) => state.auth.message);
     const user = useSelector((state) => state.auth.user);
-    
+
     useEffect(() => {
-        if (alertMessage !== 'Logout success' && alertMessage !== 'List of events received successfully') {
+        if (
+            alertMessage !== 'Logout success' &&
+            alertMessage !== 'List of events received successfully' &&
+            alertMessage !== 'List of themes received successfully' &&
+            alertMessage !== 'List of companies received successfully'
+        ) {
             if (user) {
                 navigate('/');
             } else {
@@ -33,12 +38,12 @@ const LoginForm = () => {
             return;
         }
     }, [user, alertMessage, navigate]);
-    
+
     const handleLogin = async (e) => {
         e.preventDefault();
         await dispatch(login(name, password));
     };
-    
+
     const handleOpenPasswordModal = () => {
         setShowPasswordModal(true);
     };
@@ -180,7 +185,6 @@ const LoginForm = () => {
                     message={alertMessage}
                 />
             )}
-
         </Container>
     );
 };

@@ -88,7 +88,6 @@ export const logout = () => async (dispatch) => {
         await AuthService.logout();
         localStorage.removeItem('token');
         dispatch({ type: 'SET_USER', payload: null });
-        dispatch({ type: 'SET_MESSAGE', payload: 'Logout success' });
     } catch (error) {
         dispatch({ type: 'SET_MESSAGE', payload: error.response.data.message });
         console.error('Logout error', error);

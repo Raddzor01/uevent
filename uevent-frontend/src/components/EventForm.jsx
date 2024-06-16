@@ -11,7 +11,7 @@ import styles from '../styles/EventForm.module.css';
 const EventForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const companies = useSelector((state) => state.company.companies);
+    const companies = useSelector((state) => state.company.user_companies);
     const themes = useSelector((state) => state.theme.themes);
     const formats = useSelector((state) => state.format.formats);
     const [eventName, setEventName] = useState('');

@@ -96,7 +96,8 @@ function Event({ event, companies, themes, formats, user, subscriptions }) {
                                     {getCompanyName(
                                         event.company_id,
                                         companies,
-                                    )}{' '}
+                                    )}
+                                    <br></br>
                                     <button
                                         onClick={(e) =>
                                             handleSubscriptionToggle(e)
