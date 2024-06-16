@@ -1,5 +1,3 @@
-const TOKEN_LIFE = '40d';
-
 export const DATABASE_CONFIG = {
 	host: process.env.DATABASE_HOST,
 	user: process.env.DATABASE_USER,
@@ -8,7 +6,7 @@ export const DATABASE_CONFIG = {
 };
 
 export const COOKIE_OPTIONS = {
-	expiresIn: TOKEN_LIFE,
+	expiresIn: process.env.COOKIE_LIFE,
 };
 
 export const TICKETS_UNLIMITED = -1;

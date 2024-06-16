@@ -9,8 +9,8 @@ router.get('/:id', boundary(controller.getTheme));
 
 
 
-router.post('/', boundary(controller.createTheme));
-router.put('/:id', boundary(controller.updateTheme));
-router.delete('/:id', boundary(controller.deleteTheme));
+// router.post('/', boundary(controller.createTheme));
+// router.put('/:id', boundary(controller.updateTheme));
+// router.delete('/:id', boundary(controller.deleteTheme));
 
 export default router;
